@@ -51,6 +51,10 @@ namespace ZeroMQExample
                             int fwPort = apiPorts["fw_api"]!["server_rep_port"]!.Value<int>();
                             return;
                         }
+                        else
+                        {
+                            req_retries--;
+                        }
                     }
                 }
 
