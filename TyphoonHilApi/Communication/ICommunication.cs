@@ -9,7 +9,6 @@ namespace TyphoonHilApi.Communication
 {
     internal interface ICommunication
     {
-        void Request(string operation, JObject parameters);
-        JObject Response();
+        JObject Request(string operation, JObject parameters);
     }
 }
