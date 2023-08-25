@@ -8,7 +8,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public JObject Load(string filename)
         {
-            return Request("load", new JObject { "filename", filename });
+            return Request("load", new JObject() { { "filename", filename } });
         }
 
         public JObject Compile()

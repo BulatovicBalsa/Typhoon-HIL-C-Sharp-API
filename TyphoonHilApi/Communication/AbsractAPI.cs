@@ -98,7 +98,7 @@ namespace TyphoonHilApi.Communication
         {
             var message = GenerateMessageBase();
             message.Add("method", method);
-            message.Add("parameters", parameters);
+            message.Add("params", parameters);
             return message;
         }
     }
