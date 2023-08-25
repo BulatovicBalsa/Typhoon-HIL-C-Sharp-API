@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel.Channels;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using NetMQ;
+﻿using NetMQ;
 using NetMQ.Sockets;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace TyphoonHilApi.Communication
@@ -20,8 +12,12 @@ namespace TyphoonHilApi.Communication
         protected int _pvGenApiPort;
         protected int _fwApiPort;
 
-
         public abstract int ProperPort { get; }
+
+        public AbsractAPI()
+        {
+            Discover();
+        }
 
         private void Discover(int startPort = 50000, int endPort = 50100, int req_retries = 30, int timeout = 1000)
         {
@@ -72,11 +68,12 @@ namespace TyphoonHilApi.Communication
         }
         public static JObject GenerateMessageBase()
         {
-            JObject parameters = new();
-            JObject message = new();
-            message.Add("api", "1.0");
-            message.Add("jsonrpc", "2.0");
-            message.Add("id", Guid.NewGuid().ToString());
+            JObject message = new()
+            {
+                { "api", "1.0" },
+                { "jsonrpc", "2.0" },
+                { "id", Guid.NewGuid().ToString() }
+            };
 
             return message;
         }
@@ -103,11 +100,6 @@ namespace TyphoonHilApi.Communication
             message.Add("method", method);
             message.Add("parameters", parameters);
             return message;
-        }
-
-        public JObject Response()
-        {
-            throw new NotImplementedException();
         }
     }
 }
