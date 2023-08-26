@@ -18,5 +18,25 @@ namespace TyphoonHilApi.Communication.APIs
         {
             return Request("compile", new());
         }
+
+        public JObject CreateNewModel()
+        {
+            return Request("create_new_model", new());
+        }
+
+        public JObject CloseModel()
+        {
+            return Request("close_model", new());
+        }
+
+        public JObject SaveAs(string filename)
+        {
+            return Request("save_as", new JObject() { { "filename", filename } });
+        }
+
+        public JObject GetLibraryPaths() 
+        {
+            return Request("get_library_paths", new());
+        }
     }
 }
