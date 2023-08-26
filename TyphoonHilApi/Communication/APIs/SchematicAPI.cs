@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using System.Reflection.Metadata;
 
 namespace TyphoonHilApi.Communication.APIs
 {
@@ -28,6 +29,23 @@ namespace TyphoonHilApi.Communication.APIs
         }
     }
 
+    internal class Dimension
+    {
+        public double Width { get; set; }
+        public double? Height { get; set; }
+        public JArray JArray => new() { Width, Height }; //check if they should swap order
+        public Dimension(double width, double height)
+        {
+            Width = width;
+            Height = height;
+        }
+
+        public Dimension(double width)
+        {
+            Width = width;
+        }
+    }
+
     internal static class Rotation
     {
         public const string Down = "down";
@@ -44,7 +62,41 @@ namespace TyphoonHilApi.Communication.APIs
         public const string Both = "both";
     }
 
+    internal class Kind
+    {
+        public const string Pe = "pe";
+        public const string Sp = "sp";
+    }
 
+    internal class TerminalPosition
+    {
+        public string Bottom = "bottom";
+        public string Top = "top";
+        public string Auto = "auto";
+
+        public string First { get; set; }
+        public string Second { get; set; }
+        public JArray JArray => new() { First, Second };
+        public TerminalPosition(string first, string second) 
+        { 
+            First = first;
+            Second = second;
+        }
+    }
+
+    internal class Direction
+    {
+        public const string In = "in";
+        public const string Out = "out";
+    }
+
+    internal class SPType
+    {
+        public const string Inherit = "inherit";
+        public const string Int = "int";
+        public const string Uint = "uint";
+        public const string Real = "real";
+    }
 
     internal class SchematicAPI : AbsractAPI
     {
@@ -103,7 +155,55 @@ namespace TyphoonHilApi.Communication.APIs
                 {"size", size?.JArray }
             };
 
-            return Request("create_component", parameters);
+            return (JObject)Request("create_component", parameters)["result"]!;
+        }
+
+        public JObject CreateJunction(string? name=null, JObject? parent = null, string kind = Kind.Pe, Position? position = null)
+        {
+            var parameters = new JObject()
+            {
+                { "name", name },
+                {"parent", parent },
+                {"kind", kind},
+                {"position", position?.JArray },
+            };
+
+            return Request("create_junction", parameters)!;
+        }
+
+
+        public JObject CreatePort(string? name = null,
+                          JObject? parent = null,
+                          string? label = null,
+                          string kind = Kind.Pe,
+                          string direction = Direction.Out,
+                          Dimension? dimension = null,
+                          string spType = SPType.Real,
+                          TerminalPosition? terminalPosition = null,
+                          string rotation = Rotation.Up,
+                          string flip = Flip.None,
+                          bool hideName = false,
+                          Position? position = null)
+        {
+            dimension ??= new(1);
+            var parameters = new JObject()
+            {
+                { "name", name },
+                { "parent", parent },
+                { "label", label },
+                { "kind", kind },
+                { "direction", direction },
+                { "dimension", dimension?.JArray },
+                { "sp_type", spType },
+                { "terminal_position", terminalPosition?.JArray },
+                { "rotation", rotation },
+                { "flip", flip },
+                { "hide_name", hideName },
+                { "position", position?.JArray },
+            };
+
+            return (JObject)Request("create_port", parameters);
         }
     }
+
 }
