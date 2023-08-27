@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using TyphoonHilApi.Communication.Exceptions;
 
 namespace TyphoonHilApi.Communication
 {
@@ -23,6 +24,18 @@ namespace TyphoonHilApi.Communication
         public JObject Request(string method, JObject parameters)
         {
             return _communication.Request(method, parameters, ProperPort);
+        }
+
+        protected JObject HandleRequest(string method, JObject parameters)
+        {
+            var res = Request(method, parameters);
+            if (res.ContainsKey("error"))
+            {
+                var msg = (string)res["error"]!["message"]!;
+                throw new SchematicAPIException(msg);
+            }
+
+            return res;
         }
     }
 }

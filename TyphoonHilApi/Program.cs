@@ -8,6 +8,11 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
+            Test1();
+        }
+
+        private static void Test2()
+        {
             SchematicAPI mdl = new SchematicAPI();
             mdl.CreateNewModel();
 

@@ -149,7 +149,8 @@ namespace TyphoonHilApi.Communication.APIs
                 {"size", size?.JArray }
             };
 
-            return (JObject)Request("create_component", parameters)["result"]!;
+            var res = HandleRequest("create_component", parameters);
+            return (JObject)res["result"]!;
         }
 
         public JObject CreateJunction(string? name = null, JObject? parent = null, string kind = Kind.Pe, Position? position = null)
@@ -277,5 +278,17 @@ namespace TyphoonHilApi.Communication.APIs
             return Request("remove_library_path", parameters);
         }
 
+        public void CreateComment(string text, JObject? parent=null, string? name=null, Position? position = null)
+        {
+            var parameters = new JObject()
+            {
+                { "text", text },
+                { "parent", parent },
+                { "name", name },
+                { "position", position?.JArray }
+            };
+
+            HandleRequest("create_comment", parameters);
+        }
     }
 }
