@@ -168,7 +168,7 @@ namespace TyphoonHilApi.Communication.APIs
                 {"position", position?.JArray },
             };
 
-            return Request("create_junction", parameters)!;
+            return (JObject)Request("create_junction", parameters)["result"]!;
         }
 
 
@@ -202,15 +202,15 @@ namespace TyphoonHilApi.Communication.APIs
                 { "position", position?.JArray },
             };
 
-            return (JObject)Request("create_port", parameters);
+            return (JObject)Request("create_port", parameters)["result"]!;
         }
 
-        public JObject Term(JObject componentHandle, string name)
+        public JObject Term(JObject componentHandle, string terminalName)
         {
             var parameters = new JObject()
             {
-                { "name", name },
-                { "component_handle ", componentHandle },
+                { "term_name", terminalName },
+                { "comp_handle", componentHandle },
             };
             return (JObject)Request("term", parameters)["result"]!;
         }
@@ -222,6 +222,7 @@ namespace TyphoonHilApi.Communication.APIs
                 { "name", name },
                 { "start", start },
                 { "end", end },
+                { "breakpoints", null },
             };
 
             return Request("create_connection", parameters);

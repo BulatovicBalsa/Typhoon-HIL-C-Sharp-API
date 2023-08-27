@@ -60,6 +60,63 @@ namespace ZeroMQExample
 
             var junction5 = model.CreateJunction(name: "J5", position: new(x0 + 100, y0 + 100));
 
+            model.CreateConnection(
+                model.Term(vIn, "p_node"),
+                model.Term(rIn, "p_node")
+            );
+
+            model.CreateConnection(
+                model.Term(vIn, "n_node"),
+                junction1
+            );
+
+            model.CreateConnection(
+                model.Term(gnd, "node"),
+                junction1
+            );
+
+            model.CreateConnection(
+                model.Term(rIn, "n_node"),
+                model.Term(iMeas, "p_node")
+            );
+
+            model.CreateConnection(
+                model.Term(iMeas, "n_node"),
+                junction2
+            );
+
+            model.CreateConnection(junction2, model.Term(ind, "p_node"));
+
+            model.CreateConnection(
+                model.Term(ind, "n_node"),
+                junction3
+            );
+
+            model.CreateConnection(junction1, junction3);
+            model.CreateConnection(junction2, junction4);
+            model.CreateConnection(junction3, junction5);
+
+            model.CreateConnection(
+                model.Term(rcLoad, "P1"),
+                junction4
+            );
+
+            model.CreateConnection(junction5, model.Term(rcLoad, "P2"));
+
+            model.CreateConnection(
+                junction4,
+                model.Term(vMeas, "p_node")
+            );
+
+            model.CreateConnection(
+                model.Term(vMeas, "n_node"),
+                junction5
+            );
+
+            model.CreateConnection(p1, model.Term(r, "p_node"));
+            model.CreateConnection(model.Term(r, "n_node"), model.Term(c, "p_node"));
+            model.CreateConnection(model.Term(c, "n_node"), p2);
+
             // Connect all the components
             Console.WriteLine("Connecting components...");
             //model.CreateConnection(model.Term(vIn, "p_node"), model.Term(rIn, "p_node"));
