@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using NetMQ;
+using Newtonsoft.Json.Linq;
 using System.Diagnostics;
+using System.Security.Policy;
 using TyphoonHilApi.Communication.Exceptions;
 
 namespace TyphoonHilApi.Communication.APIs
@@ -114,6 +116,18 @@ namespace TyphoonHilApi.Communication.APIs
         public const string PROPERTY = "property";
         public const string SIGNAL = "signal";
         public const string SIGNAL_REF = "signal_ref";
+    }
+
+    internal class RecursionStrategy
+    {
+        public const string None = "none";
+        public const string RECURSE_INTO_LINKED_COMPS = "recurse_linked_components";
+    }
+
+    internal class ErrorType
+    {
+        public const string General = "General error";
+        public const string PROPERTY_VALUE_INVALID = "Invalid property value";
     }
 
     internal class SchematicAPI : AbsractAPI
@@ -464,5 +478,41 @@ namespace TyphoonHilApi.Communication.APIs
 
             return (bool)HandleRequest("is_property_serializable", parameters)["result"]!;
         }
+
+        public void Error(string msg, string kind = ErrorType.General, JObject? context= null)
+        {
+            var parameters = new JObject()
+            {
+                {"msg",msg },
+                {"kind", kind},
+                {"context", context}
+            };
+
+            HandleRequest("error", parameters);
+        }
+
+        public bool Exists(string name, JObject? parent = null, string itemType = ItemType.ANY)
+        {
+            var parameters = new JObject()
+            {
+                { "name", name },
+                { "parent", parent},
+                { "item_type", itemType}
+            };
+
+            return (bool)HandleRequest("exists", parameters)["result"]!;
+        }
+
+        public void ExportModelToJson(string? outputDir = null, string recursionStrategy = RecursionStrategy.None)
+        {
+            var parameters = new JObject()
+            {
+                { "output_dir", outputDir },
+                { "recursion_strategy", recursionStrategy }
+            };
+
+            HandleRequest("export_model_to_json", parameters);
+        }
     }
+
 }

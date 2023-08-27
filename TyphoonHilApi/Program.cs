@@ -7,6 +7,16 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
+            var mdl = new SchematicAPI();
+            string modelPath = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\RLC_example.tse";
+
+            mdl.Load(modelPath);
+            mdl.ExportModelToJson();
+            mdl.CloseModel();
+        }
+
+        private static void Test10()
+        {
             SchematicAPI mdl = new SchematicAPI();
             mdl.CreateNewModel();
 
