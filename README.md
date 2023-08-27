@@ -11,14 +11,14 @@ The Schematic API provides a set of functions/methods to manipulate existing sch
 This example illustrates creating a model from scratch, saving it, and compiling it as the final step.
 
 ```csharp
-using System;
 using Newtonsoft.Json.Linq;
+using TyphoonHilApi.Communication.APIs;
 
 class Program
 {
     static void Main(string[] args)
     {
-        string path = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\";
+        string path = "abs_path_to_folder + \\";
 
         // Create SchematicAPI object
         SchematicAPI model = new();
