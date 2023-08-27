@@ -317,5 +317,15 @@ namespace TyphoonHilApi.Communication.APIs
             var res = HandleRequest("create_mask", parameters);
             return (JObject)res["result"]!;
         }
+
+        public void DeleteItem(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            HandleRequest("delete_item", parameters);
+        }
     }
 }

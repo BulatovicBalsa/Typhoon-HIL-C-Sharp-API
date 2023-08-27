@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
 using TyphoonHilApi.Communication.APIs;
 
 namespace ZeroMQExample
@@ -7,6 +6,31 @@ namespace ZeroMQExample
     class Program
     {
         static void Main(string[] args)
+        {
+            SchematicAPI mdl = new();
+            mdl.CreateNewModel();
+
+            // Create some items and then delete them.
+            var r = mdl.CreateComponent("core/Resistor");
+            var j = mdl.CreateJunction();
+            // var tag = mdl.CreateTag(value: "Val 1");
+            var sub1 = mdl.CreateComponent("core/Subsystem");
+            var innerPort = mdl.CreatePort(parent: sub1, name: "Inner port1");
+
+            //
+            // Delete items
+            //
+            mdl.DeleteItem(r);
+            mdl.DeleteItem(j);
+            //mdl.DeleteItem(tag);
+
+            // Delete subsystem
+            mdl.DeleteItem(sub1);
+
+            mdl.CloseModel();
+        }
+
+        private static void Test5()
         {
             SchematicAPI mdl = new();
             mdl.CreateNewModel();
