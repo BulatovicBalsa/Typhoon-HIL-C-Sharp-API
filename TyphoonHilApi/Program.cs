@@ -8,7 +8,64 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
-            Test1();
+            SchematicAPI mdl = new SchematicAPI();
+
+            string filePath = Path.Combine(
+                Path.GetDirectoryName(Path.GetFullPath(Environment.GetCommandLineArgs()[0]))!,
+                "create_library_model_lib",
+                "example_library.tlib"
+            );
+
+            string libName = "Example Library";
+
+            mdl.CreateLibraryModel(
+                libName,
+                filePath
+            );
+
+            //
+            // Create basic components, connect them and add them to the library
+            //
+            JObject r = mdl.CreateComponent("core/Resistor", name: "R1");
+            JObject c = mdl.CreateComponent("core/Capacitor", name: "C1");
+
+            JObject con = mdl.CreateConnection(mdl.Term(c, "n_node"),
+                                              mdl.Term(r, "p_node"));
+
+            JObject con1 = mdl.CreateConnection(mdl.Term(c, "p_node"),
+                                               mdl.Term(r, "n_node"));
+
+            //
+            // Save the library, load it and try saving the loaded library
+            //
+            if (!Directory.Exists(Path.GetDirectoryName(filePath)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
+            }
+            mdl.SaveAs(filePath);
+            mdl.Load(filePath);
+            mdl.Save();
+            Console.WriteLine(filePath);
+
+        }
+
+        private static void Test3()
+        {
+            SchematicAPI mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
+            // Create comment with some text
+            JObject comment1 = mdl.CreateComment("This is a comment");
+
+            //
+            // Create comment with text, custom name, and specified position
+            // in the scheme.
+            //
+            JObject comment2 = mdl.CreateComment("This is a comment 2", name: "Comment 2", position: new(100, 200));
+
+            Console.WriteLine("Comment is {0}.", comment2);
+
+            mdl.CloseModel();
         }
 
         private static void Test2()

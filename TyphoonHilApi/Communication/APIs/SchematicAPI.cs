@@ -108,6 +108,15 @@ namespace TyphoonHilApi.Communication.APIs
         {
             return Request("load", new JObject() { { "filename", filename } });
         }
+        public JObject Save()
+        {
+            return Request("save", new());
+        }
+
+        public JObject SaveAs(string filename)
+        {
+            return Request("save_as", new JObject() { { "filename", filename } });
+        }
 
         public bool Compile()
         {
@@ -122,11 +131,6 @@ namespace TyphoonHilApi.Communication.APIs
         public JObject CloseModel()
         {
             return Request("close_model", new());
-        }
-
-        public JObject SaveAs(string filename)
-        {
-            return Request("save_as", new JObject() { { "filename", filename } });
         }
 
         public JObject CreateComponent(string typeName,
@@ -278,7 +282,7 @@ namespace TyphoonHilApi.Communication.APIs
             return Request("remove_library_path", parameters);
         }
 
-        public void CreateComment(string text, JObject? parent=null, string? name=null, Position? position = null)
+        public JObject CreateComment(string text, JObject? parent=null, string? name=null, Position? position = null)
         {
             var parameters = new JObject()
             {
@@ -288,7 +292,21 @@ namespace TyphoonHilApi.Communication.APIs
                 { "position", position?.JArray }
             };
 
-            HandleRequest("create_comment", parameters);
+            var res = HandleRequest("create_comment", parameters);
+            return (JObject)res["result"]!;
         }
+
+        public void CreateLibraryModel(string libraryName, string fileName)
+        {
+            var parameters = new JObject()
+            {
+                { "lib_name", libraryName },
+                { "file_name", fileName },
+            };
+
+            HandleRequest("create_library_model", parameters);
+        }
+
+
     }
 }
