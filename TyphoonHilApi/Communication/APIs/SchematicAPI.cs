@@ -17,7 +17,10 @@ namespace TyphoonHilApi.Communication.APIs
             X = x;
             Y = y;
         }
-
+        public override string ToString()
+        {
+            return $"({X}, {Y})";
+        }
     }
 
     internal class Size
@@ -248,17 +251,17 @@ namespace TyphoonHilApi.Communication.APIs
             return (JObject)Request("term", parameters)["result"]!;
         }
 
-        public JObject CreateConnection(JObject start, JObject end, string? name = null) //check what breakpoints are
+        public JObject CreateConnection(JObject start, JObject end, string? name = null, List<Position>? breakpoints = null) //check what breakpoints are
         {
             var parameters = new JObject()
             {
                 { "name", name },
                 { "start", start },
                 { "end", end },
-                { "breakpoints", null },
+                { "breakpoints", new JArray() { breakpoints?.Select(bp => bp.JArray) } },
             };
 
-            return Request("create_connection", parameters);
+            return (JObject)HandleRequest("create_connection", parameters)["result"]!;
         }
 
         public JObject SetPropertyValue(JObject propertyHandle, object value)
@@ -541,6 +544,16 @@ namespace TyphoonHilApi.Communication.APIs
             };
 
             return ((JArray)HandleRequest("get_available_library_components", parameters)["result"]!).Select(item => (string)item!).ToList();
+        }
+
+        public List<Position> GetBreakpoints(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            return ((JArray)HandleRequest("get_breakpoints", parameters)["result"]!).Select(coordinates => new Position((double)coordinates[0]!, (double)coordinates[1]!)).ToList();
         }
     }
 

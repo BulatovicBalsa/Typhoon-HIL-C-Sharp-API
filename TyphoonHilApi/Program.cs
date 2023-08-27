@@ -10,6 +10,29 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
+            SchematicAPI mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
+            var constComponent = mdl.CreateComponent("core/Constant");
+            var probeComponent = mdl.CreateComponent("core/Probe");
+            var connection = mdl.CreateConnection(
+                mdl.Term(constComponent, "out"),
+                mdl.Term(probeComponent, "in"),
+                breakpoints: new List<Position>
+                {
+                    new(100, 200),
+                    new(100, 0)
+                }
+            );
+
+            var breakpoints = mdl.GetBreakpoints(connection);
+            Console.WriteLine("Breakpoints: " + string.Join(", ", breakpoints));
+
+            mdl.CloseModel();
+        }
+
+        private static void Test12()
+        {
             var mdl = new SchematicAPI();
             mdl.CreateNewModel();
 
