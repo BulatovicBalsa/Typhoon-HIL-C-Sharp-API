@@ -232,7 +232,7 @@ namespace TyphoonHilApi.Communication.APIs
             var parameters = new JObject()
             {
                 { "prop_handle", propertyHandle },
-                { "value", (JToken)value },
+                { "value", JToken.FromObject(value) },
             };
 
             return Request("set_property_value", parameters);

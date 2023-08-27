@@ -117,15 +117,14 @@ namespace ZeroMQExample
             model.CreateConnection(model.Term(r, "n_node"), model.Term(c, "p_node"));
             model.CreateConnection(model.Term(c, "n_node"), p2);
 
-            // Connect all the components
             Console.WriteLine("Connecting components...");
-            //model.CreateConnection(model.Term(vIn, "p_node"), model.Term(rIn, "p_node"));
-            // Continue creating connections...
 
-            // Set component parameters
             Console.WriteLine("Setting component properties...");
-            //model.SetPropertyValue(model.Prop(rIn, "resistance"), rInValue);
-            // Continue setting properties...
+            model.SetPropertyValue(model.Prop(rIn, "resistance"), rInValue);
+            model.SetPropertyValue(model.Prop(ind, "inductance"), lValue);
+            model.SetPropertyValue(model.Prop(r, "resistance"), rValue);
+            model.SetPropertyValue(model.Prop(c, "capacitance"), cValue);
+
 
             // Save the model
             string fileName = path + "RLC_example.tse";
