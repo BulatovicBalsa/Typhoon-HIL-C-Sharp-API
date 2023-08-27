@@ -99,6 +99,23 @@ namespace TyphoonHilApi.Communication.APIs
         public const string Real = "real";
     }
 
+    internal class ItemType
+    {
+        public const string ANY = "unknown";
+        public const string COMPONENT = "component";
+        public const string MASKED_COMPONENT = "masked_component";
+        public const string MASK = "mask";
+        public const string CONNECTION = "connection";
+        public const string TAG = "tag";
+        public const string PORT = "port";
+        public const string COMMENT = "comment";
+        public const string JUNCTION = "junction";
+        public const string TERMINAL = "terminal";
+        public const string PROPERTY = "property";
+        public const string SIGNAL = "signal";
+        public const string SIGNAL_REF = "signal_ref";
+    }
+
     internal class SchematicAPI : AbsractAPI
     {
         public SchematicAPI() { }
@@ -261,7 +278,7 @@ namespace TyphoonHilApi.Communication.APIs
             return ((JArray)Request("get_library_paths", new())["result"]!).Select(item => item.ToString()).ToList();
         }
 
-        public JObject AddLibraryPath(string libraryPath, bool addSubdirs=false, bool persist = false)
+        public JObject AddLibraryPath(string libraryPath, bool addSubdirs = false, bool persist = false)
         {
             var parameters = new JObject()
             {
@@ -284,7 +301,7 @@ namespace TyphoonHilApi.Communication.APIs
             return Request("remove_library_path", parameters);
         }
 
-        public JObject CreateComment(string text, JObject? parent=null, string? name=null, Position? position = null)
+        public JObject CreateComment(string text, JObject? parent = null, string? name = null, Position? position = null)
         {
             var parameters = new JObject()
             {
@@ -343,5 +360,51 @@ namespace TyphoonHilApi.Communication.APIs
             }
             throw new UnreachableException();
         }
+
+        public List<JObject> DisableItems(List<JObject?> itemHandles)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handles", new JArray() { itemHandles } }
+            };
+
+            var res = HandleRequest("disable_items", parameters);
+            return ((JArray)res["result"]!).Select(item => (JObject)item).ToList();
+        }
+        
+        public List<JObject> EnableItems(List<JObject?> itemHandles)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handles", new JArray() { itemHandles } }
+            };
+
+            var res = HandleRequest("enable_items", parameters);
+            return ((JArray)res["result"]!).Select(item => (JObject)item).ToList();
+        }
+
+        public bool IsEnabled(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle }
+            };
+
+            return (bool)HandleRequest("is_enabled", parameters)["result"]!;
+        }
+
+        public JObject? GetItem(string name, JObject? parent = null, string itemType = ItemType.ANY)
+        {
+            var parameters = new JObject()
+            {
+                { "name", name },
+                { "item_type", itemType },
+                { "parent", parent },
+            };
+
+            return HandleRequest("get_item", parameters)["result"]?.Value<JObject>();
+        }
+
+
     }
 }

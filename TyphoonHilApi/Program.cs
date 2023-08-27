@@ -8,9 +8,101 @@ namespace ZeroMQExample
         static void Main(string[] args)
         {
             SchematicAPI mdl = new SchematicAPI();
+
+            string modelPath = System.IO.Path.Combine(
+                System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location),
+                "ex.tse"
+            );
+
+            modelPath = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\RLC_example.tse";
+
+            mdl.Load(modelPath);
+
+            //
+            // Names of items that can be disabled
+            //
+            List<string> itemDisableNames = new List<string>
+            {
+                "L",
+                "AI_1",
+                "AI_2",
+                "SM_1",
+                "Probe1"
+            };
+
+            //
+            // Names of subsystem [0] and item [1] inside subsystem
+            //
+            string subsystemName = "SS_1";
+            string itemNameInsideSubsystem = "SM_6";
+
+            //
+            // Names of items that cannot be disabled
+            //
+            List<string> itemDontDisableNames = new List<string>
+        {
+            "Subsystem1",
+            "SM_5",
+            "Min Max 1",
+            "GA_2"
+        };
+
+            //
+            // Fetch all items that can be disabled and that cannot be disabled
+            //
+            List<JObject?> itemsDisable = itemDisableNames.Select(itemName => mdl.GetItem(itemName)).ToList();
+            List<JObject?> itemsDontDisable = itemDontDisableNames.Select(itemName => mdl.GetItem(itemName)).ToList();
+
+            //
+            // Disable, compile, enable - items that can be disabled
+            //
+            List<JObject> disabledItems = mdl.DisableItems(itemsDisable);
+            mdl.Compile();
+            List<JObject> affectedItems = mdl.EnableItems(disabledItems);
+            mdl.Compile();
+
+            //
+            // Disable, compile, enable - items that cannot be disabled
+            //
+            disabledItems = mdl.DisableItems(itemsDontDisable);
+            try
+            {
+                mdl.Compile();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            affectedItems = mdl.EnableItems(disabledItems!);
+            mdl.Compile();
+
+            //
+            // Disable, compile, enable - items inside subsystem
+            //
+            JObject? parentItem = mdl.GetItem(subsystemName);
+            JObject? concreteItem = mdl.GetItem(itemNameInsideSubsystem, parentItem);
+            disabledItems = mdl.DisableItems(new() { concreteItem });
+            try
+            {
+                mdl.Compile();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            affectedItems = mdl.EnableItems(new() { concreteItem });
+            mdl.Compile();
+
+            mdl.CloseModel();
+
+        }
+
+        private static void Test7()
+        {
+            SchematicAPI mdl = new SchematicAPI();
             mdl.CreateNewModel();
 
-            var hwSett = mdl.DetectHwSettings();
+            JObject? hwSett = mdl.DetectHwSettings();
 
             if (hwSett != null)
             {
@@ -30,11 +122,11 @@ namespace ZeroMQExample
             mdl.CreateNewModel();
 
             // Create some items and then delete them.
-            var r = mdl.CreateComponent("core/Resistor");
-            var j = mdl.CreateJunction();
+            JObject r = mdl.CreateComponent("core/Resistor");
+            JObject j = mdl.CreateJunction();
             // var tag = mdl.CreateTag(value: "Val 1");
-            var sub1 = mdl.CreateComponent("core/Subsystem");
-            var innerPort = mdl.CreatePort(parent: sub1, name: "Inner port1");
+            JObject sub1 = mdl.CreateComponent("core/Subsystem");
+            JObject innerPort = mdl.CreatePort(parent: sub1, name: "Inner port1");
 
             //
             // Delete items
@@ -145,10 +237,10 @@ namespace ZeroMQExample
             mdl.ReloadLibraries();
 
             // Create components from loaded libraries.
-            var comp = mdl.CreateComponent("my_lib/CustomComponent");
+            JObject comp = mdl.CreateComponent("my_lib/CustomComponent");
             Console.WriteLine($"Component is '{comp}'.");
 
-            var comp2 = mdl.CreateComponent("archived_user_lib/CustomComponent1");
+            JObject comp2 = mdl.CreateComponent("archived_user_lib/CustomComponent1");
             Console.WriteLine($"Second component (from archived library) is '{comp2}'.");
 
             // Remove library from the path.
@@ -192,42 +284,42 @@ namespace ZeroMQExample
             JObject rIn = model.CreateComponent("core/Resistor", name: "Rin", position: new(x0 - 200, y0 - 100));
 
             // Create Current Measurement component
-            var iMeas = model.CreateComponent("core/Current Measurement", name: "I", position: new(x0 - 100, y0 - 100));
+            JObject iMeas = model.CreateComponent("core/Current Measurement", name: "I", position: new(x0 - 100, y0 - 100));
 
             // Create Ground component
-            var gnd = model.CreateComponent("core/Ground", name: "gnd", position: new(x0 - 300, y0 + 200));
+            JObject gnd = model.CreateComponent("core/Ground", name: "gnd", position: new(x0 - 300, y0 + 200));
 
             // Create Inductor component
-            var ind = model.CreateComponent("core/Inductor", name: "L", position: new(x0, y0), rotation: Rotation.Right);
+            JObject ind = model.CreateComponent("core/Inductor", name: "L", position: new(x0, y0), rotation: Rotation.Right);
 
             // Create Voltage Measurement component
-            var vMeas = model.CreateComponent("core/Voltage Measurement", name: "V", position: new(x0 + 200, y0), rotation: Rotation.Right);
+            JObject vMeas = model.CreateComponent("core/Voltage Measurement", name: "V", position: new(x0 + 200, y0), rotation: Rotation.Right);
 
             // Create RC Load Subsystem component
-            var rcLoad = model.CreateComponent("core/Empty Subsystem", name: "RC Load", position: new(x0 + 100, y0));
+            JObject rcLoad = model.CreateComponent("core/Empty Subsystem", name: "RC Load", position: new(x0 + 100, y0));
 
             // Create port in Subsystem
-            var p1 = model.CreatePort(name: "P1", parent: rcLoad, terminalPosition: new TerminalPosition(TerminalPosition.Top, TerminalPosition.Auto), rotation: Rotation.Right, position: new(x0, y0 - 200));
+            JObject p1 = model.CreatePort(name: "P1", parent: rcLoad, terminalPosition: new TerminalPosition(TerminalPosition.Top, TerminalPosition.Auto), rotation: Rotation.Right, position: new(x0, y0 - 200));
 
             // Create port in Subsystem
-            var p2 = model.CreatePort(name: "P2", parent: rcLoad, terminalPosition: new TerminalPosition(TerminalPosition.Bottom, TerminalPosition.Auto), rotation: Rotation.Left, position: new(x0, y0 + 200));
+            JObject p2 = model.CreatePort(name: "P2", parent: rcLoad, terminalPosition: new TerminalPosition(TerminalPosition.Bottom, TerminalPosition.Auto), rotation: Rotation.Left, position: new(x0, y0 + 200));
 
             // Create Resistor component
-            var r = model.CreateComponent("core/Resistor", parent: rcLoad, name: "R", position: new(x0, y0 - 50), rotation: Rotation.Right);
+            JObject r = model.CreateComponent("core/Resistor", parent: rcLoad, name: "R", position: new(x0, y0 - 50), rotation: Rotation.Right);
 
             // Create Capacitor component
-            var c = model.CreateComponent("core/Capacitor", parent: rcLoad, name: "C", position: new(x0, y0 + 50), rotation: Rotation.Right);
+            JObject c = model.CreateComponent("core/Capacitor", parent: rcLoad, name: "C", position: new(x0, y0 + 50), rotation: Rotation.Right);
 
             // Create necessary junctions
-            var junction1 = model.CreateJunction(name: "J1", position: new(x0 - 300, y0 + 100));
+            JObject junction1 = model.CreateJunction(name: "J1", position: new(x0 - 300, y0 + 100));
 
-            var junction2 = model.CreateJunction(name: "J2", position: new(x0, y0 - 100));
+            JObject junction2 = model.CreateJunction(name: "J2", position: new(x0, y0 - 100));
 
-            var junction3 = model.CreateJunction(name: "J3", position: new(x0, y0 + 100));
+            JObject junction3 = model.CreateJunction(name: "J3", position: new(x0, y0 + 100));
 
-            var junction4 = model.CreateJunction(name: "J4", position: new(x0 + 100, y0 - 100));
+            JObject junction4 = model.CreateJunction(name: "J4", position: new(x0 + 100, y0 - 100));
 
-            var junction5 = model.CreateJunction(name: "J5", position: new(x0 + 100, y0 + 100));
+            JObject junction5 = model.CreateJunction(name: "J5", position: new(x0 + 100, y0 + 100));
 
             // Connect all the components
             Console.WriteLine("Connecting components...");
