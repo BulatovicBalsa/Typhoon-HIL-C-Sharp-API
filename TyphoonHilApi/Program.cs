@@ -8,6 +8,29 @@ namespace ZeroMQExample
         static void Main(string[] args)
         {
             SchematicAPI mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
+            // Create component
+            JObject r = mdl.CreateComponent("core/Resistor");
+
+            // Disable property
+            mdl.DisableProperty(mdl.Prop(r, "resistance"));
+
+            // Check to see if property is enabled.
+            Console.WriteLine(mdl.IsPropertyEnabled(mdl.Prop(r, "resistance")));
+
+            // Enable property
+            mdl.EnableProperty(mdl.Prop(r, "resistance"));
+
+            Console.WriteLine(mdl.IsPropertyEnabled(mdl.Prop(r, "resistance")));
+
+            mdl.CloseModel();
+
+        }
+
+        private static void Test8()
+        {
+            SchematicAPI mdl = new SchematicAPI();
 
             string modelPath = System.IO.Path.Combine(
                 System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location),
@@ -94,7 +117,6 @@ namespace ZeroMQExample
             mdl.Compile();
 
             mdl.CloseModel();
-
         }
 
         private static void Test7()

@@ -265,7 +265,7 @@ namespace TyphoonHilApi.Communication.APIs
                 { "item_handle", itemHandle },
             };
 
-            return (JObject)Request("prop", parameters)["result"]!;
+            return (JObject)HandleRequest("prop", parameters)["result"]!;
         }
 
         public JObject ReloadLibraries()
@@ -405,6 +405,34 @@ namespace TyphoonHilApi.Communication.APIs
             return HandleRequest("get_item", parameters)["result"]?.Value<JObject>();
         }
 
+        public void DisableProperty(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", itemHandle }
+            };
 
+            HandleRequest("disable_property", parameters);
+        }
+
+        public void EnableProperty(JObject propHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", propHandle }
+            };
+
+            HandleRequest("enable_property", parameters);
+        }
+
+        public bool IsPropertyEnabled(JObject propHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", propHandle}
+            };
+
+            return (bool)HandleRequest("is_property_enabled", parameters)["result"]!;
+        }
     }
 }
