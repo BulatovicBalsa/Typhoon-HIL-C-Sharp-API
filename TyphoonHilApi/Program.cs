@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using System.Threading.Channels;
 using System.Xml.Linq;
 using TyphoonHilApi.Communication.APIs;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -17,6 +18,8 @@ namespace ZeroMQExample
 
             var comp_fqn = SchematicAPI.Fqn(parent_name, component_name);
             Console.WriteLine(comp_fqn);
+
+            mdl.GetAvailableLibraryComponents().ForEach(Console.WriteLine);
 
 
             mdl.CloseModel();

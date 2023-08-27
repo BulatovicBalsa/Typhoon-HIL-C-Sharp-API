@@ -532,6 +532,16 @@ namespace TyphoonHilApi.Communication.APIs
                         .Where(p => !string.IsNullOrWhiteSpace(p));
             return string.Join(FqnSep, parts);
         }
+
+        public List<string> GetAvailableLibraryComponents(string libraryName="") 
+        {
+            var parameters = new JObject()
+            {
+                { "library_name",  libraryName },
+            };
+
+            return ((JArray)HandleRequest("get_available_library_components", parameters)["result"]!).Select(item => (string)item!).ToList();
+        }
     }
 
 }
