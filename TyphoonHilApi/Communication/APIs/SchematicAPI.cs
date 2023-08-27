@@ -129,11 +129,6 @@ namespace TyphoonHilApi.Communication.APIs
             return Request("save_as", new JObject() { { "filename", filename } });
         }
 
-        public JObject GetLibraryPaths()
-        {
-            return Request("get_library_paths", new());
-        }
-
         public JObject CreateComponent(string typeName,
                                   JObject? parent = null,
                                   string? name = null,
@@ -248,5 +243,39 @@ namespace TyphoonHilApi.Communication.APIs
 
             return (JObject)Request("prop", parameters)["result"]!;
         }
+
+        public JObject ReloadLibraries()
+        {
+            return Request("reload_libraries", new());
+        }
+
+        public List<string> GetLibraryPaths()
+        {
+            return ((JArray)Request("get_library_paths", new())["result"]!).Select(item => item.ToString()).ToList();
+        }
+
+        public JObject AddLibraryPath(string libraryPath, bool addSubdirs=false, bool persist = false)
+        {
+            var parameters = new JObject()
+            {
+                { "library_path", libraryPath },
+                { "add_subdirs", addSubdirs },
+                { "persist", persist },
+            };
+
+            return Request("add_library_path", parameters);
+        }
+
+        public JObject RemoveLibraryPath(string libraryPath, bool persist = false)
+        {
+            var parameters = new JObject()
+            {
+                { "library_path", libraryPath },
+                { "persist", persist },
+            };
+
+            return Request("remove_library_path", parameters);
+        }
+
     }
 }

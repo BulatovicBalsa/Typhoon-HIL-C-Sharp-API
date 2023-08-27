@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using System;
 using TyphoonHilApi.Communication.APIs;
 
 namespace ZeroMQExample
@@ -6,6 +7,46 @@ namespace ZeroMQExample
     class Program
     {
         static void Main(string[] args)
+        {
+            SchematicAPI mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
+            //
+            // Library file is located in directory 'custom_lib' one level above this
+            // example file.
+            //
+
+            string directory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)!;
+            string libPath = System.IO.Path.Combine(directory, "custom_lib");
+
+            // Get all current library paths and remove them
+            List<string> oldPaths = mdl.GetLibraryPaths();
+            oldPaths.ForEach(x => mdl.RemoveLibraryPath(x));
+
+            // Add library path and reload library to be able to use the added library.
+            mdl.AddLibraryPath(libPath);
+            mdl.ReloadLibraries();
+
+            // Create components from loaded libraries.
+            var comp = mdl.CreateComponent("my_lib/CustomComponent");
+            Console.WriteLine($"Component is '{comp}'.");
+
+            var comp2 = mdl.CreateComponent("archived_user_lib/CustomComponent1");
+            Console.WriteLine($"Second component (from archived library) is '{comp2}'.");
+
+            // Remove library from the path.
+            mdl.RemoveLibraryPath(libPath);
+
+            // Add again the previous library paths
+            foreach (string path in oldPaths)
+            {
+                mdl.AddLibraryPath(path);
+            }
+
+            mdl.CloseModel();
+        }
+
+        private static void Test1()
         {
             string path = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\";
 
