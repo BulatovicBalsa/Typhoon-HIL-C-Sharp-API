@@ -1,10 +1,4 @@
-﻿using System;
-using System.ComponentModel.Design;
-using System.Net.Sockets;
-using System.Text;
-using NetMQ;
-using NetMQ.Sockets;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using TyphoonHilApi.Communication.APIs;
 
 namespace ZeroMQExample
@@ -38,7 +32,33 @@ namespace ZeroMQExample
             // Create Resistor component
             JObject rIn = model.CreateComponent("core/Resistor", name: "Rin", position: new(x0 - 200, y0 - 100));
 
+            var iMeas = model.CreateComponent("core/Current Measurement", name: "I", position: new(x0 - 100, y0 - 100));
+
+            var gnd = model.CreateComponent("core/Ground", name: "gnd", position: new(x0 - 300, y0 + 200));
+
+            var ind = model.CreateComponent("core/Inductor", name: "L", position: new(x0, y0), rotation: Rotation.Right);
+
+            var vMeas = model.CreateComponent("core/Voltage Measurement", name: "V", position: new(x0 + 200, y0), rotation: Rotation.Right);
+
+            var rcLoad = model.CreateComponent("core/Empty Subsystem", name: "RC Load", position: new(x0 + 100, y0));
+
+            var p1 = model.CreatePort(name: "P1", parent: rcLoad, terminalPosition: new TerminalPosition(TerminalPosition.Top, TerminalPosition.Auto), rotation: Rotation.Right, position: new(x0, y0 - 200));
             // Continue creating other components...
+            var p2 = model.CreatePort(name: "P2", parent: rcLoad, terminalPosition: new TerminalPosition(TerminalPosition.Bottom, TerminalPosition.Auto), rotation: Rotation.Left, position: new(x0, y0 + 200));
+
+            var r = model.CreateComponent("core/Resistor", parent: rcLoad, name: "R", position: new(x0, y0 - 50), rotation: Rotation.Right);
+
+            var c = model.CreateComponent("core/Capacitor", parent: rcLoad, name: "C", position: new(x0, y0 + 50), rotation: Rotation.Right);
+
+            var junction1 = model.CreateJunction(name: "J1", position: new(x0 - 300, y0 + 100));
+
+            var junction2 = model.CreateJunction(name: "J2", position: new(x0, y0 - 100));
+
+            var junction3 = model.CreateJunction(name: "J3", position: new(x0, y0 + 100));
+
+            var junction4 = model.CreateJunction(name: "J4", position: new(x0 + 100, y0 - 100));
+
+            var junction5 = model.CreateJunction(name: "J5", position: new(x0 + 100, y0 + 100));
 
             // Connect all the components
             Console.WriteLine("Connecting components...");

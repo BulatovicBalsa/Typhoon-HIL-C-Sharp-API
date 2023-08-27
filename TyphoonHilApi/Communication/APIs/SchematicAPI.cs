@@ -70,9 +70,9 @@ namespace TyphoonHilApi.Communication.APIs
 
     internal class TerminalPosition
     {
-        public string Bottom = "bottom";
-        public string Top = "top";
-        public string Auto = "auto";
+        public const string Bottom = "bottom";
+        public const string Top = "top";
+        public const string Auto = "auto";
 
         public string First { get; set; }
         public string Second { get; set; }
@@ -203,6 +203,28 @@ namespace TyphoonHilApi.Communication.APIs
             };
 
             return (JObject)Request("create_port", parameters);
+        }
+
+        public JObject Term(JObject componentHandle, string name)
+        {
+            var parameters = new JObject()
+            {
+                { "name", name },
+                { "component_handle ", componentHandle },
+            };
+            return (JObject)Request("term", parameters)["result"]!;
+        }
+
+        public JObject CreateConnection(JObject start,  JObject end, string? name = null) //check what breakpoints are
+        {
+            var parameters = new JObject()
+            {
+                { "name", name },
+                { "start", start },
+                { "end", end },
+            };
+
+            return Request("create_connection", parameters);
         }
     }
 
