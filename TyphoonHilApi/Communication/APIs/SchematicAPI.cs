@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using System.Reflection.Metadata;
 
 namespace TyphoonHilApi.Communication.APIs
 {
@@ -77,8 +76,8 @@ namespace TyphoonHilApi.Communication.APIs
         public string First { get; set; }
         public string Second { get; set; }
         public JArray JArray => new() { First, Second };
-        public TerminalPosition(string first, string second) 
-        { 
+        public TerminalPosition(string first, string second)
+        {
             First = first;
             Second = second;
         }
@@ -158,7 +157,7 @@ namespace TyphoonHilApi.Communication.APIs
             return (JObject)Request("create_component", parameters)["result"]!;
         }
 
-        public JObject CreateJunction(string? name=null, JObject? parent = null, string kind = Kind.Pe, Position? position = null)
+        public JObject CreateJunction(string? name = null, JObject? parent = null, string kind = Kind.Pe, Position? position = null)
         {
             var parameters = new JObject()
             {
@@ -215,7 +214,7 @@ namespace TyphoonHilApi.Communication.APIs
             return (JObject)Request("term", parameters)["result"]!;
         }
 
-        public JObject CreateConnection(JObject start,  JObject end, string? name = null) //check what breakpoints are
+        public JObject CreateConnection(JObject start, JObject end, string? name = null) //check what breakpoints are
         {
             var parameters = new JObject()
             {
@@ -227,6 +226,27 @@ namespace TyphoonHilApi.Communication.APIs
 
             return Request("create_connection", parameters);
         }
-    }
 
+        public JObject SetPropertyValue(JObject propertyHandle, object value)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", propertyHandle },
+                { "value", (JToken)value },
+            };
+
+            return Request("set_property_value", parameters);
+        }
+
+        public JObject Prop(JObject itemHandle, string propertyName)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_name", propertyName },
+                { "item_handle", itemHandle },
+            };
+
+            return (JObject)Request("prop", parameters)["result"]!;
+        }
+    }
 }
