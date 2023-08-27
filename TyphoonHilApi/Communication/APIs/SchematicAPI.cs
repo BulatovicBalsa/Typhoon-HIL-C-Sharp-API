@@ -307,6 +307,15 @@ namespace TyphoonHilApi.Communication.APIs
             HandleRequest("create_library_model", parameters);
         }
 
+        public JObject CreateMask(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
 
+            var res = HandleRequest("create_mask", parameters);
+            return (JObject)res["result"]!;
+        }
     }
 }

@@ -8,6 +8,19 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
+            SchematicAPI mdl = new();
+            mdl.CreateNewModel();
+
+            JObject sub = mdl.CreateComponent("core/Subsystem", name: "Subsystem 1");
+            JObject mask = mdl.CreateMask(sub);
+
+            Console.WriteLine("Created mask is: '{0}'.", mask);
+
+            mdl.CloseModel();
+        }
+
+        private static void Test4()
+        {
             SchematicAPI mdl = new SchematicAPI();
 
             string filePath = Path.Combine(
@@ -46,7 +59,6 @@ namespace ZeroMQExample
             mdl.Load(filePath);
             mdl.Save();
             Console.WriteLine(filePath);
-
         }
 
         private static void Test3()
