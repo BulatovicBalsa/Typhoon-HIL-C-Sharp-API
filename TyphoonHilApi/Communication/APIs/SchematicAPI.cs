@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
+using System.Diagnostics;
+using TyphoonHilApi.Communication.Exceptions;
 
 namespace TyphoonHilApi.Communication.APIs
 {
@@ -326,6 +328,20 @@ namespace TyphoonHilApi.Communication.APIs
             };
 
             HandleRequest("delete_item", parameters);
+        }
+
+        public JObject? DetectHwSettings() // Consider creating new Model with hw configuration
+        {
+            try
+            {
+                var res = HandleRequest("detect_hw_settings", new());
+                return (JObject)res["result"]!;
+            }
+            catch (SchematicAPIException)
+            {
+                return null;
+            }
+            throw new UnreachableException();
         }
     }
 }

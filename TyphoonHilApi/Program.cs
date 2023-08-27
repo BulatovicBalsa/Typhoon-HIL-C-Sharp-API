@@ -7,6 +7,25 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
+            SchematicAPI mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
+            var hwSett = mdl.DetectHwSettings();
+
+            if (hwSett != null)
+            {
+                Console.WriteLine("HIL device was detected and model configuration was changed to {0}.", hwSett);
+            }
+            else
+            {
+                Console.WriteLine("HIL device autodetection failed, maybe HIL device is not connected.");
+            }
+
+            mdl.CloseModel();
+        }
+
+        private static void Test6()
+        {
             SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
