@@ -10,7 +10,35 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
-            Test14();
+            Test16();
+        }
+
+        private static void Test16()
+        {
+            SchematicAPI mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
+            var constComponent = mdl.CreateComponent("core/Constant", name: "Constant 1");
+            Console.WriteLine(mdl.GetConnectableDirection(mdl.Term(constComponent, "out")));
+
+            var probeComponent = mdl.CreateComponent("core/Probe", name: "Probe 1");
+            Console.WriteLine(mdl.GetConnectableDirection(mdl.Term(probeComponent, "in")));
+
+            mdl.CloseModel();
+        }
+
+        private static void Test15()
+        {
+            SchematicAPI mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
+            var constComponent = mdl.CreateComponent("core/Constant", name: "Constant 1");
+            Console.WriteLine(mdl.GetConnectableKind(mdl.Term(constComponent, "out")));
+
+            var resistorComponent = mdl.CreateComponent("core/Resistor", name: "Resistor 1");
+            Console.WriteLine(mdl.GetConnectableKind(mdl.Term(resistorComponent, "p_node")));
+
+            mdl.CloseModel();
         }
 
         private static void Test14()
