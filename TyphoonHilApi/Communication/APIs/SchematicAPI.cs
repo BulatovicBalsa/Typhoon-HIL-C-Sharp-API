@@ -132,6 +132,7 @@ namespace TyphoonHilApi.Communication.APIs
 
     internal class SchematicAPI : AbsractAPI
     {
+        readonly static string FqnSep = ".";
         public SchematicAPI() { }
         public SchematicAPI(ICommunication communication) : base(communication) { }
 
@@ -523,6 +524,13 @@ namespace TyphoonHilApi.Communication.APIs
             };
 
             return ((JArray)HandleRequest("find_connections", parameters)["result"]!).Select(item => (JObject)item).ToList();
+        }
+
+        public static string Fqn(params string[] args)
+        {
+            var parts = args.SelectMany(arg => arg.Split(new[] { FqnSep }, StringSplitOptions.None)).Skip(1) // Ask why
+                        .Where(p => !string.IsNullOrWhiteSpace(p));
+            return string.Join(FqnSep, parts);
         }
     }
 

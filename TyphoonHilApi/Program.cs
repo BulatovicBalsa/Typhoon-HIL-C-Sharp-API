@@ -12,10 +12,25 @@ namespace ZeroMQExample
             var mdl = new SchematicAPI();
             mdl.CreateNewModel();
 
+            var parent_name = "Subsystem 1";
+            var component_name = "Resistor 1";
+
+            var comp_fqn = SchematicAPI.Fqn(parent_name, component_name);
+            Console.WriteLine(comp_fqn);
+
+
+            mdl.CloseModel();
+        }
+
+        private static void Test11()
+        {
+            var mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
             var const1 = mdl.CreateComponent("core/Constant", name: "Constant 1");
             var junction = mdl.CreateJunction(kind: Kind.Sp, name: "Junction 1");
-            var probe1 = mdl.CreateComponent("core/Probe", name:"Probe 1");
-            var probe2 = mdl.CreateComponent("core/Probe", name:"Probe 2");
+            var probe1 = mdl.CreateComponent("core/Probe", name: "Probe 1");
+            var probe2 = mdl.CreateComponent("core/Probe", name: "Probe 2");
             var con1 = mdl.CreateConnection(mdl.Term(const1, "out"), junction);
             var con2 = mdl.CreateConnection(junction, mdl.Term(probe1, "in"));
             var con3 = mdl.CreateConnection(junction, mdl.Term(probe2, "in"));
