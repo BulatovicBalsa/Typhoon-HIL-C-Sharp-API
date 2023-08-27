@@ -10,6 +10,15 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
+            var mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
+            var comment = mdl.CreateComment("This is a comment");
+            Console.WriteLine($"Comment is: {mdl.GetCommentText(comment)}");
+        }
+
+        private static void Test13()
+        {
             SchematicAPI mdl = new SchematicAPI();
             mdl.CreateNewModel();
 

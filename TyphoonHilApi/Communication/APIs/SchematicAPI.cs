@@ -555,6 +555,16 @@ namespace TyphoonHilApi.Communication.APIs
 
             return ((JArray)HandleRequest("get_breakpoints", parameters)["result"]!).Select(coordinates => new Position((double)coordinates[0]!, (double)coordinates[1]!)).ToList();
         }
+
+        public string GetCommentText(JObject commentHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "comment_handle", commentHandle },
+            };
+
+            return (string)HandleRequest("get_comment_text", parameters)["result"]!;
+        }
     }
 
 }
