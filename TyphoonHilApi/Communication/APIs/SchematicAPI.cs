@@ -256,7 +256,7 @@ namespace TyphoonHilApi.Communication.APIs
                 { "name", name },
                 { "start", start },
                 { "end", end },
-                { "breakpoints", new JArray() { breakpoints?.Select(bp => bp.JArray) } },
+                { "breakpoints", breakpoints is null ? null : new JArray() { breakpoints?.Select(bp => bp.JArray) } },
             };
 
             return (JObject)HandleRequest("create_connection", parameters)["result"]!;
