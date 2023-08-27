@@ -106,7 +106,7 @@ namespace ZeroMQExample
             model.SaveAs(fileName);
 
             // Compile model
-            if (model.Compile().ContainsKey("result"))
+            if (model.Compile())
             {
                 Console.WriteLine("Model successfully compiled.");
             }

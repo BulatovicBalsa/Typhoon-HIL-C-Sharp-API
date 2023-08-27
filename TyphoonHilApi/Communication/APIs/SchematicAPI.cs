@@ -109,9 +109,9 @@ namespace TyphoonHilApi.Communication.APIs
             return Request("load", new JObject() { { "filename", filename } });
         }
 
-        public JObject Compile()
+        public bool Compile()
         {
-            return Request("compile", new());
+            return Request("compile", new()).ContainsKey("result");
         }
 
         public JObject CreateNewModel()
