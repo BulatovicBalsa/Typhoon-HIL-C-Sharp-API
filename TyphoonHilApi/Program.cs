@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using System.ComponentModel;
 using TyphoonHilApi.Communication.APIs;
 
 namespace ZeroMQExample
@@ -107,17 +106,12 @@ namespace ZeroMQExample
 
             // Compile model
             if (model.Compile())
-            {
                 Console.WriteLine("Model successfully compiled.");
-            }
             else
-            {
                 Console.WriteLine("Model failed to compile");
-            }
 
             // Close the model
             model.CloseModel();
-
         }
     }
 }
