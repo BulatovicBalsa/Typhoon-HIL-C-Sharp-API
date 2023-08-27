@@ -513,6 +513,17 @@ namespace TyphoonHilApi.Communication.APIs
 
             HandleRequest("export_model_to_json", parameters);
         }
+
+        public List<JObject> FindConnections(JObject connectableHandle1, JObject? connectableHandle2 = null)
+        {
+            var parameters = new JObject()
+            {
+                { "connectable_handle1", connectableHandle1 },
+                { "connectable_handle2", connectableHandle2 }
+            };
+
+            return ((JArray)HandleRequest("find_connections", parameters)["result"]!).Select(item => (JObject)item).ToList();
+        }
     }
 
 }

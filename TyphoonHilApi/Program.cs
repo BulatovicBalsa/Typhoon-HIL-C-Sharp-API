@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
+using System.Xml.Linq;
 using TyphoonHilApi.Communication.APIs;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ZeroMQExample
 {
@@ -8,10 +10,20 @@ namespace ZeroMQExample
         static void Main(string[] args)
         {
             var mdl = new SchematicAPI();
-            string modelPath = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\RLC_example.tse";
+            mdl.CreateNewModel();
 
-            mdl.Load(modelPath);
-            mdl.ExportModelToJson();
+            var const1 = mdl.CreateComponent("core/Constant", name: "Constant 1");
+            var junction = mdl.CreateJunction(kind: Kind.Sp, name: "Junction 1");
+            var probe1 = mdl.CreateComponent("core/Probe", name:"Probe 1");
+            var probe2 = mdl.CreateComponent("core/Probe", name:"Probe 2");
+            var con1 = mdl.CreateConnection(mdl.Term(const1, "out"), junction);
+            var con2 = mdl.CreateConnection(junction, mdl.Term(probe1, "in"));
+            var con3 = mdl.CreateConnection(junction, mdl.Term(probe2, "in"));
+
+            mdl.FindConnections(junction).ForEach(Console.WriteLine);
+            Console.WriteLine("Another one");
+            mdl.FindConnections(junction, mdl.Term(probe2, "in")).ForEach(Console.WriteLine);
+
             mdl.CloseModel();
         }
 
