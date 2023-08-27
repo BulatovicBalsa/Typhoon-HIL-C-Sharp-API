@@ -10,11 +10,46 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
-            var mdl = new SchematicAPI();
+            Test11();
+        }
+
+        private static void Test14()
+        {
+            SchematicAPI mdl = new SchematicAPI();
             mdl.CreateNewModel();
 
-            var comment = mdl.CreateComment("This is a comment");
-            Console.WriteLine($"Comment is: {mdl.GetCommentText(comment)}");
+            var const1 = mdl.CreateComponent("core/Constant", name: "Constant1");
+            var const2 = mdl.CreateComponent("core/Constant", name: "Constant2");
+            var junction = mdl.CreateJunction(kind: Kind.Sp);
+            var sum1 = mdl.CreateComponent("core/Sum", name: "Sum1");
+            var probe1 = mdl.CreateComponent("core/Probe", name: "Probe1");
+            var probe2 = mdl.CreateComponent("core/Probe", name: "Probe2");
+
+            var con1 = mdl.CreateConnection(mdl.Term(const1, "out"), junction);
+            var con2 = mdl.CreateConnection(junction, mdl.Term(probe2, "in"));
+            var con3 = mdl.CreateConnection(junction, mdl.Term(sum1, "in"));
+            var con4 = mdl.CreateConnection(mdl.Term(const2, "out"), mdl.Term(sum1, "in1"));
+            var con5 = mdl.CreateConnection(mdl.Term(sum1, "out"), mdl.Term(probe1, "in"));
+
+            // Get items connected to component const1.
+            foreach (var item in mdl.GetConnectedItems(const1))
+            {
+                Console.WriteLine(mdl.GetName(item));
+            }
+
+            // The same as above, but starting from junction.
+            foreach (var item in mdl.GetConnectedItems(junction))
+            {
+                Console.WriteLine(mdl.GetName(item));
+            }
+
+            // Find all items connected to component sum1 "out" terminal.
+            foreach (var item in mdl.GetConnectedItems(mdl.Term(sum1, "out")))
+            {
+                Console.WriteLine(mdl.GetName(item));
+            }
+
+            mdl.CloseModel();
         }
 
         private static void Test13()

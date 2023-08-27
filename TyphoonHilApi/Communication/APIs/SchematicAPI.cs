@@ -1,7 +1,5 @@
-﻿using NetMQ;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System.Diagnostics;
-using System.Security.Policy;
 using TyphoonHilApi.Communication.Exceptions;
 
 namespace TyphoonHilApi.Communication.APIs
@@ -179,7 +177,7 @@ namespace TyphoonHilApi.Communication.APIs
                                   Size? size = null,
                                   bool hideName = false)
         {
-            var parameters = new JObject() {
+            JObject parameters = new JObject() {
                 { "type_name", typeName },
                 {"parent", parent },
                 {"name", name },
@@ -190,13 +188,13 @@ namespace TyphoonHilApi.Communication.APIs
                 {"size", size?.JArray }
             };
 
-            var res = HandleRequest("create_component", parameters);
+            JObject res = HandleRequest("create_component", parameters);
             return (JObject)res["result"]!;
         }
 
         public JObject CreateJunction(string? name = null, JObject? parent = null, string kind = Kind.Pe, Position? position = null)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "name", name },
                 {"parent", parent },
@@ -222,7 +220,7 @@ namespace TyphoonHilApi.Communication.APIs
                           Position? position = null)
         {
             dimension ??= new(1);
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "name", name },
                 { "parent", parent },
@@ -243,7 +241,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public JObject Term(JObject componentHandle, string terminalName)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "term_name", terminalName },
                 { "comp_handle", componentHandle },
@@ -253,7 +251,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public JObject CreateConnection(JObject start, JObject end, string? name = null, List<Position>? breakpoints = null) //check what breakpoints are
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "name", name },
                 { "start", start },
@@ -266,7 +264,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public JObject SetPropertyValue(JObject propertyHandle, object value)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", propertyHandle },
                 { "value", JToken.FromObject(value) },
@@ -277,7 +275,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public JObject Prop(JObject itemHandle, string propertyName)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_name", propertyName },
                 { "item_handle", itemHandle },
@@ -298,7 +296,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public JObject AddLibraryPath(string libraryPath, bool addSubdirs = false, bool persist = false)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "library_path", libraryPath },
                 { "add_subdirs", addSubdirs },
@@ -310,7 +308,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public JObject RemoveLibraryPath(string libraryPath, bool persist = false)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "library_path", libraryPath },
                 { "persist", persist },
@@ -321,7 +319,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public JObject CreateComment(string text, JObject? parent = null, string? name = null, Position? position = null)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "text", text },
                 { "parent", parent },
@@ -329,13 +327,13 @@ namespace TyphoonHilApi.Communication.APIs
                 { "position", position?.JArray }
             };
 
-            var res = HandleRequest("create_comment", parameters);
+            JObject res = HandleRequest("create_comment", parameters);
             return (JObject)res["result"]!;
         }
 
         public void CreateLibraryModel(string libraryName, string fileName)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "lib_name", libraryName },
                 { "file_name", fileName },
@@ -346,18 +344,18 @@ namespace TyphoonHilApi.Communication.APIs
 
         public JObject CreateMask(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
 
-            var res = HandleRequest("create_mask", parameters);
+            JObject res = HandleRequest("create_mask", parameters);
             return (JObject)res["result"]!;
         }
 
         public void DeleteItem(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -369,7 +367,7 @@ namespace TyphoonHilApi.Communication.APIs
         {
             try
             {
-                var res = HandleRequest("detect_hw_settings", new());
+                JObject res = HandleRequest("detect_hw_settings", new());
                 return (JObject)res["result"]!;
             }
             catch (SchematicAPIException)
@@ -381,29 +379,29 @@ namespace TyphoonHilApi.Communication.APIs
 
         public List<JObject> DisableItems(List<JObject?> itemHandles)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handles", new JArray() { itemHandles } }
             };
 
-            var res = HandleRequest("disable_items", parameters);
+            JObject res = HandleRequest("disable_items", parameters);
             return ((JArray)res["result"]!).Select(item => (JObject)item).ToList();
         }
-        
+
         public List<JObject> EnableItems(List<JObject?> itemHandles)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handles", new JArray() { itemHandles } }
             };
 
-            var res = HandleRequest("enable_items", parameters);
+            JObject res = HandleRequest("enable_items", parameters);
             return ((JArray)res["result"]!).Select(item => (JObject)item).ToList();
         }
 
         public bool IsEnabled(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle }
             };
@@ -413,7 +411,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public JObject? GetItem(string name, JObject? parent = null, string itemType = ItemType.ANY)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "name", name },
                 { "item_type", itemType },
@@ -425,7 +423,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void DisableProperty(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", itemHandle }
             };
@@ -435,7 +433,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void DisablePropertySerialization(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", itemHandle }
             };
@@ -445,7 +443,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void EnableProperty(JObject propHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", propHandle }
             };
@@ -455,7 +453,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void EnablePropertySerialization(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", itemHandle }
             };
@@ -465,7 +463,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public bool IsPropertyEnabled(JObject propHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", propHandle}
             };
@@ -475,7 +473,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public bool IsPropertySerializable(JObject propHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", propHandle}
             };
@@ -483,9 +481,9 @@ namespace TyphoonHilApi.Communication.APIs
             return (bool)HandleRequest("is_property_serializable", parameters)["result"]!;
         }
 
-        public void Error(string msg, string kind = ErrorType.General, JObject? context= null)
+        public void Error(string msg, string kind = ErrorType.General, JObject? context = null)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 {"msg",msg },
                 {"kind", kind},
@@ -497,7 +495,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public bool Exists(string name, JObject? parent = null, string itemType = ItemType.ANY)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "name", name },
                 { "parent", parent},
@@ -509,7 +507,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void ExportModelToJson(string? outputDir = null, string recursionStrategy = RecursionStrategy.None)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "output_dir", outputDir },
                 { "recursion_strategy", recursionStrategy }
@@ -520,7 +518,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public List<JObject> FindConnections(JObject connectableHandle1, JObject? connectableHandle2 = null)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "connectable_handle1", connectableHandle1 },
                 { "connectable_handle2", connectableHandle2 }
@@ -531,14 +529,14 @@ namespace TyphoonHilApi.Communication.APIs
 
         public static string Fqn(params string[] args)
         {
-            var parts = args.SelectMany(arg => arg.Split(new[] { FqnSep }, StringSplitOptions.None)).Skip(1) // Ask why
+            IEnumerable<string> parts = args.SelectMany(arg => arg.Split(new[] { FqnSep }, StringSplitOptions.None)).Skip(1) // Ask why
                         .Where(p => !string.IsNullOrWhiteSpace(p));
             return string.Join(FqnSep, parts);
         }
 
-        public List<string> GetAvailableLibraryComponents(string libraryName="") 
+        public List<string> GetAvailableLibraryComponents(string libraryName = "")
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "library_name",  libraryName },
             };
@@ -548,7 +546,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public List<Position> GetBreakpoints(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -558,13 +556,74 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetCommentText(JObject commentHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "comment_handle", commentHandle },
             };
 
             return (string)HandleRequest("get_comment_text", parameters)["result"]!;
         }
+
+        public string GetCompiledModelFile(string schPath)
+        {
+            JObject parameters = new JObject()
+            {
+                { "sch_path", schPath },
+            };
+
+            return (string)HandleRequest("get_compiled_model_file", parameters)["result"]!;
+        }
+
+        public JObject GetComponentTypeName(JObject compHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "comp_handle", compHandle },
+            };
+
+            return (JObject)HandleRequest("get_component_type_name", parameters)["result"]!;
+        }
+
+        public string GetConnectableDirection(JObject connectableHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "connectable_handle", connectableHandle },
+            };
+
+            return (string)HandleRequest("get_connectable_direction", parameters)["result"]!;
+        }
+
+        public string GetConnectableKind(JObject connectableHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "connectable_handle", connectableHandle },
+            };
+
+            return (string)HandleRequest("get_connectable_kind", parameters)["result"]!;
+        }
+
+        public List<JObject> GetConnectedItems(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            return ((JArray)HandleRequest("get_connected_items", parameters)["result"]!).ToObject<List<JObject>>()!;
+        }
+
+        public string GetName(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            return (string)HandleRequest("get_name", parameters)["result"]!;
+        }
+
     }
 
 }
