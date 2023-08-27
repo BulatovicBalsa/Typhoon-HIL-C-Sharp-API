@@ -415,6 +415,16 @@ namespace TyphoonHilApi.Communication.APIs
             HandleRequest("disable_property", parameters);
         }
 
+        public void DisablePropertySerialization(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", itemHandle }
+            };
+
+            HandleRequest("disable_property_serialization", parameters);
+        }
+
         public void EnableProperty(JObject propHandle)
         {
             var parameters = new JObject()
@@ -425,6 +435,16 @@ namespace TyphoonHilApi.Communication.APIs
             HandleRequest("enable_property", parameters);
         }
 
+        public void EnablePropertySerialization(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", itemHandle }
+            };
+
+            HandleRequest("enable_property_serialization", parameters);
+        }
+
         public bool IsPropertyEnabled(JObject propHandle)
         {
             var parameters = new JObject()
@@ -433,6 +453,16 @@ namespace TyphoonHilApi.Communication.APIs
             };
 
             return (bool)HandleRequest("is_property_enabled", parameters)["result"]!;
+        }
+
+        public bool IsPropertySerializable(JObject propHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", propHandle}
+            };
+
+            return (bool)HandleRequest("is_property_serializable", parameters)["result"]!;
         }
     }
 }

@@ -11,6 +11,25 @@ namespace ZeroMQExample
             mdl.CreateNewModel();
 
             // Create component
+            var constComponent = mdl.CreateComponent(typeName: "core/Constant");
+
+            Console.WriteLine(mdl.IsPropertySerializable(mdl.Prop(constComponent, "value")));
+
+            mdl.DisablePropertySerialization(mdl.Prop(constComponent, "value"));
+            Console.WriteLine(mdl.IsPropertySerializable(mdl.Prop(constComponent, "value")));
+
+            mdl.EnablePropertySerialization(mdl.Prop(constComponent, "value"));
+            Console.WriteLine(mdl.IsPropertySerializable(mdl.Prop(constComponent, "value")));
+
+            mdl.CloseModel();
+        }
+
+        private static void Test9()
+        {
+            SchematicAPI mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
+            // Create component
             JObject r = mdl.CreateComponent("core/Resistor");
 
             // Disable property
@@ -25,7 +44,6 @@ namespace ZeroMQExample
             Console.WriteLine(mdl.IsPropertyEnabled(mdl.Prop(r, "resistance")));
 
             mdl.CloseModel();
-
         }
 
         private static void Test8()
