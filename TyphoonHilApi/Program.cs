@@ -13,6 +13,24 @@ namespace ZeroMQExample
             SchematicAPI mdl = new SchematicAPI();
             mdl.CreateNewModel();
 
+            // Create variable named 'var1'
+            mdl.SetNamespaceVariable("var1", 20);
+
+            Console.WriteLine(mdl.GetNamespaceVariable("var1"));
+
+            // Update value for variable 'var1'
+            mdl.SetNamespaceVariable("var1", 100);
+
+            Console.WriteLine(mdl.GetNamespaceVariable("var1"));
+
+            mdl.CloseModel();
+        }
+
+        private static void Test19()
+        {
+            SchematicAPI mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
             var r = mdl.CreateComponent("core/Resistor", name: "R1");
             var vm = mdl.CreateComponent("core/Voltage Measurement", name: "vm1");
             var tag = mdl.CreateTag(value: "A", name: "Tag 1");

@@ -871,6 +871,53 @@ namespace TyphoonHilApi.Communication.APIs
             return ((JArray)HandleRequest("get_model_dependencies", parameters)["result"]!).ToObject<List<string>>()!;
         }
 
+        public string GetModelFilePath()
+        {
+            return (string)HandleRequest("get_model_file_path", new())["result"]!;
+        }
+
+        public JObject GetModelInformation()
+        {
+            return (JObject)HandleRequest("get_model_information", new())["result"]!;
+        }
+
+        public string GetModelPropertyValue(string propCodeName) // consider another solution for dynamic types
+        {
+            var parameters = new JObject()
+            {
+                { "prop_code_name", propCodeName },
+            };
+
+            return (string)HandleRequest("get_model_property_value", parameters)["result"]!;
+        }
+
+        public string GetNamespaceVariable(string varName)
+        {
+            var parameters = new JObject()
+            {
+                { "var_name", varName },
+            };
+
+            return (string)HandleRequest("get_ns_var", parameters)["result"]!;
+        }
+
+        public JObject GetNamespaceVariables()
+        {
+            return (JObject)HandleRequest("get_ns_vars", new())["result"]!;
+        }
+
+        public void SetNamespaceVariable(string varName, object value)
+        {
+            var parameters = new JObject()
+            {
+                { "var_name", varName },
+                { "value", JToken.FromObject(value) },
+            };
+
+            HandleRequest("set_ns_var", parameters);
+        }
+
+
     }
 
 }
