@@ -834,6 +834,43 @@ namespace TyphoonHilApi.Communication.APIs
             return (JObject)HandleRequest("create_tag", parameters)["result"]!;
         }
 
+        public string GetLabel(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            return (string)HandleRequest("get_label", parameters)["result"]!;
+        }
+
+        public string GetLibraryResourceDirPath(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            return (string)HandleRequest("get_library_resource_dir_path", parameters)["result"]!;
+        }
+
+        public JObject GetMask(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            return (JObject)HandleRequest("get_mask", parameters)["result"]!;
+        }
+
+        public List<string> GetModelDependencies()
+        {
+            var parameters = new JObject();
+
+            return ((JArray)HandleRequest("get_model_dependencies", parameters)["result"]!).ToObject<List<string>>()!;
+        }
+
     }
 
 }
