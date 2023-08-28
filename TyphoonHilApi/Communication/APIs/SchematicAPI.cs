@@ -758,6 +758,15 @@ namespace TyphoonHilApi.Communication.APIs
             return (JObject)HandleRequest("create_property", parameters)["result"]!;
         }
 
+        public string GetHwProperty(string propName)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_name", propName },
+            };
+
+            return (string)HandleRequest("get_hw_property", parameters)["result"]!;
+        }
 
     }
 
