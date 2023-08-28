@@ -624,6 +624,17 @@ namespace TyphoonHilApi.Communication.APIs
             return (string)HandleRequest("get_name", parameters)["result"]!;
         }
 
+        public string GetConvProp(JObject propHandle, string? value = null) // ask more about solution
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", propHandle },
+                { "value", value },
+            };
+
+            return (string)HandleRequest("get_conv_prop", parameters)["result"]!;
+        }
+
     }
 
 }

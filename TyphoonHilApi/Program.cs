@@ -10,7 +10,13 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
-            Test16();
+            SchematicAPI mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
+            var r = mdl.CreateComponent("core/Resistor", name: "R1");
+            Console.WriteLine(mdl.GetConvProp(mdl.Prop(r, "resistance"), "234.1"));
+
+            mdl.CloseModel();
         }
 
         private static void Test16()
