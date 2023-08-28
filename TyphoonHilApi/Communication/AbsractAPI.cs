@@ -37,5 +37,11 @@ namespace TyphoonHilApi.Communication
 
             return res;
         }
+
+        protected JObject HandleRequest(string method)
+        {
+            return HandleRequest(method, new());
+        }
+
     }
 }

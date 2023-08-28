@@ -948,6 +948,79 @@ namespace TyphoonHilApi.Communication.APIs
             HandleRequest("set_position", parameters);
         }
 
+        public List<string> GetPropertyComboValues(JObject propHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", propHandle },
+            };
+
+            return ((JArray)HandleRequest("get_property_combo_values", parameters)["result"]!).ToObject<List<string>>()!;
+        }
+
+        public void SetPropertyComboValues(JObject propHandle, List<string> comboValues)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", propHandle },
+                { "combo_values", new JArray(comboValues) },
+            };
+
+            HandleRequest("set_property_combo_values", parameters);
+        }
+
+        public string GetPropertyDefaultValue(JObject propHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", propHandle },
+            };
+
+            return (string)HandleRequest("get_property_default_value", parameters)["result"]!;
+        }
+
+        public string GetPropertyDisplayValue(JObject propHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", propHandle },
+            };
+
+            return (string)HandleRequest("get_property_disp_value", parameters)["result"]!;
+        }
+
+        public void SetPropertyDisplayValue(JObject propHandle, string value)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", propHandle },
+                { "value", value },
+            };
+
+            HandleRequest("set_property_disp_value", parameters);
+        }
+
+        public JObject GetPropertyTypeAttributes(JObject propHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", propHandle },
+            };
+
+            return (JObject)HandleRequest("get_property_type_attributes", parameters)["result"]!;
+        }
+
+        public string GetPropertyValue(JObject propHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", propHandle },
+            };
+
+            return (string)HandleRequest("get_property_value", parameters)["result"]!;
+        }
+
+
     }
 
 }

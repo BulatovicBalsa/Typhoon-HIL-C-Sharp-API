@@ -11,6 +11,29 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
+            Test22();
+        }
+
+        private static void Test22()
+        {
+            var mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
+            var trLine = mdl.CreateComponent("core/Transmission Line", name: "TR Line 1");
+
+            var modelDefHandle = mdl.Prop(trLine, "model_def");
+            var modelDefComboValues = mdl.GetPropertyComboValues(modelDefHandle);
+            var newComboValues = new List<string>(modelDefComboValues);
+            newComboValues.Add("New option");
+
+            mdl.SetPropertyComboValues(modelDefHandle, newComboValues);
+            modelDefComboValues = mdl.GetPropertyComboValues(modelDefHandle);
+
+            mdl.CloseModel();
+        }
+
+        private static void Test21()
+        {
             SchematicAPI mdl = new SchematicAPI();
             mdl.CreateNewModel();
 
