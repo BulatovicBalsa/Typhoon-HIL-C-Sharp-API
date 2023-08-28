@@ -14,6 +14,27 @@ namespace ZeroMQExample
             mdl.CreateNewModel();
 
             var sub = mdl.CreateComponent("core/Subsystem", name: "Subsystem 1");
+            var mask = mdl.CreateMask(sub);
+
+            // Define icon drawing commands.
+            string iconDrawingCommands = "image('my_image.png')";
+
+            // Set mask icon drawing commands.
+            mdl.SetIconDrawingCommands(mask, iconDrawingCommands);
+
+            // Aquire current icon drawing commands.
+            string maskIconDrawingCommands = mdl.GetIconDrawingCommands(mask);
+            Console.WriteLine("Icon drawing commands are: " + maskIconDrawingCommands);
+
+            mdl.CloseModel();
+        }
+
+        private static void Test17()
+        {
+            SchematicAPI mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
+            var sub = mdl.CreateComponent("core/Subsystem", name: "Subsystem 1");
 
             //
             // Create mask and set MASK_INIT handler code.

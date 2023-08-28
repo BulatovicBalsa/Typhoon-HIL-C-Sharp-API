@@ -768,6 +768,42 @@ namespace TyphoonHilApi.Communication.APIs
             return (string)HandleRequest("get_hw_property", parameters)["result"]!;
         }
 
+        public JObject? GetHWSettings()
+        {
+            try
+            {
+                JObject res = HandleRequest("get_hw_settings", new());
+                return (JObject)res["result"]!;
+            }
+            catch (SchematicAPIException)
+            {
+                return null;
+            }
+            throw new UnreachableException();
+        }
+
+        public string GetIconDrawingCommands(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            return (string)HandleRequest("get_icon_drawing_commands", parameters)["result"]!;
+        }
+
+        public void SetIconDrawingCommands(JObject itemHandle, string drawingCommands)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+                { "drawing_commands", drawingCommands },
+            };
+
+            HandleRequest("set_icon_drawing_commands", parameters);
+        }
+
+
     }
 
 }
