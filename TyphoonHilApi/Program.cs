@@ -13,8 +13,52 @@ namespace ZeroMQExample
             SchematicAPI mdl = new SchematicAPI();
             mdl.CreateNewModel();
 
-            var r = mdl.CreateComponent("core/Resistor", name: "R1");
-            Console.WriteLine(mdl.GetConvProp(mdl.Prop(r, "resistance"), "234.1"));
+            var sub = mdl.CreateComponent("core/Subsystem", name: "Subsystem 1");
+
+            //
+            // Create mask and set MASK_INIT handler code.
+            //
+            var maskHandle = mdl.CreateMask(sub);
+
+            string handlerCode = @"
+                import time
+                # Just display time.
+                print(""Current time is '{0}'."".format(time.asctime()))
+                ";
+            mdl.SetHandlerCode(maskHandle, HandlerName.MASK_INIT, handlerCode);
+
+            //
+            // Create one property on mask and set its PROPERTY_VALUE_CHANGED handler.
+            //
+            var prop1 = mdl.CreateProperty(
+                maskHandle,
+                name: "prop_1",
+                label: "Property 1",
+                widget: Widget.COMBO,
+                comboValues: new JArray() { "Choice 1", "Choice 2", "Choice 3" },
+                tabName: "First tab"
+            );
+
+            // Set PROPERTY_VALUE_CHANGED handler on property.
+            string propValueChangedHandlerCode = @"
+                if (new_value == ""Choice 1"")
+                {
+                    Console.WriteLine(""It's a first choice."");
+                }
+                else if (new_value == ""Choice 2"")
+                {
+                    Console.WriteLine(""It's a second choice."");
+                }
+                else if (new_value == ""Choice 3"")
+                {
+                    Console.WriteLine(""It's a third choice"");
+                }
+                ";
+            mdl.SetHandlerCode(prop1, HandlerName.PROPERTY_VALUE_CHANGED, propValueChangedHandlerCode);
+
+            // Get handler code for a property prop1.
+            string retrievedHandlerCode = mdl.GetHandlerCode(prop1, HandlerName.PROPERTY_VALUE_CHANGED);
+            Console.WriteLine("Retrieved handler code is: " + retrievedHandlerCode);
 
             mdl.CloseModel();
         }

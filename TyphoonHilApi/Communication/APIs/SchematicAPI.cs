@@ -131,6 +131,46 @@ namespace TyphoonHilApi.Communication.APIs
         public const string PROPERTY_VALUE_INVALID = "Invalid property value";
     }
 
+    internal class HandlerName
+    {
+        public const string MODEL_INIT = "model_init";
+        public const string MODEL_LOADED = "model_loaded";
+        public const string OPEN = "open";
+        public const string INIT = "init";
+        public const string MASK_INIT = "mask_init";
+        public const string CONFIGURATION_CHANGED = "configuration_changed";
+        public const string PRE_COMPILE = "pre_compile";
+        public const string BEFORE_CHANGE = "before_change";
+        public const string PRE_VALIDATE = "pre_validate";
+        public const string ON_DIALOG_OPEN = "on_dialog_open";
+        public const string ON_DIALOG_CLOSE = "on_dialog_close";
+        public const string CALC_TYPE = "calc_type";
+        public const string CALC_DIMENSION = "calc_dimension";
+        public const string BUTTON_CLICKED = "button_clicked";
+        public const string DEFINE_ICON = "define_icon";
+        public const string POST_RESOLVE = "post_resolve";
+        public const string PRE_COPY = "pre_copy";
+        public const string POST_COPY = "post_copy";
+        public const string PRE_DELETE = "pre_delete";
+        public const string POST_DELETE = "post_delete";
+        public const string NAME_CHANGED = "name_changed";
+        public const string POST_C_CODE_EXPORT = "post_c_code_export";
+        public const string MASK_PRE_COMPILE = "mask_pre_cmpl";
+        public const string PROPERTY_VALUE_CHANGED = "property_value_changed";
+        public const string PROPERTY_VALUE_EDITED = "property_value_edited";
+    }
+
+    internal class Widget
+    {
+        public const string COMBO = "combo";
+        public const string EDIT = "edit";
+        public const string CHECKBOX = "checkbox";
+        public const string BUTTON = "button";
+        public const string TOGGLE_BUTTON = "togglebutton";
+        public const string SIGNAL_CHOOSER = "signal_chooser";
+        public const string SIGNAL_ACCESS = "signal_access";
+    }
+
     internal class SchematicAPI : AbsractAPI
     {
         readonly static string FqnSep = ".";
@@ -634,6 +674,90 @@ namespace TyphoonHilApi.Communication.APIs
 
             return (string)HandleRequest("get_conv_prop", parameters)["result"]!;
         }
+
+        public string GetDescription(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            return (string)HandleRequest("get_description", parameters)["result"]!;
+        }
+
+        public string GetFqn(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            return (string)HandleRequest("get_fqn", parameters)["result"]!;
+        }
+
+        public string GetHandlerCode(JObject itemHandle, string handlerName)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+                { "handler_name", handlerName },
+            };
+
+            return (string)HandleRequest("get_handler_code", parameters)["result"]!;
+        }
+
+        public void SetHandlerCode(JObject itemHandle, string handlerName, string code)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+                { "handler_name", handlerName },
+                { "code", code },
+            };
+
+            HandleRequest("set_handler_code", parameters);
+        }
+
+        public JObject CreateProperty(JObject itemHandle, string name, string label = "", string widget = "edit",
+            JArray? comboValues = null, bool evaluate = true, bool enabled = true, bool visible = true,
+            bool serializable = true, string tabName = "", string unit = "", string buttonLabel = "",
+            JArray? previousNames = null, string description = "", string require = "", string type = "",
+            string? defaultValue = null, string? minValue = null, string? maxValue = null,
+            bool keepline = false, string? skip = null, string? skipStep = null,
+            bool vector = false, bool tunable = false, string? index = null)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+                { "name", name },
+                { "label", label },
+                { "widget", widget },
+                { "combo_values", comboValues },
+                { "evaluate", evaluate },
+                { "enabled", enabled },
+                { "visible", visible },
+                { "serializable", serializable },
+                { "tab_name", tabName },
+                { "unit", unit },
+                { "button_label", buttonLabel },
+                { "previous_names", previousNames },
+                { "description", description },
+                { "require", require },
+                { "type", type },
+                { "default_value", defaultValue },
+                { "min_value", minValue },
+                { "max_value", maxValue },
+                { "keepline", keepline },
+                { "skip", skip },
+                { "skip_step", skipStep },
+                { "vector", vector },
+                { "tunable", tunable },
+                { "index", index }
+            };
+
+            return (JObject)HandleRequest("create_property", parameters)["result"]!;
+        }
+
 
     }
 
