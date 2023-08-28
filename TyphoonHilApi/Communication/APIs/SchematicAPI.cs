@@ -803,6 +803,36 @@ namespace TyphoonHilApi.Communication.APIs
             HandleRequest("set_icon_drawing_commands", parameters);
         }
 
+        public List<JObject> GetItems(JObject? parent = null, string itemType = ItemType.ANY)
+        {
+            var parameters = new JObject()
+            {
+                { "parent", parent },
+                { "item_type", itemType },
+            };
+
+            return ((JArray)HandleRequest("get_items", parameters)["result"]!).ToObject<List<JObject>>()!;
+        }
+
+        public JObject CreateTag(string value, string? name = null, JObject? parent = null,
+            string scope = "global", string kind = Kind.Pe, string? direction = null,
+            string rotation = Rotation.Up, string flip = Flip.None, Position? position = null)
+        {
+            var parameters = new JObject()
+            {
+                { "value", value },
+                { "name", name },
+                { "parent", parent },
+                { "scope", scope },
+                { "kind", kind },
+                { "direction", direction },
+                { "rotation", rotation },
+                { "flip", flip },
+                { "position", position?.JArray }
+            };
+
+            return (JObject)HandleRequest("create_tag", parameters)["result"]!;
+        }
 
     }
 

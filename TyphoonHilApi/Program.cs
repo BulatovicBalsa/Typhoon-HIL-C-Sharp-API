@@ -13,6 +13,51 @@ namespace ZeroMQExample
             SchematicAPI mdl = new SchematicAPI();
             mdl.CreateNewModel();
 
+            var r = mdl.CreateComponent("core/Resistor", name: "R1");
+            var vm = mdl.CreateComponent("core/Voltage Measurement", name: "vm1");
+            var tag = mdl.CreateTag(value: "A", name: "Tag 1");
+            var sub1 = mdl.CreateComponent("core/Subsystem", name: "Subsystem 1");
+            var innerL = mdl.CreateComponent("core/Inductor", parent: sub1, name: "Inner inductor");
+            var innerPort = mdl.CreatePort(name: "Port 1", parent: sub1);
+            var innerSub = mdl.CreateComponent("core/Subsystem", parent: sub1, name: "Inner subsystem");
+
+            //
+            // As GetItems was called without specifying a parent, top-level scheme items
+            // will be returned.
+            //
+            var items = mdl.GetItems();
+            foreach (var item in items)
+            {
+                Console.WriteLine(item);
+            }
+
+            //
+            // Demonstrating use of filtering with GetItems function.
+            //
+            // Get all ports from the subsystem referenced by sub1.
+            items = mdl.GetItems(parent: sub1, itemType: ItemType.PORT);
+            foreach (var item in items)
+            {
+                Console.WriteLine($"Item is {item}.");
+                Console.WriteLine($"Item name part is {mdl.GetName(item)}.");
+            }
+
+            //
+            // Get component terminals and properties.
+            //
+            var propHandles = mdl.GetItems(parent: r, itemType: ItemType.PROPERTY);
+            Console.WriteLine($"Component '{mdl.GetName(r)}' property handles are '{string.Join(", ", propHandles)}'.");
+            var termHandles = mdl.GetItems(parent: r, itemType: ItemType.TERMINAL);
+            Console.WriteLine($"Component '{mdl.GetName(r)}' terminal handles are '{string.Join(", ", termHandles)}'.");
+
+            mdl.CloseModel();
+        }
+
+        private static void Test18()
+        {
+            SchematicAPI mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
             var sub = mdl.CreateComponent("core/Subsystem", name: "Subsystem 1");
             var mask = mdl.CreateMask(sub);
 
