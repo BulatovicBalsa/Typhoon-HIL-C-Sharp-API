@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using System.Drawing;
 using System.Threading.Channels;
 using System.Xml.Linq;
 using TyphoonHilApi.Communication.APIs;
@@ -9,6 +10,22 @@ namespace ZeroMQExample
     class Program
     {
         static void Main(string[] args)
+        {
+            SchematicAPI mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
+            // Get position of tag item
+            var tag = mdl.CreateTag(name: "Tag 1", value: "Tag value", position: new(160, 240));
+            Console.WriteLine($"Tag position is {mdl.GetPosition(tag)}.");
+
+            // Set position
+            mdl.SetPosition(tag, new(800, 1600));
+            Console.WriteLine($"New tag position is {mdl.GetPosition(tag)}.");
+
+            mdl.CloseModel();
+        }
+
+        private static void Test20()
         {
             SchematicAPI mdl = new SchematicAPI();
             mdl.CreateNewModel();

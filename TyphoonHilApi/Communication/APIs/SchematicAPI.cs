@@ -917,6 +917,36 @@ namespace TyphoonHilApi.Communication.APIs
             HandleRequest("set_ns_var", parameters);
         }
 
+        public JObject GetParent(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            return (JObject)HandleRequest("get_parent", parameters)["result"]!;
+        }
+
+        public Position GetPosition(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+            var res = (JArray)HandleRequest("get_position", parameters)["result"]!;
+            return new Position((double)res[0], (double)res[1]);
+        }
+
+        public void SetPosition(JObject itemHandle, Position position)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+                { "position", position.JArray },
+            };
+
+            HandleRequest("set_position", parameters);
+        }
 
     }
 
