@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using TyphoonHilApi.Communication.Exceptions;
-using static NetMQ.NetMQSelector;
 
 namespace TyphoonHilApi.Communication.APIs
 {
@@ -656,7 +653,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public JObject GetComponentTypeName(JObject compHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "comp_handle", compHandle },
             };
@@ -666,7 +663,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetConnectableDirection(JObject connectableHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "connectable_handle", connectableHandle },
             };
@@ -676,7 +673,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetConnectableKind(JObject connectableHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "connectable_handle", connectableHandle },
             };
@@ -686,7 +683,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public List<JObject> GetConnectedItems(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -696,7 +693,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetName(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -706,7 +703,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetConvProp(JObject propHandle, string? value = null) // ask more about solution
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", propHandle },
                 { "value", value },
@@ -717,7 +714,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetDescription(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -727,7 +724,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetFqn(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -737,7 +734,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetHandlerCode(JObject itemHandle, string handlerName)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
                 { "handler_name", handlerName },
@@ -748,7 +745,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void SetHandlerCode(JObject itemHandle, string handlerName, string code)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
                 { "handler_name", handlerName },
@@ -766,7 +763,7 @@ namespace TyphoonHilApi.Communication.APIs
             bool keepline = false, string? skip = null, string? skipStep = null,
             bool vector = false, bool tunable = false, string? index = null)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
                 { "name", name },
@@ -800,7 +797,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetHwProperty(string propName)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_name", propName },
             };
@@ -824,7 +821,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetIconDrawingCommands(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -834,7 +831,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void SetIconDrawingCommands(JObject itemHandle, string drawingCommands)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
                 { "drawing_commands", drawingCommands },
@@ -845,7 +842,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public List<JObject> GetItems(JObject? parent = null, string itemType = ItemType.ANY)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "parent", parent },
                 { "item_type", itemType },
@@ -858,7 +855,7 @@ namespace TyphoonHilApi.Communication.APIs
             string scope = "global", string kind = Kind.Pe, string? direction = null,
             string rotation = Rotation.Up, string flip = Flip.None, Position? position = null)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "value", value },
                 { "name", name },
@@ -876,7 +873,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetLabel(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -886,7 +883,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetLibraryResourceDirPath(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -896,7 +893,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public JObject GetMask(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -906,7 +903,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public List<string> GetModelDependencies()
         {
-            var parameters = new JObject();
+            JObject parameters = new JObject();
 
             return ((JArray)HandleRequest("get_model_dependencies", parameters)["result"]!).ToObject<List<string>>()!;
         }
@@ -923,7 +920,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetModelPropertyValue(string propCodeName) // consider another solution for dynamic types
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_code_name", propCodeName },
             };
@@ -933,7 +930,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetNamespaceVariable(string varName)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "var_name", varName },
             };
@@ -948,7 +945,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void SetNamespaceVariable(string varName, object value)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "var_name", varName },
                 { "value", JToken.FromObject(value) },
@@ -959,7 +956,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public JObject GetParent(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -969,17 +966,17 @@ namespace TyphoonHilApi.Communication.APIs
 
         public Position GetPosition(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
-            var res = (JArray)HandleRequest("get_position", parameters)["result"]!;
+            JArray res = (JArray)HandleRequest("get_position", parameters)["result"]!;
             return new Position((double)res[0], (double)res[1]);
         }
 
         public void SetPosition(JObject itemHandle, Position position)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
                 { "position", position.JArray },
@@ -990,7 +987,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public List<string> GetPropertyComboValues(JObject propHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", propHandle },
             };
@@ -1000,7 +997,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void SetPropertyComboValues(JObject propHandle, List<string> comboValues)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", propHandle },
                 { "combo_values", new JArray(comboValues) },
@@ -1011,7 +1008,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetPropertyDefaultValue(JObject propHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", propHandle },
             };
@@ -1021,7 +1018,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetPropertyDisplayValue(JObject propHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", propHandle },
             };
@@ -1031,7 +1028,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void SetPropertyDisplayValue(JObject propHandle, string value)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", propHandle },
                 { "value", value },
@@ -1042,7 +1039,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public JObject GetPropertyTypeAttributes(JObject propHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", propHandle },
             };
@@ -1052,7 +1049,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetPropertyValue(JObject propHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", propHandle },
             };
@@ -1062,7 +1059,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetPropertyValueType(JObject propHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", propHandle },
             };
@@ -1072,7 +1069,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public JObject GetPropertyValues(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -1082,7 +1079,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public Size GetSize(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -1092,7 +1089,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void SetSize(JObject itemHandle, int? width = null, int? height = null)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
                 { "width", width },
@@ -1104,7 +1101,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public JObject GetSubLevelHandle(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -1114,7 +1111,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public Dimension GetTerminalDimension(JObject terminalHandle) // Disccuss aabout return value, because it can return 'calc'
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "terminal_handle", terminalHandle },
             };
@@ -1122,9 +1119,9 @@ namespace TyphoonHilApi.Communication.APIs
             return new((JArray)HandleRequest("get_terminal_dimension", parameters)["result"]!);
         }
 
-        public void SetTerminalDimension(JObject terminalHandle, Dimension dimension) 
+        public void SetTerminalDimension(JObject terminalHandle, Dimension dimension)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "terminal_handle", terminalHandle },
                 { "dimension", dimension.JArray },
@@ -1135,7 +1132,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetTerminalSpType(JObject terminalHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "terminal_handle", terminalHandle },
             };
@@ -1145,7 +1142,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public string GetTerminalSpTypeValue(JObject terminalHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "terminal_handle", terminalHandle },
             };
@@ -1155,7 +1152,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void HideName(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -1165,7 +1162,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void HideProperty(JObject propHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", propHandle },
             };
@@ -1175,7 +1172,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void Info(string msg, JObject? context = null)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "msg", msg },
                 { "context", context },
@@ -1186,7 +1183,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public bool IsNameVisible(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -1196,7 +1193,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public bool IsPropertyVisible(JObject propHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", propHandle },
             };
@@ -1206,7 +1203,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public bool IsRequireSatisfied(string requireString)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "require_string", requireString },
             };
@@ -1216,7 +1213,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public bool IsSubsystem(JObject compHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "comp_handle", compHandle },
             };
@@ -1226,7 +1223,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public bool IsTerminalFeedthrough(JObject terminalHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "terminal_handle", terminalHandle },
             };
@@ -1236,7 +1233,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public bool IsTunable(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -1251,7 +1248,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void PrecompileFmu(string fmuFilePath, string? precompiledFilePath = null, List<string>? additionalDefinitions = null)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "fmu_file_path", fmuFilePath },
                 { "precompiled_file_path", precompiledFilePath },
@@ -1262,7 +1259,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void PrintMessage(string message)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "message", message },
             };
@@ -1271,17 +1268,17 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void RefreshIcon(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
-            
+
             HandleRequest("refresh_icon", parameters);
         }
 
         public void SetComponentIconImage(JObject itemHandle, string imageFilename, string rotate = IconRotate.ROTATE)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "image_filename", imageFilename },
                 { "item_handle", itemHandle },
@@ -1292,7 +1289,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void SetColor(JObject itemHandle, string color)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
                 { "color", color },
@@ -1303,7 +1300,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void RemoveMask(JObject itemHandle)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
             };
@@ -1312,64 +1309,64 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void RemoveProperty(JObject itemHandle, string name)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
                 { "name", name },
             };
-            
+
             HandleRequest("remove_property", parameters);
         }
 
         public bool SetComponentProperty(string component, string property, string value)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "value", value },
                 { "component", component },
                 { "property", property },
             };
-            
+
             return (bool)HandleRequest("set_component_property", parameters)["result"]!;
         }
 
         public void SetDescription(JObject itemHandle, string description)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
                 { "description", description },
             };
-            
+
             HandleRequest("set_description", parameters);
         }
 
         public bool SetHwSettings(string product, string revision, string confId)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "product", product },
                 { "revision", revision },
                 { "conf_id", confId },
             };
-            
+
             return (bool)HandleRequest("set_hw_settings", parameters)["result"]!;
         }
 
         public void SetLabel(JObject itemHandle, string label)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
                 { "label", label },
             };
-            
+
             HandleRequest("set_label", parameters);
         }
 
         public void SetModelDependencies(List<string> dependenciesList)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "dependencies_list", new JArray(dependenciesList) },
             };
@@ -1379,7 +1376,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void SetModelInitCode(string code)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "code", code },
             };
@@ -1389,18 +1386,18 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void SetModelPropertyValue(string propCodeName, object value)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_code_name", propCodeName },
                 { "value", JToken.FromObject(value) },
             };
-            
+
             HandleRequest("set_model_property_value", parameters);
         }
 
         public void SetName(JObject itemHandle, string name)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
                 { "name", name },
@@ -1411,7 +1408,7 @@ namespace TyphoonHilApi.Communication.APIs
 
         public void SetPortProperties(JObject itemHandle, string? terminalPosition = null, bool? hideTermLabel = null, string termLabel = "")
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
                 { "terminal_position", terminalPosition },
@@ -1424,31 +1421,31 @@ namespace TyphoonHilApi.Communication.APIs
         [Obsolete("This function is deprecated")]
         public bool SetPropertyAttribute(JObject component, JObject property, string attribute, string value)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "component", component },
                 { "property", property },
                 { "attribute", attribute },
                 { "value", value },
             };
-            
+
             return (bool)HandleRequest("set_property_attribute", parameters)["result"]!;
         }
 
         public void SetPropertyValueType(JObject propHandle, string newType)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "prop_handle", propHandle },
                 { "new_type", newType },
             };
-            
+
             HandleRequest("set_property_value_type", parameters);
         }
 
         public void SetPropertyValues(JObject itemHandle, JObject values)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "item_handle", itemHandle },
                 { "values", values },
@@ -1460,7 +1457,7 @@ namespace TyphoonHilApi.Communication.APIs
         [Obsolete("Deprecated since version 2.0: Use set_model_property_value instead (simulation_method field in configuration object).")]
         public void SetSimulationMethod(string simulationMethod)
         {
-            var parameters = new JObject()
+            JObject parameters = new JObject()
             {
                 { "simulation_method", simulationMethod },
             };
@@ -1468,6 +1465,195 @@ namespace TyphoonHilApi.Communication.APIs
             HandleRequest("set_simulation_method", parameters);
         }
 
+        public void SetSimulationTimeStep(double timeStep)
+        {
+            JObject parameters = new JObject()
+            {
+                { "time_step", timeStep },
+            };
+
+            HandleRequest("set_simulation_time_step", parameters);
+        }
+
+        public void SetTagProperties(JObject itemHandle, string? value = null, string? scope = null)
+        {
+            JObject parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+                { "value", value },
+                { "scope", scope },
+            };
+
+            HandleRequest("set_tag_properties", parameters);
+        }
+
+        public void SetTerminalDimension(JObject terminalHandle, JObject dimension)
+        {
+            JObject parameters = new JObject()
+            {
+                { "terminal_handle", terminalHandle },
+                { "dimension", dimension },
+            };
+
+            HandleRequest("set_terminal_dimension", parameters);
+        }
+        
+        public void SetTerminalFeedthrough(JObject terminalHandle, bool feedthrough)
+        {
+            JObject parameters = new JObject()
+            {
+                { "terminal_handle", terminalHandle },
+                { "feedthrough", feedthrough },
+            };
+
+            HandleRequest("set_terminal_feedthrough", parameters);
+        }
+        
+        public void SetTerminalSPType(JObject terminalHandle, string spType)
+        {
+            JObject parameters = new JObject()
+            {
+                { "terminal_handle", terminalHandle },
+                { "sp_type", spType },
+            };
+
+            HandleRequest("set_terminal_sp_type", parameters);
+        }
+        
+        public void SetTerminalSPTypeValue(JObject terminalHandle, string spTypeValue)
+        {
+            JObject parameters = new JObject()
+            {
+                { "terminal_handle", terminalHandle },
+                { "sp_type_value", spTypeValue },
+            };
+
+            HandleRequest("set_terminal_sp_type_value", parameters);
+        }
+        
+        public void SetTunable(JObject itemHandle, bool value)
+        {
+            JObject parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+                { "value", value },
+            };
+
+            HandleRequest("set_tunable", parameters);
+        }
+        
+        public void ShowName(JObject itemHandle)
+        {
+            JObject parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            HandleRequest("show_name", parameters);
+        }
+        
+        public void ShowProperty(JObject propHandle)
+        {
+            JObject parameters = new JObject()
+            {
+                { "prop_handle", propHandle },
+            };
+
+            HandleRequest("show_property", parameters);
+        }
+        
+        public void SyncDynamicTerminals(JObject compHandle, string termName, int termNum, List<string>? labels = null, List<string>? spTypes = null, List<bool>? feedthroughs = null)
+        {
+            JObject parameters = new JObject()
+            {
+                { "comp_handle", compHandle },
+                { "term_name", termName },
+                { "term_num", termNum },
+                { "labels", labels != null ? new JArray(labels) : null },
+                { "sp_types", spTypes != null ? new JArray(spTypes) : null },
+                { "feedthroughs", feedthroughs != null ? new JArray(feedthroughs) : null },
+            };
+
+            HandleRequest("sync_dynamic_terminals", parameters);
+        }
+        
+        public void UnlinkComponent(JObject itemHandle)
+        {
+            JObject parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            HandleRequest("unlink_component", parameters);
+        }
+
+        public void Warning(string msg, string kind = "General warning", JObject? context = null)
+        {
+            JObject parameters = new JObject()
+            {
+                { "msg", msg },
+                { "kind", kind },
+                { "context", context },
+            };
+
+            HandleRequest("warning", parameters);
+        }
+
+        public void ExportCFromSelection(List<JObject> compHandles, string outputDir)
+        {
+            JArray compHandleArray = new JArray(compHandles.Select(handle => handle));
+
+            JObject parameters = new JObject()
+            {
+                { "comp_handles", compHandleArray },
+                { "output_dir", outputDir },
+            };
+
+            HandleRequest("export_c_from_selection", parameters);
+        }
+
+        public void ExportLibrary(string outputFile, List<string>? resourcePaths = null, List<string>? dependencyPaths = null, bool lockTopLevelComponents = true, bool encryptLibrary = true, bool encryptResourceFiles = true, List<string>? excludeFromEncryption = null)
+        {
+            JObject parameters = new JObject()
+            {
+                { "output_file", outputFile },
+                { "resource_paths", resourcePaths != null ? new JArray(resourcePaths) : null },
+                { "dependency_paths", dependencyPaths != null ? new JArray(dependencyPaths) : null },
+                { "lock_top_level_components", lockTopLevelComponents },
+                { "encrypt_library", encryptLibrary },
+                { "encrypt_resource_files", encryptResourceFiles },
+                { "exclude_from_encryption", excludeFromEncryption != null ? new JArray(excludeFromEncryption) : null },
+            };
+
+            HandleRequest("export_library", parameters);
+        }
+
+        public void DisplayComponentIconText(JObject itemHandle, string text, string rotate = "text_like", int size = 10, double relposX = 0.5, double relposY = 0.5, double trimFactor = 1.0)
+        {
+            JObject parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+                { "text", text },
+                { "rotate", rotate },
+                { "size", size },
+                { "relpos_x", relposX },
+                { "relpos_y", relposY },
+                { "trim_factor", trimFactor },
+            };
+
+            HandleRequest("disp_component_icon_text", parameters);
+        }
+
+        public void ExportCFromSubsystem(JObject compHandle, string? outputDir = null)
+        {
+            var parameters = new JObject()
+            {
+                { "comp_handle", compHandle },
+                { "output_dir", outputDir },
+            };
+
+            HandleRequest("export_c_from_subsystem", parameters);
+        }
 
     }
 }
