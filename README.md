@@ -23,8 +23,6 @@ class Program
         // Create SchematicAPI object
         SchematicAPI model = new();
 
-        // ... (rest of the code)
-
         // Set component parameters
         Console.WriteLine("Setting component properties...");
         model.SetPropertyValue(model.Prop(rIn, "resistance"), rInValue);
