@@ -1,9 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
-using System.Drawing;
-using System.Threading.Channels;
-using System.Xml.Linq;
 using TyphoonHilApi.Communication.APIs;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ZeroMQExample
 {
@@ -11,7 +7,85 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
-            Test22();
+            Test28();
+        }
+
+        private static void Test28()
+        {
+            var mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+            var tr1 = mdl.CreateComponent("core/Three Phase Two Winding Transformer");
+            mdl.SetComponentIconImage(tr1, "C:\\Users\\Dell\\Pictures\\Screenshots\\bumbar.png");
+            mdl.SetColor(tr1, "red");
+            mdl.RefreshIcon(tr1);
+            mdl.SaveAs("C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\bla.tse");
+            mdl.CloseModel();
+        }
+
+        private static void Test27()
+        {
+            var mdl = new SchematicAPI();
+            mdl.Load("C:\\ex.tse");
+            Console.WriteLine(mdl.ModelToApi());
+            mdl.CloseModel();
+        }
+
+        private static void Test25()
+        {
+            SchematicAPI mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
+            JObject abs = mdl.CreateComponent("core/Abs", name: "Abs 1");
+
+            Console.WriteLine(mdl.GetTerminalSpType(mdl.Term(abs, "out")));
+
+            Console.WriteLine(mdl.GetTerminalSpType(mdl.Term(abs, "in")));
+
+            JObject const1 = mdl.CreateComponent("core/Constant", name: "Constant 1");
+
+            JObject probe1 = mdl.CreateComponent("core/Probe", name: "Probe 1");
+            mdl.CreateConnection(mdl.Term(const1, "out"), mdl.Term(probe1, "in"));
+
+            // After compile...
+            Console.WriteLine(mdl.GetTerminalSpTypeValue(mdl.Term(probe1, "in")));
+
+            mdl.CloseModel();
+        }
+
+        private static void Test24()
+        {
+            SchematicAPI mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
+            JObject constItem = mdl.CreateComponent("core/Constant", name: "Constant 1");
+            //Console.WriteLine(mdl.GetTerminalDimension(mdl.Term(constItem, "out")));
+
+            mdl.SetTerminalDimension(mdl.Term(constItem, "out"), new Dimension(2));
+            Console.WriteLine(mdl.GetTerminalDimension(mdl.Term(constItem, "out")));
+
+            mdl.CloseModel();
+        }
+
+        private static void Test23()
+        {
+            var mdl = new SchematicAPI();
+            mdl.CreateNewModel();
+
+            var sub1 = mdl.CreateComponent("core/Subsystem", name: "Subsystem1");
+
+            int newWidth = 70;
+            int newHeight = 55;
+
+            mdl.SetSize(sub1, width: newWidth, height: newHeight);
+            Console.WriteLine(mdl.GetSize(sub1).Equals(new Size(newWidth, newHeight)));
+
+            mdl.SetSize(sub1, width: 100);
+            Console.WriteLine(mdl.GetSize(sub1).Equals(new Size(100, newHeight)));
+
+            mdl.SetSize(sub1, height: 80);
+            Console.WriteLine(mdl.GetSize(sub1).Equals(new Size(100, 80)));
+
+            mdl.CloseModel();
         }
 
         private static void Test22()

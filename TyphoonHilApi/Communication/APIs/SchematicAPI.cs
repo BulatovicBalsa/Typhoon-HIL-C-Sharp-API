@@ -1,6 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using TyphoonHilApi.Communication.Exceptions;
+using static NetMQ.NetMQSelector;
 
 namespace TyphoonHilApi.Communication.APIs
 {
@@ -31,6 +34,25 @@ namespace TyphoonHilApi.Communication.APIs
             Width = width;
             Height = height;
         }
+
+        public Size(JArray jArray)
+        {
+            Width = (double)jArray[0];
+            Height = (double)jArray[1];
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Size)
+            {
+                return false;
+            }
+            else
+            {
+                Size newSize = (Size)obj;
+                return newSize.Height == Height && newSize.Width == Width;
+            }
+        }
     }
 
     internal class Dimension
@@ -47,6 +69,17 @@ namespace TyphoonHilApi.Communication.APIs
         public Dimension(double width)
         {
             Width = width;
+        }
+
+        public Dimension(JArray jArray)
+        {
+            Width = (double)jArray[0];
+            Height = (double?)jArray[1];
+        }
+
+        public override string ToString()
+        {
+            return $"({Width}, {Height})";
         }
     }
 
@@ -171,6 +204,13 @@ namespace TyphoonHilApi.Communication.APIs
         public const string SIGNAL_ACCESS = "signal_access";
     }
 
+    internal class IconRotate
+    {
+        public const string ROTATE = "rotate";
+        public const string NO_ROTATE = "no_rotate";
+        public const string TEXT_LIKE = "text_like";
+    }
+
     internal class SchematicAPI : AbsractAPI
     {
         readonly static string FqnSep = ".";
@@ -188,9 +228,9 @@ namespace TyphoonHilApi.Communication.APIs
             return Request("save", new());
         }
 
-        public JObject SaveAs(string filename)
+        public void SaveAs(string filename)
         {
-            return Request("save_as", new JObject() { { "filename", filename } });
+            HandleRequest("save_as", new JObject() { { "filename", filename } });
         }
 
         public bool Compile()
@@ -1020,7 +1060,414 @@ namespace TyphoonHilApi.Communication.APIs
             return (string)HandleRequest("get_property_value", parameters)["result"]!;
         }
 
+        public string GetPropertyValueType(JObject propHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", propHandle },
+            };
+
+            return (string)HandleRequest("get_property_value_type", parameters)["result"]!;
+        }
+
+        public JObject GetPropertyValues(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            return (JObject)HandleRequest("get_property_values", parameters)["result"]!;
+        }
+
+        public Size GetSize(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            return new((JArray)HandleRequest("get_size", parameters)["result"]!);
+        }
+
+        public void SetSize(JObject itemHandle, int? width = null, int? height = null)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+                { "width", width },
+                { "height", height },
+            };
+
+            HandleRequest("set_size", parameters);
+        }
+
+        public JObject GetSubLevelHandle(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            return (JObject)HandleRequest("get_sub_level_handle", parameters)["result"]!;
+        }
+
+        public Dimension GetTerminalDimension(JObject terminalHandle) // Disccuss aabout return value, because it can return 'calc'
+        {
+            var parameters = new JObject()
+            {
+                { "terminal_handle", terminalHandle },
+            };
+
+            return new((JArray)HandleRequest("get_terminal_dimension", parameters)["result"]!);
+        }
+
+        public void SetTerminalDimension(JObject terminalHandle, Dimension dimension) 
+        {
+            var parameters = new JObject()
+            {
+                { "terminal_handle", terminalHandle },
+                { "dimension", dimension.JArray },
+            };
+
+            HandleRequest("set_terminal_dimension", parameters);
+        }
+
+        public string GetTerminalSpType(JObject terminalHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "terminal_handle", terminalHandle },
+            };
+
+            return (string)HandleRequest("get_terminal_sp_type", parameters)["result"]!;
+        }
+
+        public string GetTerminalSpTypeValue(JObject terminalHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "terminal_handle", terminalHandle },
+            };
+
+            return (string)HandleRequest("get_terminal_sp_type_value", parameters)["result"]!;
+        }
+
+        public void HideName(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            HandleRequest("hide_name", parameters);
+        }
+
+        public void HideProperty(JObject propHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", propHandle },
+            };
+
+            HandleRequest("hide_property", parameters);
+        }
+
+        public void Info(string msg, JObject? context = null)
+        {
+            var parameters = new JObject()
+            {
+                { "msg", msg },
+                { "context", context },
+            };
+
+            HandleRequest("info", parameters);
+        }
+
+        public bool IsNameVisible(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            return (bool)HandleRequest("is_name_visible", parameters)["result"]!;
+        }
+
+        public bool IsPropertyVisible(JObject propHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", propHandle },
+            };
+
+            return (bool)HandleRequest("is_property_visible", parameters)["result"]!;
+        }
+
+        public bool IsRequireSatisfied(string requireString)
+        {
+            var parameters = new JObject()
+            {
+                { "require_string", requireString },
+            };
+
+            return (bool)HandleRequest("is_require_satisfied", parameters)["result"]!;
+        }
+
+        public bool IsSubsystem(JObject compHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "comp_handle", compHandle },
+            };
+
+            return (bool)HandleRequest("is_subsystem", parameters)["result"]!;
+        }
+
+        public bool IsTerminalFeedthrough(JObject terminalHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "terminal_handle", terminalHandle },
+            };
+
+            return (bool)HandleRequest("is_terminal_feedthrough", parameters)["result"]!;
+        }
+
+        public bool IsTunable(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+
+            return (bool)HandleRequest("is_tunable", parameters)["result"]!;
+        }
+
+        public string ModelToApi() // ask about params // ask how to convert result
+        {
+            return (string)HandleRequest("model_to_api")["result"]!;
+        }
+
+        public void PrecompileFmu(string fmuFilePath, string? precompiledFilePath = null, List<string>? additionalDefinitions = null)
+        {
+            var parameters = new JObject()
+            {
+                { "fmu_file_path", fmuFilePath },
+                { "precompiled_file_path", precompiledFilePath },
+                { "additional_definitions", new JArray() { additionalDefinitions } }
+            };
+            HandleRequest("precompile_fmu", parameters);
+        }
+
+        public void PrintMessage(string message)
+        {
+            var parameters = new JObject()
+            {
+                { "message", message },
+            };
+            HandleRequest("print_message", parameters);
+        }
+
+        public void RefreshIcon(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+            
+            HandleRequest("refresh_icon", parameters);
+        }
+
+        public void SetComponentIconImage(JObject itemHandle, string imageFilename, string rotate = IconRotate.ROTATE)
+        {
+            var parameters = new JObject()
+            {
+                { "image_filename", imageFilename },
+                { "item_handle", itemHandle },
+                { "rotate", rotate },
+            };
+            HandleRequest("set_component_icon_image", parameters);
+        }
+
+        public void SetColor(JObject itemHandle, string color)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+                { "color", color },
+            };
+
+            HandleRequest("set_color", parameters);
+        }
+
+        public void RemoveMask(JObject itemHandle)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+            };
+            HandleRequest("remove_mask", parameters);
+        }
+
+        public void RemoveProperty(JObject itemHandle, string name)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+                { "name", name },
+            };
+            
+            HandleRequest("remove_property", parameters);
+        }
+
+        public bool SetComponentProperty(string component, string property, string value)
+        {
+            var parameters = new JObject()
+            {
+                { "value", value },
+                { "component", component },
+                { "property", property },
+            };
+            
+            return (bool)HandleRequest("set_component_property", parameters)["result"]!;
+        }
+
+        public void SetDescription(JObject itemHandle, string description)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+                { "description", description },
+            };
+            
+            HandleRequest("set_description", parameters);
+        }
+
+        public bool SetHwSettings(string product, string revision, string confId)
+        {
+            var parameters = new JObject()
+            {
+                { "product", product },
+                { "revision", revision },
+                { "conf_id", confId },
+            };
+            
+            return (bool)HandleRequest("set_hw_settings", parameters)["result"]!;
+        }
+
+        public void SetLabel(JObject itemHandle, string label)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+                { "label", label },
+            };
+            
+            HandleRequest("set_label", parameters);
+        }
+
+        public void SetModelDependencies(List<string> dependenciesList)
+        {
+            var parameters = new JObject()
+            {
+                { "dependencies_list", new JArray(dependenciesList) },
+            };
+
+            HandleRequest("set_model_dependencies", parameters);
+        }
+
+        public void SetModelInitCode(string code)
+        {
+            var parameters = new JObject()
+            {
+                { "code", code },
+            };
+
+            HandleRequest("set_model_init_code", parameters);
+        }
+
+        public void SetModelPropertyValue(string propCodeName, object value)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_code_name", propCodeName },
+                { "value", JToken.FromObject(value) },
+            };
+            
+            HandleRequest("set_model_property_value", parameters);
+        }
+
+        public void SetName(JObject itemHandle, string name)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+                { "name", name },
+            };
+
+            HandleRequest("set_name", parameters);
+        }
+
+        public void SetPortProperties(JObject itemHandle, string? terminalPosition = null, bool? hideTermLabel = null, string termLabel = "")
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+                { "terminal_position", terminalPosition },
+                { "hide_term_label", hideTermLabel },
+                { "term_label", termLabel },
+            };
+            HandleRequest("set_port_properties", parameters);
+        }
+
+        [Obsolete("This function is deprecated")]
+        public bool SetPropertyAttribute(JObject component, JObject property, string attribute, string value)
+        {
+            var parameters = new JObject()
+            {
+                { "component", component },
+                { "property", property },
+                { "attribute", attribute },
+                { "value", value },
+            };
+            
+            return (bool)HandleRequest("set_property_attribute", parameters)["result"]!;
+        }
+
+        public void SetPropertyValueType(JObject propHandle, string newType)
+        {
+            var parameters = new JObject()
+            {
+                { "prop_handle", propHandle },
+                { "new_type", newType },
+            };
+            
+            HandleRequest("set_property_value_type", parameters);
+        }
+
+        public void SetPropertyValues(JObject itemHandle, JObject values)
+        {
+            var parameters = new JObject()
+            {
+                { "item_handle", itemHandle },
+                { "values", values },
+            };
+
+            HandleRequest("set_property_values", parameters);
+        }
+
+        [Obsolete("Deprecated since version 2.0: Use set_model_property_value instead (simulation_method field in configuration object).")]
+        public void SetSimulationMethod(string simulationMethod)
+        {
+            var parameters = new JObject()
+            {
+                { "simulation_method", simulationMethod },
+            };
+
+            HandleRequest("set_simulation_method", parameters);
+        }
+
 
     }
-
 }
