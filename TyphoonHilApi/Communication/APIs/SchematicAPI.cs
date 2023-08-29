@@ -161,6 +161,11 @@ namespace TyphoonHilApi.Communication.APIs
         public const string PROPERTY_VALUE_INVALID = "Invalid property value";
     }
 
+    internal class WarningType
+    {
+        public const string General = "General warning";
+    }
+
     internal class HandlerName
     {
         public const string MODEL_INIT = "model_init";
@@ -1509,7 +1514,7 @@ namespace TyphoonHilApi.Communication.APIs
             HandleRequest("set_terminal_feedthrough", parameters);
         }
         
-        public void SetTerminalSPType(JObject terminalHandle, string spType)
+        public void SetTerminalSpType(JObject terminalHandle, string spType)
         {
             JObject parameters = new JObject()
             {
@@ -1520,7 +1525,7 @@ namespace TyphoonHilApi.Communication.APIs
             HandleRequest("set_terminal_sp_type", parameters);
         }
         
-        public void SetTerminalSPTypeValue(JObject terminalHandle, string spTypeValue)
+        public void SetTerminalSpTypeValue(JObject terminalHandle, string spTypeValue)
         {
             JObject parameters = new JObject()
             {
@@ -1587,7 +1592,7 @@ namespace TyphoonHilApi.Communication.APIs
             HandleRequest("unlink_component", parameters);
         }
 
-        public void Warning(string msg, string kind = "General warning", JObject? context = null)
+        public void Warning(string msg, string kind = WarningType.General, JObject? context = null)
         {
             JObject parameters = new JObject()
             {
@@ -1628,7 +1633,7 @@ namespace TyphoonHilApi.Communication.APIs
             HandleRequest("export_library", parameters);
         }
 
-        public void DisplayComponentIconText(JObject itemHandle, string text, string rotate = "text_like", int size = 10, double relposX = 0.5, double relposY = 0.5, double trimFactor = 1.0)
+        public void DisplayComponentIconText(JObject itemHandle, string text, string rotate = IconRotate.TEXT_LIKE, int size = 10, double relposX = 0.5, double relposY = 0.5, double trimFactor = 1.0)
         {
             JObject parameters = new JObject()
             {
