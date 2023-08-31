@@ -13,5 +13,6 @@ namespace TyphoonHilApi.Communication
         public int ScadaApiPort { get; set; }
         public int PvGenApiPort { get; set; }
         public int FwApiPort { get; set; }
+        public int ConfigurationManagerApiPort { get; set; }
     }
 }
