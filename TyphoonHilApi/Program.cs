@@ -7,7 +7,9 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
-            Test28();
+            var cfg_manager = new ConfigurationManagerAPI();
+            cfg_manager.LoadProject("C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\RLC_example.tse");
+            Console.WriteLine(cfg_manager);
         }
 
         private static void Test28()
