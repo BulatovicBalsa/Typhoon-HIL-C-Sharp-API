@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using System.Reflection.Emit;
 using TyphoonHilApi.Communication.APIs;
 
 namespace ZeroMQExample
@@ -7,7 +8,61 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
-            Test4();
+            string path = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TyphoonHilApiTests\\TestData\\";
+            var PvGenerator = new PvGeneratorAPI();
+            var PvParamsDetailed = new JObject
+            {
+                { "Voc_ref", 45.60 },
+                { "Isc_ref", 5.8 },
+                { "dIsc_dT", 0.0004 },
+                { "Nc", 72 },
+                { "dV_dI_ref", -1.1 },
+                { "Vg", "cSi" },
+                { "n", 1.3 },
+                { "neg_current", false }
+            };
+
+            var res = PvGenerator.GeneratePvSettingsFile(PvModelType.DETAILED, path + "setDet.ipvx", PvParamsDetailed);
+
+            var PvParamsEN50530 = new JObject
+            {
+                { "Voc_ref", 45.60 },
+                { "Isc_ref", 5.8 },
+                { "Pv_type", "Thin film" },
+                { "neg_current", false }
+            };
+
+            res = PvGenerator.GeneratePvSettingsFile(PvModelType.EN50530, path + "setEN.ipvx", PvParamsEN50530);
+
+            var PvParamsUserDefined = new JObject
+            {
+                { "Voc_ref", 45.60 },
+                { "Isc_ref", 5.8 },
+                { "Pv_type", "User defined" },
+                { "neg_current", false },
+                { 
+                    "user_defined_params", new JObject
+                    {
+                        { "ff_u", 0.72 },
+                        { "ff_i", 0.8 },
+                        { "c_g", 1.252e-3 },
+                        { "c_v", 8.419e-2 },
+                        { "c_r", 1.476e-4 },
+                        { "v_l2h", 0.98 },
+                        { "alpha", 0.0002 },
+                        { "beta", -0.002 }
+                    }
+                }
+            };
+
+            res = PvGenerator.GeneratePvSettingsFile(PvModelType.NORMALIZED_IV, path + "setIV.ipvx", PvParamsUserDefined);
+
+            var PvParamsCSV = new JObject
+            {
+                { "csv_path", "csv_file.csv" }
+            };
+
+            res = PvGenerator.GeneratePvSettingsFile(PvModelType.EN50530, path + "./setEN.csv.ipvx", PvParamsCSV);
         }
 
         private static void Test30()
@@ -301,7 +356,7 @@ namespace ZeroMQExample
             );
 
             // Set PROPERTY_VALUE_CHANGED handler on property.
-            string propValueChangedHandlerCode = @"
+            string proPvalueChangedHandlerCode = @"
                 if (new_value == ""Choice 1"")
                 {
                     Console.WriteLine(""It's a first choice."");
@@ -315,7 +370,7 @@ namespace ZeroMQExample
                     Console.WriteLine(""It's a third choice"");
                 }
                 ";
-            mdl.SetHandlerCode(prop1, HandlerName.PROPERTY_VALUE_CHANGED, propValueChangedHandlerCode);
+            mdl.SetHandlerCode(prop1, HandlerName.PROPERTY_VALUE_CHANGED, proPvalueChangedHandlerCode);
 
             // Get handler code for a property prop1.
             string retrievedHandlerCode = mdl.GetHandlerCode(prop1, HandlerName.PROPERTY_VALUE_CHANGED);
