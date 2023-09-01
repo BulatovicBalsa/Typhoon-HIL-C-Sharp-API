@@ -4,7 +4,7 @@ using TyphoonHilApi.Communication.Exceptions;
 
 namespace TyphoonHilApi.Communication.APIs
 {
-    internal class Position
+    public class Position
     {
         public double X { get; set; }
         public double Y { get; set; }
@@ -21,7 +21,7 @@ namespace TyphoonHilApi.Communication.APIs
         }
     }
 
-    internal class Size
+    public class Size
     {
         public double Width { get; set; }
         public double Height { get; set; }
@@ -52,7 +52,7 @@ namespace TyphoonHilApi.Communication.APIs
         }
     }
 
-    internal class Dimension
+    public class Dimension
     {
         public double Width { get; set; }
         public double? Height { get; set; }
@@ -80,7 +80,7 @@ namespace TyphoonHilApi.Communication.APIs
         }
     }
 
-    internal static class Rotation
+    public static class Rotation
     {
         public const string Down = "down";
         public const string Up = "up";
@@ -88,7 +88,7 @@ namespace TyphoonHilApi.Communication.APIs
         public const string Left = "left";
     }
 
-    internal static class Flip
+    public static class Flip
     {
         public const string None = "none";
         public const string Horizontal = "horizontal";
@@ -96,13 +96,13 @@ namespace TyphoonHilApi.Communication.APIs
         public const string Both = "both";
     }
 
-    internal class Kind
+    public class Kind
     {
         public const string Pe = "pe";
         public const string Sp = "sp";
     }
 
-    internal class TerminalPosition
+    public class TerminalPosition
     {
         public const string Bottom = "bottom";
         public const string Top = "top";
@@ -118,13 +118,13 @@ namespace TyphoonHilApi.Communication.APIs
         }
     }
 
-    internal class Direction
+    public class Direction
     {
         public const string In = "in";
         public const string Out = "out";
     }
 
-    internal class SPType
+    public class SPType
     {
         public const string Inherit = "inherit";
         public const string Int = "int";
@@ -132,7 +132,7 @@ namespace TyphoonHilApi.Communication.APIs
         public const string Real = "real";
     }
 
-    internal class ItemType
+    public class ItemType
     {
         public const string ANY = "unknown";
         public const string COMPONENT = "component";
@@ -149,24 +149,24 @@ namespace TyphoonHilApi.Communication.APIs
         public const string SIGNAL_REF = "signal_ref";
     }
 
-    internal class RecursionStrategy
+    public class RecursionStrategy
     {
         public const string None = "none";
         public const string RECURSE_INTO_LINKED_COMPS = "recurse_linked_components";
     }
 
-    internal class ErrorType
+    public class ErrorType
     {
         public const string General = "General error";
         public const string PROPERTY_VALUE_INVALID = "Invalid property value";
     }
 
-    internal class WarningType
+    public class WarningType
     {
         public const string General = "General warning";
     }
 
-    internal class HandlerName
+    public class HandlerName
     {
         public const string MODEL_INIT = "model_init";
         public const string MODEL_LOADED = "model_loaded";
@@ -195,7 +195,7 @@ namespace TyphoonHilApi.Communication.APIs
         public const string PROPERTY_VALUE_EDITED = "property_value_edited";
     }
 
-    internal class Widget
+    public class Widget
     {
         public const string COMBO = "combo";
         public const string EDIT = "edit";
@@ -206,22 +206,20 @@ namespace TyphoonHilApi.Communication.APIs
         public const string SIGNAL_ACCESS = "signal_access";
     }
 
-    internal class IconRotate
+    public class IconRotate
     {
         public const string ROTATE = "rotate";
         public const string NO_ROTATE = "no_rotate";
         public const string TEXT_LIKE = "text_like";
     }
 
-    internal class SchematicAPI : AbsractAPI
+    public class SchematicAPI : AbsractAPI
     {
         readonly static string FqnSep = ".";
         public SchematicAPI() { }
         public SchematicAPI(ICommunication communication) : base(communication) { }
 
         public override int ProperPort => Ports.SchematicApiPort;
-
-         
 
         public JObject Load(string filename)
         {
@@ -242,9 +240,9 @@ namespace TyphoonHilApi.Communication.APIs
             return Request("compile", new()).ContainsKey("result");
         }
 
-        public JObject CreateNewModel()
+        public JObject CreateNewModel(string? name=null)
         {
-            return Request("create_new_model", new());
+            return Request("create_new_model", new() { { "name", name } });
         }
 
         public JObject CloseModel()

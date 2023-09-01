@@ -1,0 +1,86 @@
+//
+// Saved by sw version: 2021.1 DEV
+// Save timestamp: 24-Dec-2020 @ 12:51:16 PM
+//
+
+library "motor_lib" {
+    configuration {
+        hil_device = "HIL402"
+        hil_configuration_id = 1
+        simulation_method = exact
+        simulation_time_step = auto
+        simulation_discret_scaling = 1.0
+        dsp_timer_periods = 100e-6, 50e-3
+        ss_calc_method = "systematic elimination"
+        enb_pole_shift = True
+        enb_gds_oversampling = True
+        show_modes = False
+        device_ao_limit_enable = False
+        reset_analog_outputs_on_sim_stop = True
+        reset_digital_outputs_on_sim_stop = True
+        cpl_stb = False
+        enb_dep_sw_detect = False
+        code_section = "internal memory"
+        data_section = "internal memory"
+        sys_sp_rate_1 = 0.0001
+        sys_sp_rate_2 = 0.05
+        sys_real_type_precision = "default"
+        user_real_type_precision = "default"
+        sys_cpu_optimization = "high"
+        user_cpu_optimization = "high"
+        user_cpu_part_option = "default"
+        matrix_based_reduction = True
+        cpl_dynamics_analysis = False
+        export_ss_to_pickle = False
+        cce_platform = "generic"
+        cce_use_relative_names = False
+        cce_type_mapping_real = "double"
+        cce_type_mapping_uint = "unsigned int"
+        cce_type_mapping_int = "int"
+        cce_directory = ""
+        cce_custom_type_int = ""
+        cce_custom_type_uint = ""
+        cce_custom_type_real = ""
+    }
+
+    component Subsystem Root {
+        component Category Motors {
+            layout = dynamic
+            component "core/Induction Machine with Squirrel Cage" "Induction machine" {
+                Rsnb_stator = "20e3"
+                el_trq_out = "True"
+                execution_rate = "Ts"
+                load_src = "Model"
+                mech_speed_out = "True"
+            }
+            [
+                position = 8008, 8168
+                size = 160, 160
+            ]
+
+            component "core/Permanent Magnet Synchronous Machine with Salient Rotor" PMSM {
+                Rsnb_stator = "10e3"
+                el_trq_out = "True"
+                execution_rate = "Ts"
+                load_src = "Model"
+                mech_speed_out = "True"
+            }
+            [
+                position = 8352, 8176
+                size = 160, 160
+            ]
+        }
+        [
+            position = 4520, 4416
+            size = 48, 48
+        ]
+
+        comment Comment1 START Consider using the Category component to better organize your library items in the tree. ENDCOMMENT 
+        [
+            position = 4192, 4192
+        ]
+    }
+
+    default {
+    }
+}

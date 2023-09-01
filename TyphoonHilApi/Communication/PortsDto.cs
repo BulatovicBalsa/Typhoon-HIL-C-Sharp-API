@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TyphoonHilApi.Communication
 {
-    internal class PortsDto
+    public class PortsDto
     {
         public int SchematicApiPort { get; set; }
         public int HilApiPort { get; set; }

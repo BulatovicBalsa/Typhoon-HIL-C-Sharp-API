@@ -3,7 +3,7 @@ using TyphoonHilApi.Communication.Exceptions;
 
 namespace TyphoonHilApi.Communication
 {
-    internal abstract class AbsractAPI
+    public abstract class AbsractAPI
     {
         public abstract int ProperPort { get; }
         private ICommunication _communication { get; set; }

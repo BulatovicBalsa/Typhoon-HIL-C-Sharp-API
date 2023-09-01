@@ -7,7 +7,7 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
-            Test1();
+            Test4();
         }
 
         private static void Test30()
@@ -743,13 +743,13 @@ namespace ZeroMQExample
 
         private static void Test1()
         {
-            string path = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\";
+            string path = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TyphoonHilApiTests\\ProtectedData\\";
 
             // Create SchematicAPI object
             SchematicAPI model = new();
 
             // Create new model
-            model.CreateNewModel();
+            model.CreateNewModel("Scratch");
 
             // Starting coordinates
             int x0 = 8192;

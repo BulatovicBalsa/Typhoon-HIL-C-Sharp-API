@@ -3,7 +3,7 @@ using TyphoonHilApi.Communication.Exceptions;
 
 namespace TyphoonHilApi.Communication.APIs
 {
-    internal class ConfigurationManagerAPI : AbsractAPI
+    public class ConfigurationManagerAPI : AbsractAPI
     {
         public override int ProperPort => Ports.ConfigurationManagerApiPort;
 

@@ -1,0 +1,63 @@
+project "Configuration Manager example project" 
+
+// Template model
+schematic = "drive_template.tse"
+// Dynamically loaded libraries
+sch_lib_paths = ["./libs"]
+
+
+// Variant "Rectifier" from scheamtic model can be replaced with
+// 3 phase diode or 3 phase thyristor rectifier.
+
+variant "Rectifier" {
+    option "Diode rectifier" {
+        component "core/Three Phase Diode Rectifier"
+    }
+    option "Thyristor rectifier" {
+        component "core/Three Phase Thyristor Rectifier" {
+            ctrl_src = "Digital inputs"
+            Sa_top = 7
+            Sa_bot = 8
+            Sb_top = 9
+            Sb_bot = 10
+            Sc_top = 11
+            Sc_bot = 12
+        }
+    }
+}
+
+variant "Motor" {
+    option "Induction low power" {
+        component "core/Induction Machine with Squirrel Cage" {     // component from the core library
+            el_trq_out = True
+            mech_speed_out = True
+            load_src = "Model"
+            execution_rate = "Ts"
+            Rs = 13.12
+            Rr = 11.202
+            Lls = 0.0276
+            Llr = 0.0194
+            Lm = 0.348
+        }
+    }
+    option "Induction medium power" {
+        component "core/Induction Machine with Squirrel Cage" {
+            el_trq_out = True
+            mech_speed_out = True
+            load_src = "Model"
+            execution_rate = "Ts"
+            Rs = 6.1
+            Rr = 5.5
+            Lls = 0.013
+            Llr = 0.0096
+            Lm = 0.174
+        }
+    }
+    option "Induction high power" from "./options/im_high_power.opt" // load option description from file
+    option "PMSM low power" {
+        component "motor_lib/PMSM" // component from the user library with default properties
+    }
+    option "PMSM medium power" from "./options/pmsm_medium_power.opt"
+    option "PMSM high power" from "./options/pmsm_high_power.opt"
+
+}
