@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace TyphoonHilApi.Communication.APIs.Tests
 {
@@ -43,6 +44,26 @@ namespace TyphoonHilApi.Communication.APIs.Tests
             }
         }
 
+        void ClearDirectory(string directoryPath)
+        {
+            if (Directory.Exists(directoryPath))
+            {
+                foreach (var file in Directory.GetFiles(directoryPath))
+                {
+                    File.Delete(file);
+                }
+
+                foreach (var subdirectory in Directory.GetDirectories(directoryPath))
+                {
+                    ClearDirectory(subdirectory);
+                }
+            }
+            else
+            {
+                throw new DirectoryNotFoundException($"Directory '{directoryPath}' not found.");
+            }
+        }
+
         [TestInitialize] 
         public void Init() 
         {
@@ -50,6 +71,8 @@ namespace TyphoonHilApi.Communication.APIs.Tests
             StartupPath = Directory.GetParent(Directory.GetCurrentDirectory())!.Parent!.Parent!.FullName;
             TestDataPath = Path.Combine(StartupPath, "TestData");
             ProtectedDataPath = Path.Combine(StartupPath, "ProtectedData");
+
+            ClearDirectory(TestDataPath);
         }
 
         [TestMethod]

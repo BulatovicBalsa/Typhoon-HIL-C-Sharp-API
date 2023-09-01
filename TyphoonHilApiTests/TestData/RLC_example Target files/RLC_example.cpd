@@ -32,16 +32,16 @@
             <visible>True</visible>
         </cell>
         <cell>
-            <name>V</name>
-            <address>2</address>
-            <type>voltage</type>
+            <name>I</name>
+            <address>3</address>
+            <type>current</type>
             <initial_condition>None</initial_condition>
             <visible>True</visible>
         </cell>
         <cell>
-            <name>I</name>
-            <address>3</address>
-            <type>current</type>
+            <name>V</name>
+            <address>2</address>
+            <type>voltage</type>
             <initial_condition>None</initial_condition>
             <visible>True</visible>
         </cell>
