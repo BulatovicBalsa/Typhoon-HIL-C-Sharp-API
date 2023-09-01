@@ -84,5 +84,37 @@ namespace TyphoonHilApi.Communication.APIs
             var parameters = new JObject { { "config_path", configPath }, };
             return (JObject)HandleRequest("load_config", parameters)["result"]!;
         }
+
+        public List<JObject> GetOptions(JObject projectHandle, JObject variantHandle)
+        {
+            var parameters = new JObject
+            {
+                { "project_handle", projectHandle },
+                { "variant_handle", variantHandle },
+            };
+
+            return ((JArray)HandleRequest("get_options", parameters)["result"]!).Select(item => (JObject)item).ToList();
+        }
+
+        public List<JObject> GetProjectVariants(JObject projectHandle)
+        {
+            var parameters = new JObject
+            {
+                { "project_handle", projectHandle },
+            };
+
+            return ((JArray)HandleRequest("get_project_variants", parameters)["result"]!).Select(item => (JObject)item).ToList();
+        }
+
+        public void SaveConfig(JObject configHandle, string savePath)
+        {
+            var parameters = new JObject
+            {
+                { "config_handle", configHandle },
+                { "save_path", savePath },
+            };
+
+            HandleRequest("save_config", parameters);
+        }
     }
 }
