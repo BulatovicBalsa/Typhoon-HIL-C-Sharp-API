@@ -26,5 +26,6 @@ namespace TyphoonHilApi.Communication.APIs
             return (bool)HandleRequest("load_model", parameters)["result"]!;
         }
 
+
     }
 }
