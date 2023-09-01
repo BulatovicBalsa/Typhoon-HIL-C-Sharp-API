@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,17 @@ namespace TyphoonHilApi.Communication.APIs
 
         public HilAPI(ICommunication communication):base(communication) { }
 
+        public bool LoadModel(string file = "", bool offlineMode = false, bool vhilDevice = false)
+        {
+            var parameters = new JObject()
+            {
+                { "file", file },
+                { "offline_mode", offlineMode },
+                { "vhil_device", vhilDevice },
+            };
+
+            return (bool)HandleRequest("load_model", parameters)["result"]!;
+        }
 
     }
 }

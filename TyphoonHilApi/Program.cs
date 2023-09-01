@@ -7,6 +7,12 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
+            var mdl = new HilAPI();
+            Console.WriteLine(mdl.LoadModel("C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\RLC_example Target files\\RLC_example.cpd", vhilDevice:true));
+        }
+
+        private static void Test29()
+        {
             var cfg_manager = new ConfigurationManagerAPI();
             cfg_manager.LoadProject("C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\RLC_example.tse");
             Console.WriteLine(cfg_manager);
