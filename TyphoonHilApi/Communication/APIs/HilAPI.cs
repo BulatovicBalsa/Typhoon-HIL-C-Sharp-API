@@ -127,10 +127,10 @@ namespace TyphoonHilApi.Communication.APIs
         {
             var parameters = new JObject()
             {
-                { "block_name", blockName },
-                { "switch_name", switchName },
+                { "blockName", blockName },
+                { "switchName", switchName },
                 { "value", value },
-                { "execute_at", executeAt },
+                { "executeAt", executeAt },
             };
 
             return (bool)HandleRequest("set_pe_switching_block_software_value", parameters)["result"]!;
@@ -157,7 +157,7 @@ namespace TyphoonHilApi.Communication.APIs
                 { "channel", channel },
                 { "name", name },
                 { "invert", invert },
-                { "sw_control", swControl },
+                { "swControl", swControl },
                 { "value", value },
                 { "device", device },
             };
