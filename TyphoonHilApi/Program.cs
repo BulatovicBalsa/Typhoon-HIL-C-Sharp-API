@@ -8,6 +8,85 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
+            // Create a Typhoon HIL API instance
+            var hil = new HilAPI();
+
+            // Load the model
+            hil.LoadModel(file: @"C:\Program Files\Typhoon HIL Control Center 2023.3\examples\models\general power electronics\3ph rectifier\3ph rectifier Target files\3ph rectifier.cpd", vhilDevice:true);
+
+            // Load the settings file
+            hil.LoadSettingsFile(file: @"C:\Program Files\Typhoon HIL Control Center 2023.3\examples\models\general power electronics\3ph rectifier\settings.runx");
+
+            //// Set input waveforms
+            hil.SetSourceArbitraryWaveform("Vgrid_a", file: @"C:\Program Files\Typhoon HIL Control Center 2023.3\examples\inputs\sources\110V_60Hz_phase_a.isg");
+            hil.SetSourceArbitraryWaveform("Vb", file: @"C:\Program Files\Typhoon HIL Control Center 2023.3\examples\inputs\sources\110V_60Hz_phase_b.isg");
+            hil.SetSourceArbitraryWaveform("Vc", file: @"C:\Program Files\Typhoon HIL Control Center 2023.3\examples\inputs\sources\110V_60Hz_phase_c.isg");
+
+            // Set switching block control
+            hil.SetPeSwitchingBlockControlMode(blockName: "3ph_inverter 1", switchName: "Sa_top", swControl: true);
+            hil.SetPeSwitchingBlockSoftwareValue(blockName: "3ph_inverter 1", switchName: "Sa_top", value: 1);
+
+            // Set analog output
+            hil.SetAnalogOutput(5, "V( Va )", scaling: 150.00, offset: 5.00);
+
+            // Set digital output
+            hil.SetDigitalOutput(1, name: "digital input 1", invert: true, swControl: false, value: 0);
+
+            // Set machine parameters
+            hil.SetMachineConstantTorque(name: "machine 1", value: 2.5);
+            hil.SetMachineLinearTorque(name: "machine 1", value: 5.0);
+            hil.SetMachineSquareTorque(name: "machine 1", value: 6.0);
+            hil.SetMachineConstantTorqueType(name: "machine 1", frictional: true);
+            hil.SetMachineInitialAngle(name: "machine 1", angle: 3.14);
+            hil.SetMachineInitialSpeed(name: "machine 1", speed: 100.0);
+            hil.SetMachineIncEncoderOffset(name: "machine 1", offset: 3.14);
+            hil.SetMachineSinEncoderOffset(name: "machine 1", offset: 1.57);
+
+            // Start the simulation
+            hil.StartSimulation();
+
+            // Capture settings
+            var captureSettings = new object[] { 1, 3, 1e5, true };
+            var triggerSettings = new object[] { "Analog", 1, 0.0, "Rising edge", 50.0 };
+            var channelSettings = new string[] { "V(Va)", "V(Vb)", "V(Vc)" };
+
+            // Create a data buffer
+            var capturedDataBuffer = new System.Collections.Generic.List<object>();
+
+            // Start capture
+            if (hil.StartCapture(captureSettings.ToList(), triggerSettings.ToList(), channelSettings.ToList(), dataBuffer: capturedDataBuffer, fileName: @"C:\Users\Dell\source\repos\TyphoonHilApi\TestData\capture_test.mat"))
+            {
+                // Wait for capture to finish
+                while (hil.CaptureInProgress())
+                {
+                    // Waiting for capture to complete
+                }
+
+                // Unpack data from the data buffer
+                var signalsNames = (string[])capturedDataBuffer[0];
+                var yDataMatrix = (double[])capturedDataBuffer[1];
+                var xData = (double[])capturedDataBuffer[2];
+
+                // Unpack data for appropriate captured signals
+                var VaData = yDataMatrix[0]; // Assuming you have a GetRow method for 2D arrays
+                var VbData = yDataMatrix[1];
+                var VcData = yDataMatrix[2];
+            }
+            else
+            {
+                // If an error occurred
+                Console.WriteLine("Unable to start capture process.");
+            }
+
+            // Stop the simulation
+            hil.StopSimulation();
+
+            // End the script
+            hil.EndScriptByUser();
+        }
+
+        private static void Test31()
+        {
             string path = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TyphoonHilApiTests\\TestData\\";
             var PvGenerator = new PvGeneratorAPI();
             var PvParamsDetailed = new JObject
@@ -40,7 +119,7 @@ namespace ZeroMQExample
                 { "Isc_ref", 5.8 },
                 { "Pv_type", "User defined" },
                 { "neg_current", false },
-                { 
+                {
                     "user_defined_params", new JObject
                     {
                         { "ff_u", 0.72 },
