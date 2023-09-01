@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
+using TyphoonHilApi.Communication.Exceptions;
 
 namespace TyphoonHilApi.Communication.APIs
 {
@@ -115,6 +116,18 @@ namespace TyphoonHilApi.Communication.APIs
             };
 
             HandleRequest("save_config", parameters);
+        }
+
+        protected override JObject HandleRequest(string method, JObject parameters)
+        {
+            var res = Request(method, parameters);
+            if (res.ContainsKey("error"))
+            {
+                var msg = (string)res["error"]!["message"]!;
+                throw new ConfigurationManagerAPIException(msg);
+            }
+
+            return res;
         }
     }
 }

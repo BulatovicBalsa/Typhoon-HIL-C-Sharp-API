@@ -7,6 +7,11 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
+            Test1();
+        }
+
+        private static void Test30()
+        {
             ConfigurationManagerAPI cm = new();
 
             string basePath = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\drive example\\";

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TyphoonHilApi.Communication.Exceptions;
 
 namespace TyphoonHilApi.Communication.APIs
 {
@@ -26,6 +27,18 @@ namespace TyphoonHilApi.Communication.APIs
             return (bool)HandleRequest("load_model", parameters)["result"]!;
         }
 
+        protected override JObject HandleRequest(string method, JObject parameters)
+        {
+            {
+                var res = Request(method, parameters);
+                if (res.ContainsKey("error"))
+                {
+                    var msg = (string)res["error"]!["message"]!;
+                    throw new HilAPIException(msg);
+                }
 
+                return res;
+            }
+        }
     }
 }

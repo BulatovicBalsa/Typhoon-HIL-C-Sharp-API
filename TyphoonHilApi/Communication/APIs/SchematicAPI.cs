@@ -221,6 +221,8 @@ namespace TyphoonHilApi.Communication.APIs
 
         public override int ProperPort => Ports.SchematicApiPort;
 
+         
+
         public JObject Load(string filename)
         {
             return Request("load", new JObject() { { "filename", filename } });
@@ -1660,5 +1662,16 @@ namespace TyphoonHilApi.Communication.APIs
             HandleRequest("export_c_from_subsystem", parameters);
         }
 
+        protected override JObject HandleRequest(string method, JObject parameters)
+        {
+            var res = Request(method, parameters);
+            if (res.ContainsKey("error"))
+            {
+                var msg = (string)res["error"]!["message"]!;
+                throw new SchematicAPIException(msg);
+            }
+
+            return res;
+        }
     }
 }
