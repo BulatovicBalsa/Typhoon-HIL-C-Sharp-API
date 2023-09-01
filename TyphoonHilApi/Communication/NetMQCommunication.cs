@@ -42,6 +42,7 @@ namespace TyphoonHilApi.Communication
                             ports.ScadaApiPort = apiPorts["scada_api"]!["server_rep_port"]!.Value<int>();
                             ports.PvGenApiPort = apiPorts["pv_gen_api"]!["server_rep_port"]!.Value<int>();
                             ports.FwApiPort = apiPorts["fw_api"]!["server_rep_port"]!.Value<int>();
+                            ports.ConfigurationManagerApiPort = apiPorts["configuration_manager_api"]!["server_rep_port"]!.Value<int>();
                             return ports;
                         }
                         else

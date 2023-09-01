@@ -1,0 +1,279 @@
+version = 4.2
+
+//
+// Saved by sw version: 2023.3
+//
+
+model "Scratch" {
+    configuration {
+        hil_device = "HIL402"
+        hil_configuration_id = 1
+        simulation_method = exact
+        simulation_time_step = auto
+        simulation_discret_scaling = 1.0
+        dsp_timer_periods = 100e-6, 50e-3
+        ss_calc_method = "systematic elimination"
+        enb_pole_shift = True
+        enb_gds_oversampling = True
+        show_modes = False
+        device_ao_limit_enable = False
+        reset_analog_outputs_on_sim_stop = True
+        reset_digital_outputs_on_sim_stop = True
+        vhil_adio_loopback = False
+        cpl_stb = False
+        enb_dep_sw_detect = False
+        code_section = "internal memory"
+        data_section = "internal memory"
+        sys_sp_rate_1 = 0.0001
+        sys_sp_rate_2 = 0.05
+        sys_real_type_precision = "default"
+        user_real_type_precision = "default"
+        sys_cpu_optimization = "high"
+        user_cpu_optimization = "high"
+        user_cpu_part_option = "default"
+        matrix_based_reduction = True
+        cpl_dynamics_analysis = False
+        export_ss_to_pickle = False
+        ground_scope_core = False
+        dss_num_tol = 1e-15
+        cce_platform = "generic"
+        cce_use_relative_names = False
+        cce_type_mapping_real = "double"
+        cce_type_mapping_uint = "unsigned int"
+        cce_type_mapping_int = "int"
+        cce_directory = ""
+        cce_custom_type_int = ""
+        cce_custom_type_uint = ""
+        cce_custom_type_real = ""
+        tunable_params = "component defined"
+        sp_compiler_type = "C compiler"
+        sig_stim = "off"
+        export_resource_list = ""
+        export_dependency_list = ""
+        excluded_resource_list = ""
+        export_out_file = ""
+        export_lock_top_level = True
+        export_encrypt_library = True
+        export_encrypt_resources = True
+    }
+
+    component Subsystem Root {
+        component "core/Voltage Source" Vin {
+        }
+        [
+            position = 7888, 8192
+            rotation = right
+        ]
+
+        component "core/Resistor" Rin {
+            resistance = "100.0"
+        }
+        [
+            position = 7992, 8096
+        ]
+
+        component "core/Current Measurement" I {
+        }
+        [
+            position = 8096, 8096
+        ]
+
+        component "core/Ground" gnd {
+        }
+        [
+            position = 7888, 8392
+        ]
+
+        component "core/Inductor" L {
+            inductance = "1e-05"
+        }
+        [
+            position = 8192, 8192
+            rotation = right
+        ]
+
+        component "core/Voltage Measurement" V {
+        }
+        [
+            position = 8392, 8192
+            rotation = right
+        ]
+
+        component Subsystem "RC Load" {
+            layout = dynamic
+            component "core/Resistor" R {
+                resistance = "0.1"
+            }
+            [
+                position = 8192, 8144
+                rotation = right
+            ]
+
+            component "core/Capacitor" C {
+                capacitance = "0.0005"
+            }
+            [
+                position = 8192, 8240
+                rotation = right
+            ]
+
+            port P1 {
+                position = top:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 8192, 7992
+                rotation = right
+            ]
+
+            port P2 {
+                position = bottom:auto
+                kind = pe
+                direction =  in
+            }
+            [
+                position = 8192, 8392
+                rotation = left
+            ]
+
+            connect P1 R.p_node as Connection1
+            connect R.n_node C.p_node as Connection2
+            connect C.n_node P2 as Connection3
+        }
+        [
+            position = 8288, 8192
+        ]
+
+        junction J1 pe
+        [
+            position = 7888, 8288
+        ]
+
+        junction J2 pe
+        [
+            position = 8192, 8096
+        ]
+
+        junction J3 pe
+        [
+            position = 8192, 8288
+        ]
+
+        junction J4 pe
+        [
+            position = 8288, 8096
+        ]
+
+        junction J5 pe
+        [
+            position = 8288, 8288
+        ]
+
+        connect Vin.p_node Rin.p_node as Connection1
+        connect Vin.n_node J1 as Connection2
+        connect gnd.node J1 as Connection3
+        connect Rin.n_node I.p_node as Connection4
+        connect I.n_node J2 as Connection5
+        connect J2 L.p_node as Connection6
+        connect L.n_node J3 as Connection7
+        connect J1 J3 as Connection8
+        connect J2 J4 as Connection9
+        connect J3 J5 as Connection10
+        connect "RC Load.P1" J4 as Connection11
+        connect J5 "RC Load.P2" as Connection12
+        connect J4 V.p_node as Connection13
+        connect V.n_node J5 as Connection14
+    }
+
+    default {
+        "core/Capacitor" {
+            capacitance = "1e-6"
+            initial_voltage = "0"
+            pole_shift_ignore = "False"
+            visible = "True"
+        }
+
+        "core/Inductor" {
+            inductance = "1e-3"
+            initial_current = "0.0"
+            pole_shift_ignore = "False"
+            visible = "True"
+        }
+
+        "core/Resistor" {
+            resistance = "1"
+            param_set = ""
+        }
+
+        "core/Voltage Source" {
+            sig_input = "False"
+            type = "signal generator"
+            param_set = "1phase"
+            parent_label = ""
+            addr = "0"
+            spc_nb = "0"
+            execution_rate = "100e-6"
+            cpd_visible = "True"
+            enable_snb = "False"
+            snb_type = "R2"
+            R2 = "0.0"
+            L1 = "0.1"
+            override_signal_name = "False"
+            signal_name = ""
+            init_source_nature = "Constant"
+            init_const_value = "0.0"
+            init_rms_value = "0.0"
+            init_frequency = "50.0"
+            init_phase = "0.0"
+        }
+
+        "core/Current Measurement" {
+            signal_access = "inherit"
+            bw_limit = "False"
+            frequency = "10e3"
+            comparator_enable = "False"
+            operator = "greater"
+            threshold = "0"
+            cmp_abs_value = "False"
+            feed_forward = "false"
+            sig_output = "False"
+            sig_output_filt_and_full_bw = "False"
+            execution_rate = "100e-6"
+            addr = "0"
+            nd_msr_estimation = "false"
+            dev_cpl_msr = "false"
+            host_device = "0"
+            output_to_device = "0"
+            dev_cpl_index = "0"
+            dev_cpl_var_nb = "0"
+            visible = "True"
+            override_signal_name = "False"
+            signal_name = ""
+        }
+
+        "core/Voltage Measurement" {
+            signal_access = "inherit"
+            bw_limit = "False"
+            frequency = "10e3"
+            comparator_enable = "False"
+            operator = "greater"
+            threshold = "0"
+            cmp_abs_value = "False"
+            feed_forward = "false"
+            sig_output = "False"
+            sig_output_filt_and_full_bw = "False"
+            execution_rate = "100e-6"
+            addr = "0"
+            nd_msr_estimation = "false"
+            dev_cpl_msr = "false"
+            host_device = "0"
+            output_to_device = "0"
+            dev_cpl_index = "0"
+            dev_cpl_var_nb = "0"
+            visible = "True"
+            override_signal_name = "False"
+            signal_name = ""
+        }
+    }
+}

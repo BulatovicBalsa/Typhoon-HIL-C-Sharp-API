@@ -3,7 +3,7 @@ using TyphoonHilApi.Communication.Exceptions;
 
 namespace TyphoonHilApi.Communication
 {
-    internal abstract class AbsractAPI
+    public abstract class AbsractAPI
     {
         public abstract int ProperPort { get; }
         private ICommunication _communication { get; set; }
@@ -26,17 +26,7 @@ namespace TyphoonHilApi.Communication
             return _communication.Request(method, parameters, ProperPort);
         }
 
-        protected JObject HandleRequest(string method, JObject parameters)
-        {
-            var res = Request(method, parameters);
-            if (res.ContainsKey("error"))
-            {
-                var msg = (string)res["error"]!["message"]!;
-                throw new SchematicAPIException(msg);
-            }
-
-            return res;
-        }
+        protected abstract JObject HandleRequest(string method, JObject parameters);
 
         protected JObject HandleRequest(string method)
         {

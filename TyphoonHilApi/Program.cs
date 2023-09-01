@@ -7,7 +7,70 @@ namespace ZeroMQExample
     {
         static void Main(string[] args)
         {
-            Test28();
+            Test4();
+        }
+
+        private static void Test30()
+        {
+            ConfigurationManagerAPI cm = new();
+
+            string basePath = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\drive example\\";
+            string prj_file = basePath + "example_project.cmp";
+            string cfgPath = basePath + "configs";
+            string outPath = basePath + "output";
+
+            JObject prj = cm.LoadProject(prj_file);
+            List<JObject> cfgs = new()
+            {
+                cm.CreateConfig("PFE_IM_LP")
+            };
+
+            cm.Picks(cfgs[^1], new List<JObject> {
+                cm.MakePick("Rectifier", "Diode rectifier"),
+                cm.MakePick("Motor", "Induction low power")
+            });
+
+            cfgs.Add(cm.CreateConfig("AFE_IM_LP"));
+            cm.Picks(cfgs[^1], new List<JObject> {
+                cm.MakePick("Rectifier", "Thyristor rectifier"),
+                cm.MakePick("Motor", "Induction low power")
+            });
+
+            cfgs.Add(cm.CreateConfig("PFE_PMSM_LP"));
+            cm.Picks(cfgs[^1], new List<JObject> {
+                cm.MakePick("Rectifier", "Diode rectifier"),
+                cm.MakePick("Motor", "PMSM low power")
+            });
+
+            cfgs.Add(cm.CreateConfig("AFE_PMSM_LP"));
+            cm.Picks(cfgs[^1], new List<JObject> {
+                cm.MakePick("Rectifier", "Thyristor rectifier"),
+                cm.MakePick("Motor", "PMSM low power")
+            });
+
+            string[] cfg_file_list = Directory.GetFiles(cfgPath);
+
+            foreach (string cfg_file in cfg_file_list)
+            {
+                cfgs.Add(cm.LoadConfig(cfg_file));
+            }
+
+            Console.WriteLine("Generating models:");
+            for (int ind = 0; ind < cfgs.Count; ind++)
+            {
+                string cfg_name = cm.GetName(cfgs[ind]);
+                Console.WriteLine((ind + 1) + " / " + cfgs.Count + " : " + cfg_name);
+                cm.Generate(prj, cfgs[ind], outDir: outPath);
+            }
+
+            Console.WriteLine("Models are stored in the " + outPath + " folder.");
+        }
+
+        private static void Test29()
+        {
+            var cfg_manager = new ConfigurationManagerAPI();
+            var t = cfg_manager.LoadProject("C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\drive example\\example_project.cmp");
+            Console.WriteLine(t);
         }
 
         private static void Test28()
@@ -32,7 +95,7 @@ namespace ZeroMQExample
 
         private static void Test25()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
             JObject abs = mdl.CreateComponent("core/Abs", name: "Abs 1");
@@ -54,7 +117,7 @@ namespace ZeroMQExample
 
         private static void Test24()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
             JObject constItem = mdl.CreateComponent("core/Constant", name: "Constant 1");
@@ -108,7 +171,7 @@ namespace ZeroMQExample
 
         private static void Test21()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
             // Get position of tag item
@@ -124,7 +187,7 @@ namespace ZeroMQExample
 
         private static void Test20()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
             // Create variable named 'var1'
@@ -142,7 +205,7 @@ namespace ZeroMQExample
 
         private static void Test19()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
             var r = mdl.CreateComponent("core/Resistor", name: "R1");
@@ -187,7 +250,7 @@ namespace ZeroMQExample
 
         private static void Test18()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
             var sub = mdl.CreateComponent("core/Subsystem", name: "Subsystem 1");
@@ -208,7 +271,7 @@ namespace ZeroMQExample
 
         private static void Test17()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
             var sub = mdl.CreateComponent("core/Subsystem", name: "Subsystem 1");
@@ -263,7 +326,7 @@ namespace ZeroMQExample
 
         private static void Test16()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
             var constComponent = mdl.CreateComponent("core/Constant", name: "Constant 1");
@@ -277,7 +340,7 @@ namespace ZeroMQExample
 
         private static void Test15()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
             var constComponent = mdl.CreateComponent("core/Constant", name: "Constant 1");
@@ -291,7 +354,7 @@ namespace ZeroMQExample
 
         private static void Test14()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
             var const1 = mdl.CreateComponent("core/Constant", name: "Constant1");
@@ -330,7 +393,7 @@ namespace ZeroMQExample
 
         private static void Test13()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
             var constComponent = mdl.CreateComponent("core/Constant");
@@ -390,7 +453,7 @@ namespace ZeroMQExample
 
         private static void Test10()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
             // Create component
@@ -409,7 +472,7 @@ namespace ZeroMQExample
 
         private static void Test9()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
             // Create component
@@ -431,7 +494,7 @@ namespace ZeroMQExample
 
         private static void Test8()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
 
             string modelPath = System.IO.Path.Combine(
                 System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location),
@@ -445,7 +508,7 @@ namespace ZeroMQExample
             //
             // Names of items that can be disabled
             //
-            List<string> itemDisableNames = new List<string>
+            List<string> itemDisableNames = new()
             {
                 "L",
                 "AI_1",
@@ -463,8 +526,8 @@ namespace ZeroMQExample
             //
             // Names of items that cannot be disabled
             //
-            List<string> itemDontDisableNames = new List<string>
-        {
+            List<string> itemDontDisableNames = new()
+            {
             "Subsystem1",
             "SM_5",
             "Min Max 1",
@@ -522,7 +585,7 @@ namespace ZeroMQExample
 
         private static void Test7()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
             JObject? hwSett = mdl.DetectHwSettings();
@@ -579,7 +642,7 @@ namespace ZeroMQExample
 
         private static void Test4()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
 
             string filePath = Path.Combine(
                 Path.GetDirectoryName(Path.GetFullPath(Environment.GetCommandLineArgs()[0]))!,
@@ -621,7 +684,7 @@ namespace ZeroMQExample
 
         private static void Test3()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
             // Create comment with some text
@@ -640,7 +703,7 @@ namespace ZeroMQExample
 
         private static void Test2()
         {
-            SchematicAPI mdl = new SchematicAPI();
+            SchematicAPI mdl = new();
             mdl.CreateNewModel();
 
             //
@@ -680,13 +743,13 @@ namespace ZeroMQExample
 
         private static void Test1()
         {
-            string path = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\";
+            string path = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TyphoonHilApiTests\\ProtectedData\\";
 
             // Create SchematicAPI object
             SchematicAPI model = new();
 
             // Create new model
-            model.CreateNewModel();
+            model.CreateNewModel("Scratch");
 
             // Starting coordinates
             int x0 = 8192;
