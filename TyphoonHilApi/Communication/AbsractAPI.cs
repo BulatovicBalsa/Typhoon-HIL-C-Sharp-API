@@ -5,6 +5,7 @@ namespace TyphoonHilApi.Communication
 {
     internal abstract class AbsractAPI
     {
+        public abstract Exception ErrorRequestException {  get; }
         public abstract int ProperPort { get; }
         private ICommunication _communication { get; set; }
         public PortsDto Ports { get; set; }
