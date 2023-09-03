@@ -27,7 +27,7 @@ public class PvResponse
     }
 }
 
-public class PvGeneratorAPI : AbsractAPI
+public class PvGeneratorAPI : AbstractAPI
 {
     public readonly List<string> DetailedPvType = new() { "cSi", "Amorphous Si" };
     public readonly List<string> En50530PvTypes = new() { "cSi", "Thin film", "User defined" };

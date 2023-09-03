@@ -153,7 +153,7 @@ public class ScadaConstants
     public const string CsSigTV = "Virtual";
 }
 
-public class ScadaAPI : AbsractAPI
+public class ScadaAPI : AbstractAPI
 {
     public override int ProperPort => Ports.ScadaApiPort;
 

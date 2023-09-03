@@ -3,7 +3,7 @@ using TyphoonHilApi.Communication.Exceptions;
 
 namespace TyphoonHilApi.Communication.APIs;
 
-public class ConfigurationManagerAPI : AbsractAPI
+public class ConfigurationManagerAPI : AbstractAPI
 {
     public ConfigurationManagerAPI()
     {

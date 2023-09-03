@@ -215,7 +215,7 @@ public class IconRotate
     public const string TextLike = "text_like";
 }
 
-public class SchematicAPI : AbsractAPI
+public class SchematicAPI : AbstractAPI
 {
     private static readonly string FqnSep = ".";
 

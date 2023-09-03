@@ -23,7 +23,7 @@ public class HilDeviceInfo
     }
 }
 
-public class FirmwareManagerAPI : AbsractAPI
+public class FirmwareManagerAPI : AbstractAPI
 {
     public override int ProperPort => Ports.FwApiPort;
 

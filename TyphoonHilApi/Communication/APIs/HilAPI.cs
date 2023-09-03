@@ -3,7 +3,7 @@ using TyphoonHilApi.Communication.Exceptions;
 
 namespace TyphoonHilApi.Communication.APIs;
 
-public class HilAPI : AbsractAPI
+public class HilAPI : AbstractAPI
 {
     public HilAPI()
     {
