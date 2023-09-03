@@ -40,15 +40,17 @@ namespace TyphoonHilApi.Communication.APIs
 
         public override bool Equals(object? obj)
         {
-            if (obj is not Size)
+            if (obj is not Size objAsSize)
             {
                 return false;
             }
-            else
-            {
-                Size newSize = (Size)obj;
-                return newSize.Height == Height && newSize.Width == Width;
-            }
+
+            return Math.Abs(objAsSize.Height - Height) < 0.01 && Math.Abs(objAsSize.Width - Width) < 0.01;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Width, Height);
         }
     }
 

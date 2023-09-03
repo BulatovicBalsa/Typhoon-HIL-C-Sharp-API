@@ -1,4 +1,4 @@
-﻿namespace TyphoonHilApi.Communication.APIs;
+﻿namespace TyphoonHilApi.Communication.Exceptions;
 
 public class FirmwareManagerAPIException : Exception
 {
