@@ -363,7 +363,7 @@ namespace TyphoonHilApi
             // Demonstrating use of filtering with GetItems function.
             //
             // Get all ports from the subsystem referenced by sub1.
-            items = mdl.GetItems(parent: sub1, itemType: ItemType.PORT);
+            items = mdl.GetItems(parent: sub1, itemType: ItemType.Port);
             foreach (var item in items)
             {
                 Console.WriteLine($"Item is {item}.");
@@ -373,9 +373,9 @@ namespace TyphoonHilApi
             //
             // Get component terminals and properties.
             //
-            var propHandles = mdl.GetItems(parent: r, itemType: ItemType.PROPERTY);
+            var propHandles = mdl.GetItems(parent: r, itemType: ItemType.Property);
             Console.WriteLine($"Component '{mdl.GetName(r)}' property handles are '{string.Join(", ", propHandles)}'.");
-            var termHandles = mdl.GetItems(parent: r, itemType: ItemType.TERMINAL);
+            var termHandles = mdl.GetItems(parent: r, itemType: ItemType.Terminal);
             Console.WriteLine($"Component '{mdl.GetName(r)}' terminal handles are '{string.Join(", ", termHandles)}'.");
 
             mdl.CloseModel();
@@ -419,7 +419,7 @@ namespace TyphoonHilApi
                 # Just display time.
                 print(""Current time is '{0}'."".format(time.asctime()))
                 ";
-            mdl.SetHandlerCode(maskHandle, HandlerName.MASK_INIT, handlerCode);
+            mdl.SetHandlerCode(maskHandle, HandlerName.MaskInit, handlerCode);
 
             //
             // Create one property on mask and set its PROPERTY_VALUE_CHANGED handler.
@@ -428,7 +428,7 @@ namespace TyphoonHilApi
                 maskHandle,
                 name: "prop_1",
                 label: "Property 1",
-                widget: Widget.COMBO,
+                widget: Widget.Combo,
                 comboValues: new JArray() { "Choice 1", "Choice 2", "Choice 3" },
                 tabName: "First tab"
             );
@@ -448,10 +448,10 @@ namespace TyphoonHilApi
                     Console.WriteLine(""It's a third choice"");
                 }
                 ";
-            mdl.SetHandlerCode(prop1, HandlerName.PROPERTY_VALUE_CHANGED, proPvalueChangedHandlerCode);
+            mdl.SetHandlerCode(prop1, HandlerName.PropertyValueChanged, proPvalueChangedHandlerCode);
 
             // Get handler code for a property prop1.
-            string retrievedHandlerCode = mdl.GetHandlerCode(prop1, HandlerName.PROPERTY_VALUE_CHANGED);
+            string retrievedHandlerCode = mdl.GetHandlerCode(prop1, HandlerName.PropertyValueChanged);
             Console.WriteLine("Retrieved handler code is: " + retrievedHandlerCode);
 
             mdl.CloseModel();
