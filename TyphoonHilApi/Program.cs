@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
-using System.Reflection.Emit;
 using TyphoonHilApi.Communication.APIs;
 
-namespace ZeroMQExample
+namespace TyphoonHilApi
 {
     class Program
     {

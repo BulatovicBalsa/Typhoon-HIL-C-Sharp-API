@@ -1,14 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TyphoonHilApi.Communication.APIs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using System.IO;
+using TyphoonHilApi.Communication.APIs;
 
-namespace TyphoonHilApi.Communication.APIs.Tests
+namespace TyphoonHilApiTests.Communication.APIs
 {
     [TestClass]
     public class SchematicAPITests
