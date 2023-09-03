@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace TyphoonHilApi.Communication.Exceptions;
 
-namespace TyphoonHilApi.Communication.Exceptions
+public class HilAPIException : Exception
 {
-    internal class HilAPIException : Exception
+    public HilAPIException()
     {
-        public HilAPIException() { }
+    }
 
-        public HilAPIException(string message) : base(message) { }
+    public HilAPIException(string message) : base(message)
+    {
     }
 }

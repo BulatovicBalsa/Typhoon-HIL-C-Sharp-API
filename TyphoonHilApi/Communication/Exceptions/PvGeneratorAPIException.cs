@@ -1,24 +1,23 @@
 ﻿using System.Runtime.Serialization;
 
-namespace TyphoonHilApi.Communication.Exceptions
+namespace TyphoonHilApi.Communication.Exceptions;
+
+[Serializable]
+public class PvGeneratorAPIException : Exception
 {
-    [Serializable]
-    internal class PvGeneratorAPIException : Exception
+    public PvGeneratorAPIException()
     {
-        public PvGeneratorAPIException()
-        {
-        }
+    }
 
-        public PvGeneratorAPIException(string? message) : base(message)
-        {
-        }
+    public PvGeneratorAPIException(string? message) : base(message)
+    {
+    }
 
-        public PvGeneratorAPIException(string? message, Exception? innerException) : base(message, innerException)
-        {
-        }
+    public PvGeneratorAPIException(string? message, Exception? innerException) : base(message, innerException)
+    {
+    }
 
-        protected PvGeneratorAPIException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+    protected PvGeneratorAPIException(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
     }
 }
