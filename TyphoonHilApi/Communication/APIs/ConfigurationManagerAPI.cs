@@ -1,133 +1,134 @@
 ﻿using Newtonsoft.Json.Linq;
 using TyphoonHilApi.Communication.Exceptions;
 
-namespace TyphoonHilApi.Communication.APIs
+namespace TyphoonHilApi.Communication.APIs;
+
+public class ConfigurationManagerAPI : AbsractAPI
 {
-    public class ConfigurationManagerAPI : AbsractAPI
+    public ConfigurationManagerAPI()
     {
-        public override int ProperPort => Ports.ConfigurationManagerApiPort;
+    }
 
-        public ConfigurationManagerAPI() { }
+    public ConfigurationManagerAPI(ICommunication communication) : base(communication)
+    {
+    }
 
-        public ConfigurationManagerAPI(ICommunication communication) : base(communication) { }
+    public override int ProperPort => Ports.ConfigurationManagerApiPort;
 
-        public JObject LoadProject(string projectPath)
+    public JObject LoadProject(string projectPath)
+    {
+        var parameters = new JObject
         {
-            var parameters = new JObject
-            {
-                { "project_path", projectPath }
-            };
+            { "project_path", projectPath }
+        };
 
-            return (JObject)HandleRequest("load_project", parameters)["result"]!;
-        }
+        return (JObject)HandleRequest("load_project", parameters)["result"]!;
+    }
 
-        public JObject CreateConfig(string configName)
+    public JObject CreateConfig(string configName)
+    {
+        var parameters = new JObject
         {
-            var parameters = new JObject
-            {
-                { "config_name", configName },
-            };
+            { "config_name", configName }
+        };
 
-            return (JObject)HandleRequest("create_config", parameters)["result"]!;
-        }
+        return (JObject)HandleRequest("create_config", parameters)["result"]!;
+    }
 
-        public JObject Generate(JObject projectHandle, JObject configHandle, string outDir = "", string fileName = "", bool standaloneModel = true)
+    public JObject Generate(JObject projectHandle, JObject configHandle, string outDir = "", string fileName = "",
+        bool standaloneModel = true)
+    {
+        var parameters = new JObject
         {
-            var parameters = new JObject
-            {
-                { "project_handle", projectHandle },
-                { "config_handle", configHandle },
-                { "out_dir", outDir },
-                { "file_name", fileName },
-                { "standalone_model", standaloneModel },
-            };
+            { "project_handle", projectHandle },
+            { "config_handle", configHandle },
+            { "out_dir", outDir },
+            { "file_name", fileName },
+            { "standalone_model", standaloneModel }
+        };
 
-            return (JObject)HandleRequest("generate", parameters)["result"]!;
-        }
+        return (JObject)HandleRequest("generate", parameters)["result"]!;
+    }
 
-        public string GetName(JObject itemHandle)
+    public string GetName(JObject itemHandle)
+    {
+        var parameters = new JObject
         {
-            var parameters = new JObject
-            {
-                { "item_handle", itemHandle },
-            };
+            { "item_handle", itemHandle }
+        };
 
-            return (string)HandleRequest("get_name", parameters)["result"]!;
-        }
+        return (string)HandleRequest("get_name", parameters)["result"]!;
+    }
 
-        public JObject MakePick(string variantName, string optionName, JObject? optionConfiguration = null)
+    public JObject MakePick(string variantName, string optionName, JObject? optionConfiguration = null)
+    {
+        var parameters = new JObject
         {
-            var parameters = new JObject
-            { 
-                { "variant_name", variantName }, 
-                { "option_name", optionName },
-                { "option_configuration", optionConfiguration }, 
-            };
+            { "variant_name", variantName },
+            { "option_name", optionName },
+            { "option_configuration", optionConfiguration }
+        };
 
-            return (JObject)HandleRequest("make_pick", parameters)["result"]!;
-        }
+        return (JObject)HandleRequest("make_pick", parameters)["result"]!;
+    }
 
-        public void Picks(JObject configHandle, List<JObject> pickHandles)
+    public void Picks(JObject configHandle, List<JObject> pickHandles)
+    {
+        var configHandleArray = new JArray(pickHandles.Select(handle => handle));
+
+        var parameters = new JObject
         {
-            var configHandleArray = new JArray(pickHandles.Select(handle => handle));
+            { "config_handle", configHandle },
+            { "pick_handles", configHandleArray }
+        };
 
-            var parameters = new JObject
-            {
-                { "config_handle", configHandle },
-                { "pick_handles", configHandleArray },
-            };
+        HandleRequest("picks", parameters);
+    }
 
-            HandleRequest("picks", parameters);
-        }
+    public JObject LoadConfig(string configPath)
+    {
+        var parameters = new JObject { { "config_path", configPath } };
+        return (JObject)HandleRequest("load_config", parameters)["result"]!;
+    }
 
-        public JObject LoadConfig(string configPath)
+    public List<JObject> GetOptions(JObject projectHandle, JObject variantHandle)
+    {
+        var parameters = new JObject
         {
-            var parameters = new JObject { { "config_path", configPath }, };
-            return (JObject)HandleRequest("load_config", parameters)["result"]!;
-        }
+            { "project_handle", projectHandle },
+            { "variant_handle", variantHandle }
+        };
 
-        public List<JObject> GetOptions(JObject projectHandle, JObject variantHandle)
+        return ((JArray)HandleRequest("get_options", parameters)["result"]!).Select(item => (JObject)item).ToList();
+    }
+
+    public List<JObject> GetProjectVariants(JObject projectHandle)
+    {
+        var parameters = new JObject
         {
-            var parameters = new JObject
-            {
-                { "project_handle", projectHandle },
-                { "variant_handle", variantHandle },
-            };
+            { "project_handle", projectHandle }
+        };
 
-            return ((JArray)HandleRequest("get_options", parameters)["result"]!).Select(item => (JObject)item).ToList();
-        }
+        return ((JArray)HandleRequest("get_project_variants", parameters)["result"]!).Select(item => (JObject)item)
+            .ToList();
+    }
 
-        public List<JObject> GetProjectVariants(JObject projectHandle)
+    public void SaveConfig(JObject configHandle, string savePath)
+    {
+        var parameters = new JObject
         {
-            var parameters = new JObject
-            {
-                { "project_handle", projectHandle },
-            };
+            { "config_handle", configHandle },
+            { "save_path", savePath }
+        };
 
-            return ((JArray)HandleRequest("get_project_variants", parameters)["result"]!).Select(item => (JObject)item).ToList();
-        }
+        HandleRequest("save_config", parameters);
+    }
 
-        public void SaveConfig(JObject configHandle, string savePath)
-        {
-            var parameters = new JObject
-            {
-                { "config_handle", configHandle },
-                { "save_path", savePath },
-            };
-
-            HandleRequest("save_config", parameters);
-        }
-
-        protected override JObject HandleRequest(string method, JObject parameters)
-        {
-            var res = Request(method, parameters);
-            if (res.ContainsKey("error"))
-            {
-                var msg = (string)res["error"]!["message"]!;
-                throw new ConfigurationManagerAPIException(msg);
-            }
-
-            return res;
-        }
+    protected override JObject HandleRequest(string method, JObject parameters)
+    {
+        var res = Request(method, parameters);
+        if (!res.ContainsKey("error")) return res;
+        var msg = (string)res["error"]!["message"]!;
+        throw new ConfigurationManagerAPIException(msg);
     }
 }
