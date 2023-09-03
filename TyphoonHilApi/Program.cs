@@ -100,7 +100,7 @@ namespace TyphoonHilApi
                 { "neg_current", false }
             };
 
-            var res = PvGenerator.GeneratePvSettingsFile(PvModelType.DETAILED, path + "setDet.ipvx", PvParamsDetailed);
+            var res = PvGenerator.GeneratePvSettingsFile(PvModelType.Detailed, path + "setDet.ipvx", PvParamsDetailed);
 
             var PvParamsEN50530 = new JObject
             {
@@ -110,7 +110,7 @@ namespace TyphoonHilApi
                 { "neg_current", false }
             };
 
-            res = PvGenerator.GeneratePvSettingsFile(PvModelType.EN50530, path + "setEN.ipvx", PvParamsEN50530);
+            res = PvGenerator.GeneratePvSettingsFile(PvModelType.En50530, path + "setEN.ipvx", PvParamsEN50530);
 
             var PvParamsUserDefined = new JObject
             {
@@ -133,14 +133,14 @@ namespace TyphoonHilApi
                 }
             };
 
-            res = PvGenerator.GeneratePvSettingsFile(PvModelType.NORMALIZED_IV, path + "setIV.ipvx", PvParamsUserDefined);
+            res = PvGenerator.GeneratePvSettingsFile(PvModelType.NormalizedIv, path + "setIV.ipvx", PvParamsUserDefined);
 
             var PvParamsCSV = new JObject
             {
                 { "csv_path", "csv_file.csv" }
             };
 
-            res = PvGenerator.GeneratePvSettingsFile(PvModelType.EN50530, path + "./setEN.csv.ipvx", PvParamsCSV);
+            res = PvGenerator.GeneratePvSettingsFile(PvModelType.En50530, path + "./setEN.csv.ipvx", PvParamsCSV);
         }
 
         private static void Test30()

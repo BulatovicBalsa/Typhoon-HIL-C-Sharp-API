@@ -60,7 +60,7 @@ namespace TyphoonHilApiTests.Communication.APIs
                 { "neg_current", false }
             };
 
-            var res = PvGenerator.GeneratePvSettingsFile(PvModelType.DETAILED, Path.Combine(TestDataPath, "setDet.ipvx"), PvParamsDetailed);
+            var res = PvGenerator.GeneratePvSettingsFile(PvModelType.Detailed, Path.Combine(TestDataPath, "setDet.ipvx"), PvParamsDetailed);
 
             Assert.IsTrue(res.Status);
 
@@ -72,7 +72,7 @@ namespace TyphoonHilApiTests.Communication.APIs
                 { "neg_current", false }
             };
 
-            res = PvGenerator.GeneratePvSettingsFile(PvModelType.EN50530, Path.Combine(TestDataPath, "setEN.ipvx"), PvParamsEN50530);
+            res = PvGenerator.GeneratePvSettingsFile(PvModelType.En50530, Path.Combine(TestDataPath, "setEN.ipvx"), PvParamsEN50530);
             Assert.IsFalse(res.Status);
 
             var PvParamsUserDefined = new JObject
@@ -96,7 +96,7 @@ namespace TyphoonHilApiTests.Communication.APIs
                 }
             };
 
-            res = PvGenerator.GeneratePvSettingsFile(PvModelType.NORMALIZED_IV, Path.Combine(TestDataPath, "setIV.ipvx"), PvParamsUserDefined);
+            res = PvGenerator.GeneratePvSettingsFile(PvModelType.NormalizedIv, Path.Combine(TestDataPath, "setIV.ipvx"), PvParamsUserDefined);
             Assert.IsFalse(res.Status);
 
             var PvParamsCSV = new JObject
@@ -104,7 +104,7 @@ namespace TyphoonHilApiTests.Communication.APIs
                 { "csv_TestDataPath", "csv_file.csv" }
             };
 
-            res = PvGenerator.GeneratePvSettingsFile(PvModelType.EN50530, Path.Combine(TestDataPath, "setEN.csv.ipvx"), PvParamsCSV);
+            res = PvGenerator.GeneratePvSettingsFile(PvModelType.En50530, Path.Combine(TestDataPath, "setEN.csv.ipvx"), PvParamsCSV);
             Assert.IsFalse(res.Status);
         }
     }

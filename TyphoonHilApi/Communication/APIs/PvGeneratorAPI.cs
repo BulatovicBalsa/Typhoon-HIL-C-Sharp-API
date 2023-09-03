@@ -1,58 +1,57 @@
 ﻿using Newtonsoft.Json.Linq;
 using TyphoonHilApi.Communication.Exceptions;
 
-namespace TyphoonHilApi.Communication.APIs
+namespace TyphoonHilApi.Communication.APIs;
+
+public class PvModelType
 {
-    public class PvModelType
+    public const string Detailed = "Detailed";
+    public const string En50530 = "EN50530 Compatible";
+    public const string NormalizedIv = "Normalized IV";
+}
+
+public class PvResponse
+{
+    public PvResponse(JArray jArray)
     {
-        public const string DETAILED = "Detailed";
-        public const string EN50530 = "EN50530 Compatible";
-        public const string NORMALIZED_IV = "Normalized IV";
+        Status = (bool)jArray[0];
+        Message = (string?)jArray[1] ?? null;
     }
 
-    public class PvResponse
+    public bool Status { get; set; }
+    public string? Message { get; set; }
+
+    public override string ToString()
     {
-        public bool Status { get; set; }
-        public string? Message { get; set; }
+        return $"{Status}, {Message}";
+    }
+}
 
-        public PvResponse(JArray jArray) { Status = (bool)jArray[0]; Message = (string?)jArray[1]??null; }
+public class PvGeneratorAPI : AbsractAPI
+{
+    public readonly List<string> DetailedPvType = new() { "cSi", "Amorphous Si" };
+    public readonly List<string> En50530PvTypes = new() { "cSi", "Thin film", "User defined" };
 
-        public override string ToString()
-        {
-            return $"{Status}, {Message}";
-        }
+    public override int ProperPort => Ports.PvGenApiPort;
+
+    protected override JObject HandleRequest(string method, JObject parameters)
+    {
+        var res = Request(method, parameters);
+        if (!res.ContainsKey("error")) return res;
+        var msg = (string)res["error"]!["message"]!;
+        throw new PvGeneratorAPIException(msg);
     }
 
-    public class PvGeneratorAPI : AbsractAPI
+    public PvResponse GeneratePvSettingsFile(string modelType, string fileName, JObject parameters)
     {
-        public readonly List<string> EN50530_PV_TYPES = new() { "cSi", "Thin film", "User defined" };
-        public readonly List<string> DETAILED_PV_TYPE = new() { "cSi", "Amorphous Si" };
-
-        public override int ProperPort => Ports.PvGenApiPort;
-
-        protected override JObject HandleRequest(string method, JObject parameters)
+        var requestParameters = new JObject
         {
-            var res = Request(method, parameters);
-            if (res.ContainsKey("error"))
-            {
-                var msg = (string)res["error"]!["message"]!;
-                throw new PvGeneratorAPIException(msg);
-            }
-
-            return res;
-        }
-
-        public PvResponse GeneratePvSettingsFile(string modelType, string fileName, JObject parameters)
-        {
-            var requestParameters = new JObject()
-            {
-                { "modelType", modelType },
-                { "fileName", fileName },
-                { "parameters", parameters },
-            };
-            PvResponse res = new((JArray)HandleRequest("generate_pv_settings_file", requestParameters)["result"]!);
-            Console.WriteLine(res);
-            return res;
-        }
+            { "modelType", modelType },
+            { "fileName", fileName },
+            { "parameters", parameters }
+        };
+        PvResponse res = new((JArray)HandleRequest("generate_pv_settings_file", requestParameters)["result"]!);
+        Console.WriteLine(res);
+        return res;
     }
 }
