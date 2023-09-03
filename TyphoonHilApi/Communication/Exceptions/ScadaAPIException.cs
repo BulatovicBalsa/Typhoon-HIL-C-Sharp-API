@@ -2,7 +2,7 @@
 
 namespace TyphoonHilApi.Communication.Exceptions
 {
-    internal class ScadaAPIException : Exception
+    public class ScadaAPIException : Exception
     {
         public ScadaAPIException()
         {

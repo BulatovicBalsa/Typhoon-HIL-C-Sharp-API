@@ -29,7 +29,7 @@ namespace TyphoonHilApi.Communication.APIs
             var parameters = new JObject()
             {
                 { "file", file },
-                { "offline_mode", offlineMode },
+                { "offlineMode", offlineMode },
                 { "vhil_device", vhilDevice },
             };
 

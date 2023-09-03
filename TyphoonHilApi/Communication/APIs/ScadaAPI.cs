@@ -306,14 +306,13 @@ public class ScadaAPI : AbsractAPI
         HandleRequest("save_panel_as", parameters);
     }
 
-
-    public void SetPropertyValue(string widgetHandle, string propName, string propValue)
+    public void SetPropertyValue(JObject widgetHandle, string propName, object propValue)
     {
         var parameters = new JObject
         {
             { "widget_handle", widgetHandle },
             { "prop_name", propName },
-            { "prop_value", propValue }
+            { "prop_value", JToken.FromObject(propValue) }
         };
 
         HandleRequest("set_property_value", parameters);
@@ -335,7 +334,7 @@ public class ScadaAPI : AbsractAPI
     }
 
 
-    public string GetWidgetById(string widgetId)
+    public JObject GetWidgetById(string widgetId)
     {
         var parameters = new JObject
         {
@@ -345,7 +344,7 @@ public class ScadaAPI : AbsractAPI
         var result = HandleRequest("get_widget_by_id", parameters);
 
 
-        return (string)result["result"]!;
+        return (JObject)result["result"]!;
     }
 
 

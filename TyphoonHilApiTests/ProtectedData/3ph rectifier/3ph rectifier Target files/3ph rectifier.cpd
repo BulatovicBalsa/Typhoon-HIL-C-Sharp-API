@@ -15,39 +15,202 @@
         <sim_time_step>5e-07</sim_time_step>
     </sim_setup>
     <pesb>
+        <cell>
+            <name>3ph_rectifier 1</name>
+            <type>
+                <cell>diode_leg</cell>
+            </type>
+            <site>0</site>
+            <switches>
+            </switches>
+        </cell>
     </pesb>
     <analog_variables>
         <cell>
-            <name>RC Load.C</name>
+            <name>Cload</name>
             <address>0</address>
             <type>voltage</type>
             <initial_condition>0.0</initial_condition>
             <visible>True</visible>
         </cell>
         <cell>
-            <name>L</name>
+            <name>Va1.Cf_Va</name>
             <address>1</address>
+            <type>voltage</type>
+            <initial_condition>0.0</initial_condition>
+            <visible>False</visible>
+        </cell>
+        <cell>
+            <name>Lb</name>
+            <address>2</address>
             <type>current</type>
             <initial_condition>0.0</initial_condition>
             <visible>True</visible>
         </cell>
         <cell>
-            <name>V</name>
-            <address>2</address>
-            <type>voltage</type>
-            <initial_condition>None</initial_condition>
+            <name>Lc</name>
+            <address>3</address>
+            <type>current</type>
+            <initial_condition>0.0</initial_condition>
             <visible>True</visible>
         </cell>
         <cell>
-            <name>I</name>
-            <address>3</address>
+            <name>3ph_rectifier 1.Diode Leg3.v1</name>
+            <address>146</address>
+            <type>voltage</type>
+            <initial_condition>None</initial_condition>
+            <visible>False</visible>
+        </cell>
+        <cell>
+            <name>Ia1</name>
+            <address>6</address>
             <type>current</type>
             <initial_condition>None</initial_condition>
             <visible>True</visible>
         </cell>
         <cell>
-            <name>Vin</name>
+            <name>Va1.full_bandwidth</name>
+            <address>4</address>
+            <type>voltage</type>
+            <initial_condition>None</initial_condition>
+            <visible>True</visible>
+        </cell>
+        <cell>
+            <name>Va1_full_bandwidth</name>
+            <address>4</address>
+            <type>voltage</type>
+            <initial_condition>None</initial_condition>
+            <visible>True</visible>
+        </cell>
+        <cell>
+            <name>Iload</name>
+            <address>9</address>
+            <type>current</type>
+            <initial_condition>None</initial_condition>
+            <visible>True</visible>
+        </cell>
+        <cell>
+            <name>3ph_rectifier 1.Diode Leg2.i1</name>
+            <address>136</address>
+            <type>current</type>
+            <initial_condition>None</initial_condition>
+            <visible>False</visible>
+        </cell>
+        <cell>
+            <name>3ph_rectifier 1.Diode Leg2.v1</name>
+            <address>138</address>
+            <type>voltage</type>
+            <initial_condition>None</initial_condition>
+            <visible>False</visible>
+        </cell>
+        <cell>
+            <name>Ia2</name>
+            <address>7</address>
+            <type>current</type>
+            <initial_condition>None</initial_condition>
+            <visible>True</visible>
+        </cell>
+        <cell>
+            <name>Ia3</name>
+            <address>8</address>
+            <type>current</type>
+            <initial_condition>None</initial_condition>
+            <visible>True</visible>
+        </cell>
+        <cell>
+            <name>3ph_rectifier 1.Diode Leg1.v1</name>
+            <address>130</address>
+            <type>voltage</type>
+            <initial_condition>None</initial_condition>
+            <visible>False</visible>
+        </cell>
+        <cell>
+            <name>3ph_rectifier 1.Diode Leg2.v2</name>
+            <address>139</address>
+            <type>voltage</type>
+            <initial_condition>None</initial_condition>
+            <visible>False</visible>
+        </cell>
+        <cell>
+            <name>3ph_rectifier 1.Diode Leg1.i2</name>
+            <address>129</address>
+            <type>current</type>
+            <initial_condition>None</initial_condition>
+            <visible>False</visible>
+        </cell>
+        <cell>
+            <name>Va1</name>
+            <address>5</address>
+            <type>voltage</type>
+            <initial_condition>None</initial_condition>
+            <visible>True</visible>
+        </cell>
+        <cell>
+            <name>Va1</name>
+            <address>5</address>
+            <type>voltage</type>
+            <initial_condition>None</initial_condition>
+            <visible>True</visible>
+        </cell>
+        <cell>
+            <name>3ph_rectifier 1.Diode Leg2.i2</name>
+            <address>137</address>
+            <type>current</type>
+            <initial_condition>None</initial_condition>
+            <visible>False</visible>
+        </cell>
+        <cell>
+            <name>3ph_rectifier 1.Diode Leg1.i1</name>
+            <address>128</address>
+            <type>current</type>
+            <initial_condition>None</initial_condition>
+            <visible>False</visible>
+        </cell>
+        <cell>
+            <name>3ph_rectifier 1.Diode Leg3.v2</name>
+            <address>147</address>
+            <type>voltage</type>
+            <initial_condition>None</initial_condition>
+            <visible>False</visible>
+        </cell>
+        <cell>
+            <name>3ph_rectifier 1.Diode Leg3.i1</name>
+            <address>144</address>
+            <type>current</type>
+            <initial_condition>None</initial_condition>
+            <visible>False</visible>
+        </cell>
+        <cell>
+            <name>3ph_rectifier 1.Diode Leg1.v2</name>
+            <address>131</address>
+            <type>voltage</type>
+            <initial_condition>None</initial_condition>
+            <visible>False</visible>
+        </cell>
+        <cell>
+            <name>3ph_rectifier 1.Diode Leg3.i2</name>
+            <address>145</address>
+            <type>current</type>
+            <initial_condition>None</initial_condition>
+            <visible>False</visible>
+        </cell>
+        <cell>
+            <name>Vgrid_a</name>
             <address>16640</address>
+            <type>voltage</type>
+            <initial_condition>None</initial_condition>
+            <visible>True</visible>
+        </cell>
+        <cell>
+            <name>Vgrid_b</name>
+            <address>16641</address>
+            <type>voltage</type>
+            <initial_condition>None</initial_condition>
+            <visible>True</visible>
+        </cell>
+        <cell>
+            <name>Vgrid_c</name>
+            <address>16642</address>
             <type>voltage</type>
             <initial_condition>None</initial_condition>
             <visible>True</visible>
@@ -320,11 +483,11 @@
     </digital_variables>
     <sources>
         <cell>
-            <name>Vin</name>
-            <type>1phase</type>
-            <address>[0]</address>
+            <name>Vgrid</name>
+            <type>3phase</type>
+            <address>[0, 1, 2]</address>
             <unit>V</unit>
-            <init_settings>['Constant', 0.0]</init_settings>
+            <init_settings>['Sine', 0.0, 50.0, 0.0]</init_settings>
         </cell>
     </sources>
     <machines>
@@ -341,6 +504,18 @@
     </digital_output_settings>
     <dtv>
         <spc_dtv>
+            <cell>
+                <address>0</address>
+                <fqn>3ph_rectifier 1.Diode Leg1</fqn>
+            </cell>
+            <cell>
+                <address>1</address>
+                <fqn>3ph_rectifier 1.Diode Leg2</fqn>
+            </cell>
+            <cell>
+                <address>2</address>
+                <fqn>3ph_rectifier 1.Diode Leg3</fqn>
+            </cell>
         </spc_dtv>
         <par_dtv>
         </par_dtv>

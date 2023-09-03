@@ -1,4 +1,4 @@
-Model RLC_example.tseRLC_example
+Model 3ph rectifier
 
 
 REM *****************************************:
@@ -51,7 +51,7 @@ REM *****************************************:
 
 REM SPC0 Topology Selector (TS) initialization...
 rtds_file_write 0x08180000 SPC0_red_table.txt
-rtds_write 0x08100020 0x00000001
+rtds_write 0x08100020 0x00000004
 rtds_write 0x08100021 0x00000000
 rtds_write 0x08100023 0x00000000
 rtds_write 0x08100024 0x00000000
@@ -70,9 +70,9 @@ rtds_write 0x08100036 0x00000000
 rtds_write 0x08100037 0x00000000
 rtds_write 0x08100038 0x00000000
 rtds_write 0x08100039 0x00000000
-rtds_file_write 0x08140000 trivial_imem.txt
-rtds_file_write 0x08142000 trivial_lut.txt
-rtds_write 0x08100040 0x00000001
+rtds_file_write 0x08140000 diode_leg_imem.txt
+rtds_file_write 0x08142000 diode_leg_lut.txt
+rtds_write 0x08100040 0x00000004
 rtds_write 0x08100041 0x00000000
 rtds_write 0x08100043 0x00000000
 rtds_write 0x08100044 0x00000000
@@ -91,9 +91,9 @@ rtds_write 0x08100056 0x00000000
 rtds_write 0x08100057 0x00000000
 rtds_write 0x08100058 0x00000000
 rtds_write 0x08100059 0x00000000
-rtds_file_write 0x08148000 trivial_imem.txt
-rtds_file_write 0x0814A000 trivial_lut.txt
-rtds_write 0x08100060 0x00000001
+rtds_file_write 0x08148000 diode_leg_imem.txt
+rtds_file_write 0x0814A000 diode_leg_lut.txt
+rtds_write 0x08100060 0x00000004
 rtds_write 0x08100061 0x00000000
 rtds_write 0x08100063 0x00000000
 rtds_write 0x08100064 0x00000000
@@ -112,8 +112,8 @@ rtds_write 0x08100076 0x00000000
 rtds_write 0x08100077 0x00000000
 rtds_write 0x08100078 0x00000000
 rtds_write 0x08100079 0x00000000
-rtds_file_write 0x08150000 trivial_imem.txt
-rtds_file_write 0x08152000 trivial_lut.txt
+rtds_file_write 0x08150000 diode_leg_imem.txt
+rtds_file_write 0x08152000 diode_leg_lut.txt
 
 
 REM SPC0 Variable Delay initialization...
@@ -122,7 +122,7 @@ rtds_write 0x08100001 0x0
 
 REM SPC0 Output voltage compare mode...
 rtds_write 0x08100005 0x00000000
-rtds_write 0x08100006 0x00000000
+rtds_write 0x08100006 0x0000000A
 
 
 REM SPC0 Matrix multiplier initialization...
@@ -148,6 +148,27 @@ rtds_write 0x08100007 0x00000000
 
 
 REM SPC0 FSM digital input pin assignments...
+rtds_write 0x08100028 0x00000000
+rtds_write 0x08100029 0x00000000
+rtds_write 0x0810002A 0x00000000
+rtds_write 0x0810002B 0x00000000
+rtds_write 0x0810002C 0x00000000
+rtds_write 0x0810002D 0x00000000
+rtds_write 0x08100022 0x00000000
+rtds_write 0x08100048 0x00000000
+rtds_write 0x08100049 0x00000000
+rtds_write 0x0810004A 0x00000000
+rtds_write 0x0810004B 0x00000000
+rtds_write 0x0810004C 0x00000000
+rtds_write 0x0810004D 0x00000000
+rtds_write 0x08100042 0x00000000
+rtds_write 0x08100068 0x00000000
+rtds_write 0x08100069 0x00000000
+rtds_write 0x0810006A 0x00000000
+rtds_write 0x0810006B 0x00000000
+rtds_write 0x0810006C 0x00000000
+rtds_write 0x0810006D 0x00000000
+rtds_write 0x08100062 0x00000000
 
 
 REM SPC0 Comparators initialization...

@@ -1,0 +1,8 @@
+{
+    "title": "Three-phase rectifier",
+    "description": "This example demonstrates three-phase diode rectifier connected to the grid.",
+    "model": "3ph rectifier.tse",
+    "images": ["3ph rectifier.svg"],
+    "tags": ["rectifier", "diode rectifier", "three-phase rectifier", "passive rectifier"],
+    "app_note": null
+}
