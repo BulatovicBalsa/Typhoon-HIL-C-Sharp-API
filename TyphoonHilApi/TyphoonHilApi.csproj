@@ -1,11 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PackageId>TyphoonHIL.Api</PackageId>
+    <Title>.NET Implementation of THCC API</Title>
+    <Authors>Balsa Bulatovic</Authors>
+    <Company>Typhoon-HIL</Company>
+    <Product>THCC API</Product>
+    <Description>.NET Implementation of THCC API</Description>
+    <PackageIcon>Typhoon_HIL_logo.jpg</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/BulatovicBalsa/Typhoon-HIL-C-Sharp-API</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>typhoon hil;typhoon-hil;thcc</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Program.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="bin\Debug\net7.0\Typhoon_HIL_logo.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="NetMQ" Version="4.0.1.13" />
