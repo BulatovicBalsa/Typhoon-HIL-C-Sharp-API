@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
+using TyphoonHilApi.Communication;
 using TyphoonHilApi.Communication.Exceptions;
 
-namespace TyphoonHilApi.Communication.APIs;
+namespace TyphoonHilApi.API;
 
 public class HilAPI : AbstractAPI
 {

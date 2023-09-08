@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
+using TyphoonHilApi.Communication;
 
-namespace TyphoonHilApi.Communication;
+namespace TyphoonHilApi;
 
 public abstract class AbstractAPI
 {
