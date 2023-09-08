@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
-using TyphoonHilApi.API;
+using TyphoonHil.API;
 
-namespace TyphoonHilApiTests.API
+namespace TyphoonHilTests.API
 {
     [TestClass()]
     public class PvGeneratorAPITests

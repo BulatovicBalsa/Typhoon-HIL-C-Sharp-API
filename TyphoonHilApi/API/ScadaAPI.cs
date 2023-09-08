@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
-using TyphoonHilApi.Communication.Exceptions;
+using TyphoonHil.Exceptions;
 
-namespace TyphoonHilApi.API;
+namespace TyphoonHil.API;
 
 public class ScadaConstants
 {

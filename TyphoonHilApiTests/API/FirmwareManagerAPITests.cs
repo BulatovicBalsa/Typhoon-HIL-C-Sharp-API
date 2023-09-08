@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TyphoonHilApi.API;
+using TyphoonHil.API;
 
-namespace TyphoonHilApiTests.API
+namespace TyphoonHilTests.API
 {
     [TestClass()]
     public class FirmwareManagerAPITests

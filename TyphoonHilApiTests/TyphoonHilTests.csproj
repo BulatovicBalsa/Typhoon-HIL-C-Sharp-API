@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TyphoonHilApi\TyphoonHilApi.csproj" />
+    <ProjectReference Include="..\TyphoonHilApi\TyphoonHil.csproj" />
   </ItemGroup>
 
 </Project>

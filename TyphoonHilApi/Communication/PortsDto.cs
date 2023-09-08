@@ -1,4 +1,4 @@
-﻿namespace TyphoonHilApi.Communication;
+﻿namespace TyphoonHil.Communication;
 
 public class PortsDto
 {

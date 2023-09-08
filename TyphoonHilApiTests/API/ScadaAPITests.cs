@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TyphoonHilApi.API;
-using TyphoonHilApi.Communication.Exceptions;
+using TyphoonHil.API;
+using TyphoonHil.Exceptions;
 
-namespace TyphoonHilApiTests.API;
+namespace TyphoonHilTests.API;
 
 [TestClass]
 public class ScadaAPITests

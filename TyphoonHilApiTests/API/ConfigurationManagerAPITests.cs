@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace TyphoonHilApiTests.API
+namespace TyphoonHilTests.API
 {
     [TestClass]
     public class ConfigurationManagerAPITests

@@ -1,4 +1,4 @@
-﻿namespace TyphoonHilApi.Communication.Exceptions;
+﻿namespace TyphoonHil.Exceptions;
 
 public class HilAPIException : Exception
 {

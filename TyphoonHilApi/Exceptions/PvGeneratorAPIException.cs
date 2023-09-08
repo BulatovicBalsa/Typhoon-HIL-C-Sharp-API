@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace TyphoonHilApi.Communication.Exceptions;
+namespace TyphoonHil.Exceptions;
 
 [Serializable]
 public class PvGeneratorAPIException : Exception

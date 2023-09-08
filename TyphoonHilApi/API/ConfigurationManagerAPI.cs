@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
-using TyphoonHilApi.Communication;
-using TyphoonHilApi.Communication.Exceptions;
+using TyphoonHil.Communication;
+using TyphoonHil.Exceptions;
 
-namespace TyphoonHilApi.API;
+namespace TyphoonHil.API;
 
 public class ConfigurationManagerAPI : AbstractAPI
 {

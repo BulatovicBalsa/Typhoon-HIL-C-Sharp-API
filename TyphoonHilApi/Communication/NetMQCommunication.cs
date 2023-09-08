@@ -2,7 +2,7 @@
 using NetMQ.Sockets;
 using Newtonsoft.Json.Linq;
 
-namespace TyphoonHilApi.Communication;
+namespace TyphoonHil.Communication;
 
 internal class NetMQCommunication : ICommunication
 {

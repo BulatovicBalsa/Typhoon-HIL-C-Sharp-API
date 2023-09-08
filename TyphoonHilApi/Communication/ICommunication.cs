@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace TyphoonHilApi.Communication;
+namespace TyphoonHil.Communication;
 
 public interface ICommunication
 {
