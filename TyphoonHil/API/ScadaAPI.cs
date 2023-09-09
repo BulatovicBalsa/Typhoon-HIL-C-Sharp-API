@@ -155,7 +155,7 @@ public class ScadaConstants
 
 public class ScadaAPI : AbstractAPI
 {
-    public override int ProperPort => Ports.ScadaApiPort;
+    protected override int ProperPort => Ports.ScadaApiPort;
 
     protected override JObject HandleRequest(string method, JObject parameters)
     {

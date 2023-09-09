@@ -32,7 +32,7 @@ public class PvGeneratorAPI : AbstractAPI
     public readonly List<string> DetailedPvType = new() { "cSi", "Amorphous Si" };
     public readonly List<string> En50530PvTypes = new() { "cSi", "Thin film", "User defined" };
 
-    public override int ProperPort => Ports.PvGenApiPort;
+    protected override int ProperPort => Ports.PvGenApiPort;
 
     protected override JObject HandleRequest(string method, JObject parameters)
     {

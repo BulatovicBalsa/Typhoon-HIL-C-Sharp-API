@@ -10,11 +10,11 @@ public class ConfigurationManagerAPI : AbstractAPI
     {
     }
 
-    public ConfigurationManagerAPI(ICommunication communication) : base(communication)
+    internal ConfigurationManagerAPI(ICommunication communication) : base(communication)
     {
     }
 
-    public override int ProperPort => Ports.ConfigurationManagerApiPort;
+    protected override int ProperPort => Ports.ConfigurationManagerApiPort;
 
     public JObject LoadProject(string projectPath)
     {

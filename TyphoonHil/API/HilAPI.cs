@@ -10,11 +10,11 @@ public class HilAPI : AbstractAPI
     {
     }
 
-    public HilAPI(ICommunication communication) : base(communication)
+    internal HilAPI(ICommunication communication) : base(communication)
     {
     }
 
-    public override int ProperPort => Ports.HilApiPort;
+    protected override int ProperPort => Ports.HilApiPort;
 
     protected override JObject HandleRequest(string method, JObject parameters)
     {

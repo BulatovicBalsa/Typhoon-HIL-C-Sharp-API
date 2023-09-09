@@ -7,7 +7,7 @@ public abstract class AbstractAPI
 {
     private readonly ICommunication _communication;
 
-    protected AbstractAPI(ICommunication communication)
+    internal AbstractAPI(ICommunication communication)
     {
         _communication = communication;
         Ports = _communication.Discover();
@@ -19,10 +19,10 @@ public abstract class AbstractAPI
         Ports = _communication.Discover();
     }
 
-    public abstract int ProperPort { get; }
-    public PortsDto Ports { get; set; }
+    protected abstract int ProperPort { get; }
+    internal PortsDto Ports { get; set; }
 
-    public JObject Request(string method, JObject parameters)
+    protected JObject Request(string method, JObject parameters)
     {
         return _communication.Request(method, parameters, ProperPort);
     }

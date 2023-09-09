@@ -25,7 +25,7 @@ public class HilDeviceInfo
 
 public class FirmwareManagerAPI : AbstractAPI
 {
-    public override int ProperPort => Ports.FwApiPort;
+    protected override int ProperPort => Ports.FwApiPort;
 
     protected override JObject HandleRequest(string method, JObject parameters)
     {

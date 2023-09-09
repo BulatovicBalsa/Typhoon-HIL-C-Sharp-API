@@ -224,11 +224,11 @@ public class SchematicAPI : AbstractAPI
     {
     }
 
-    public SchematicAPI(ICommunication communication) : base(communication)
+    internal SchematicAPI(ICommunication communication) : base(communication)
     {
     }
 
-    public override int ProperPort => Ports.SchematicApiPort;
+    protected override int ProperPort => Ports.SchematicApiPort;
 
     public JObject Load(string filename)
     {

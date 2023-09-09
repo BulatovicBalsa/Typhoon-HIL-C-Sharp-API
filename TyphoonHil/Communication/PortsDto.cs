@@ -1,6 +1,6 @@
 ﻿namespace TyphoonHil.Communication;
 
-public class PortsDto
+internal class PortsDto
 {
     public int SchematicApiPort { get; set; }
     public int HilApiPort { get; set; }
