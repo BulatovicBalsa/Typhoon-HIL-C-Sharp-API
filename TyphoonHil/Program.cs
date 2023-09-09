@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using Newtonsoft.Json.Linq;
-using TyphoonHilApi.Communication.APIs;
+using TyphoonHil.Communication.APIs;
 
-namespace TyphoonHilApi;
+namespace TyphoonHil;
 
 internal class Program
 {
@@ -61,7 +61,7 @@ internal class Program
 
         // Start capture
         if (hil.StartCapture(captureSettings.ToList(), triggerSettings.ToList(), channelSettings.ToList(),
-                capturedDataBuffer, @"C:\Users\Dell\source\repos\TyphoonHilApi\TestData\capture_test.mat"))
+                capturedDataBuffer, @"C:\Users\Dell\source\repos\TyphoonHil\TestData\capture_test.mat"))
         {
             // Wait for capture to finish
             while (hil.CaptureInProgress())
@@ -94,7 +94,7 @@ internal class Program
 
     private static void Test31()
     {
-        var path = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TyphoonHilApiTests\\TestData\\";
+        var path = "C:\\Users\\Dell\\source\\repos\\TyphoonHil\\TyphoonHilTests\\TestData\\";
         var PvGenerator = new PvGeneratorAPI();
         var PvParamsDetailed = new JObject
         {
@@ -155,7 +155,7 @@ internal class Program
     {
         ConfigurationManagerAPI cm = new();
 
-        var basePath = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\drive example\\";
+        var basePath = "C:\\Users\\Dell\\source\\repos\\TyphoonHil\\TestData\\drive example\\";
         var prj_file = basePath + "example_project.cmp";
         var cfgPath = basePath + "configs";
         var outPath = basePath + "output";
@@ -212,7 +212,7 @@ internal class Program
     {
         var cfg_manager = new ConfigurationManagerAPI();
         var t = cfg_manager.LoadProject(
-            "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\drive example\\example_project.cmp");
+            "C:\\Users\\Dell\\source\\repos\\TyphoonHil\\TestData\\drive example\\example_project.cmp");
         Console.WriteLine(t);
     }
 
@@ -224,7 +224,7 @@ internal class Program
         mdl.SetComponentIconImage(tr1, "C:\\Users\\Dell\\Pictures\\Screenshots\\bumbar.png");
         mdl.SetColor(tr1, "red");
         mdl.RefreshIcon(tr1);
-        mdl.SaveAs("C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\bla.tse");
+        mdl.SaveAs("C:\\Users\\Dell\\source\\repos\\TyphoonHil\\TestData\\bla.tse");
         mdl.CloseModel();
     }
 
@@ -632,7 +632,7 @@ internal class Program
             "ex.tse"
         );
 
-        modelPath = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TestData\\RLC_example.tse";
+        modelPath = "C:\\Users\\Dell\\source\\repos\\TyphoonHil\\TestData\\RLC_example.tse";
 
         mdl.Load(modelPath);
 
@@ -867,7 +867,7 @@ internal class Program
 
     private static void Test1()
     {
-        var path = "C:\\Users\\Dell\\source\\repos\\TyphoonHilApi\\TyphoonHilApiTests\\ProtectedData\\";
+        var path = "C:\\Users\\Dell\\source\\repos\\TyphoonHil\\TyphoonHilTests\\ProtectedData\\";
 
         // Create SchematicAPI object
         SchematicAPI model = new();

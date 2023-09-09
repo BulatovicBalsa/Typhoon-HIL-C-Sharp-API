@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TyphoonHil", "TyphoonHilApi\TyphoonHil.csproj", "{AD8D6EDC-1189-41AD-B49B-4AD87742644E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TyphoonHil", "TyphoonHil\TyphoonHil.csproj", "{AD8D6EDC-1189-41AD-B49B-4AD87742644E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TyphoonHilTests", "TyphoonHilApiTests\TyphoonHilTests.csproj", "{126B04ED-76DA-4B61-B589-7EAA9356B310}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TyphoonHilTests", "TyphoonHilTests\TyphoonHilTests.csproj", "{126B04ED-76DA-4B61-B589-7EAA9356B310}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
