@@ -1,6 +1,6 @@
 # 3. Schematic Editor API
 
-Module: `TyphoonHilApi.Communication.APIs.SchematicAPI`
+Module: `TyphoonHil.Communication.APIs.SchematicAPI`
 
 The Schematic API provides a set of functions/methods to manipulate existing schematic models (tse files) and create new ones programmatically. It is commonly used for creating scripts to automate repetitive tasks and for testing purposes.
 
@@ -11,7 +11,7 @@ The Schematic API provides a set of functions/methods to manipulate existing sch
 This example illustrates creating a model from scratch, saving it, and compiling it as the final step.
 
 ```csharp
-using TyphoonHilApi.Communication.APIs;
+using TyphoonHil.Communication.APIs;
 
 namespace ConsoleApp1;
 
