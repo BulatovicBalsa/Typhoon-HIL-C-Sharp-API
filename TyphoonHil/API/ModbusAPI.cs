@@ -11,15 +11,20 @@ namespace TyphoonHil.API
 {
     public class ModbusAPI : AbstractAPI
     {
-        public ModbusAPI()
+        public string Host { get; set; }
+        public int Port { get; set; }
+        public int UintId { get; set; }
+
+        public ModbusAPI(string host= "localhost", int port= 502, int unitId= 1, double timeout= 30.0, bool debug= false, bool autoOpen= true, bool autoClose= false)
         {
+
         }
 
         internal ModbusAPI(ICommunication communication) : base(communication)
         {
         }
 
-        protected override int ProperPort => Ports.HilApiPort;
+        protected override int ProperPort => Ports.ModbusApiPort;
 
         protected override JObject HandleRequest(string method, JObject parameters)
         {
@@ -27,8 +32,10 @@ namespace TyphoonHil.API
                 var res = Request(method, parameters);
                 if (!res.ContainsKey("error")) return res;
                 var msg = (string)res["error"]!["message"]!;
-                throw new HilAPIException(msg);
+                throw new ModbusApiException(msg);
             }
         }
+
+
     }
 }
