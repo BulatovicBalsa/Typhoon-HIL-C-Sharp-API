@@ -42,7 +42,9 @@ internal class NetMQCommunication : ICommunication
                     ScadaApiPort = apiPorts["scada_api"]!["server_rep_port"]!.Value<int>(),
                     PvGenApiPort = apiPorts["pv_gen_api"]!["server_rep_port"]!.Value<int>(),
                     FwApiPort = apiPorts["fw_api"]!["server_rep_port"]!.Value<int>(),
-                    ConfigurationManagerApiPort = apiPorts["configuration_manager_api"]!["server_rep_port"]!.Value<int>()
+                    ConfigurationManagerApiPort = apiPorts["configuration_manager_api"]!["server_rep_port"]!.Value<int>(),
+                    DeviceManagerApiPort = apiPorts["device_manager_api"]!["server_rep_port"]!.Value<int>(),
+                    PackageManagerApiPort = apiPorts["package_manager_api"]!["server_rep_port"]!.Value<int>()
                 };
                 return ports;
             }

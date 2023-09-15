@@ -8,4 +8,6 @@ internal class PortsDto
     public int PvGenApiPort { get; set; }
     public int FwApiPort { get; set; }
     public int ConfigurationManagerApiPort { get; set; }
+    public int DeviceManagerApiPort { get; set; }
+    public int PackageManagerApiPort { get; set; }
 }
