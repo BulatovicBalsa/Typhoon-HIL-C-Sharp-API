@@ -70,7 +70,19 @@ public class PackageManagerAPITests
         var outputPath = Path.Combine(ProtectedDataPath, "package data", "output");
 
         var packagePath = Model.CreatePackage(packageName, version, outputPath, author, description);
-        //Model.InstallPackage(packagePath);
-        Console.WriteLine(Model.GetInstalledPackages());
+
+        Model.ValidatePackage(packagePath);
+        Console.WriteLine("Package is valid");
+
+        Model.InstallPackage(packagePath);
+        Model.GetInstalledPackages().ForEach(Console.WriteLine);
+
+        Model.ReinstallPackage(packageName);
+
+        foreach (var package in Model.GetInstalledPackages())
+        {
+            Model.UninstallPackage(package.Name);
+        }
+        Model.GetInstalledPackages().ForEach(Console.WriteLine);
     }
 }

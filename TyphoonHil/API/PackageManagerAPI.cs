@@ -3,6 +3,30 @@ using TyphoonHil.Exceptions;
 
 namespace TyphoonHil.API;
 
+public class PackageDto
+{
+    public string Name { get; set; }
+    public string Version { get; set; }
+    public bool IsPackage { get; set; }
+
+    internal PackageDto(JObject packageAsJObject)
+    {
+        Name = (string)packageAsJObject["package_name"]!;
+        Version = (string)packageAsJObject["version"]!;
+        IsPackage = (bool)packageAsJObject["package"]!;
+    }
+
+    public PackageDto()
+    {
+        Name = Version = "";
+    }
+
+    public override string ToString()
+    {
+        return $"Package({Name}, {Version})";
+    }
+}
+
 public class PackageManagerAPI : AbstractAPI
 {
     protected override int ProperPort => Ports.PackageManagerApiPort;
@@ -64,18 +88,23 @@ public class PackageManagerAPI : AbstractAPI
         return (string)HandleRequest("create_package", parameters)["result"]!;
     }
 
-    public JArray GetInstalledPackages()
+    private static List<PackageDto> GeneratePackages(JArray packageContainer)
     {
-        var parameters = new JObject();
-
-        return (JArray)HandleRequest("get_installed_packages", parameters)["result"]!;
+        return packageContainer.Select(package => new PackageDto((JObject)package)).ToList();
     }
 
-    public JArray GetModifiedPackages()
+    public List<PackageDto> GetInstalledPackages()
     {
         var parameters = new JObject();
 
-        return (JArray)HandleRequest("get_modified_packages", parameters)["result"]!;
+        return GeneratePackages((JArray)HandleRequest("get_installed_packages", parameters)["result"]!);
+    }
+
+    public List<PackageDto> GetModifiedPackages()
+    {
+        var parameters = new JObject();
+
+        return GeneratePackages((JArray)HandleRequest("get_modified_packages", parameters)["result"]!);
     }
 
     public void InstallPackage(string filename)
