@@ -1,0 +1,692 @@
+<ui_settings>
+    <version>2.3</version>
+    <model_locked>False</model_locked>
+    <canvas_bg_color>#ffffff</canvas_bg_color>
+    <initialization_code><![CDATA[# NOTE: Variables and functions defined here will be
+# available for use in all Macro and Expression scripts.
+# This code is always executed prior simulation start.
+# HIL API
+
+
+# Variable 'SETTINGS_DIR' holds directory where loaded Panel .cus file is located.
+# Also you can call 'get_settings_dir_path()' function in any
+# Macro and Expression scripts to get the same directory.
+SETTINGS_DIR = get_settings_dir_path()
+
+# Numpy module is imported as 'np'
+# Scipy module is imported as 'sp'
+# Schematic Editor model namespace is imported as 'scm'
+
+]]></initialization_code>
+    <components>
+        <component_data>
+                <id>76555d9ee1ac11e7b3407085c23c3b8d</id>
+                <name><![CDATA[Output voltage DC value]]></name>
+                <type>Gauge</type>
+                <description><![CDATA[]]></description>
+                <data_type>Analog signal</data_type>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing value
+# that will be displayed
+displayValue = 0.0
+
+]]></code>
+                <signal_name><![CDATA[Va1]]></signal_name>
+                <unit><![CDATA[V]]></unit>
+                <automatic_unit>True</automatic_unit>
+                <updateRate>250</updateRate>
+                <hierarchy_position>1</hierarchy_position>
+                <widget_settings>
+                    <x>32.0</x>
+                    <y>48.0</y>
+                    <width>248</width>
+                    <height>144</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                </widget_settings>
+                <advance_widget_settings>
+                    <color_range>False</color_range>
+                    <min>0.0</min>
+                    <max>700.0</max>
+                    <warning_range>(0, 0, 0, 0)</warning_range>
+                    <critical_range>(0, 0, 0, 0)</critical_range>
+                </advance_widget_settings>
+            </component_data>
+        <component_data>
+                <id>76555d9fe1ac11e7863a7085c23c3b8d</id>
+                <name><![CDATA[Input voltage RMS value]]></name>
+                <type>SliderMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+
+# NOTE: entered value is available through variable 'inputValue'
+hil.set_source_sine_waveform('Vgrid', rms = inputValue, frequency = 50.0, phase = 0.0)]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Macro code]]></on_start_code_source>
+                <inputValue><![CDATA[169.0]]></inputValue>
+                <min>90.0</min>
+                <max>264.0</max>
+                <step>1.0</step>
+                <hierarchy_position>1</hierarchy_position>
+                <widget_settings>
+                    <x>16</x>
+                    <y>352</y>
+                    <width>288</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>76555da0e1ac11e7ab5c7085c23c3b8d</id>
+                <name><![CDATA[Capture/Scope]]></name>
+                <type>Capture/Scope</type>
+                <description><![CDATA[]]></description>
+                <hierarchy_position>1</hierarchy_position>
+                <working_mode>embedded</working_mode>
+                <widget_settings>
+                    <x>376.0</x>
+                    <y>48.0</y>
+                    <width>904</width>
+                    <height>544</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <state>Scope</state>
+                    <layout>None</layout>
+                    <presets>
+                        <active_capture_preset>Default</active_capture_preset>
+                        <active_scope_preset>Default</active_scope_preset>
+                        <capture name="Default">
+                            <time_interval>0.1</time_interval>
+                            <sample_rate>2000000.0</sample_rate>
+                            <background_color>white</background_color>
+                            <layout>Vertical</layout>
+                            <legend>True</legend>
+                            <analog_signals>
+                            <analog>
+                            <channel>0</channel>
+                            <name>Iload</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>4</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>1</channel>
+                            <name>Cload</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>3</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>2</channel>
+                            <name>Ia1</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>2</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>3</channel>
+                            <name>Ia2</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>2</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>4</channel>
+                            <name>Ia3</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>2</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>5</channel>
+                            <name>Vgrid_a</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>1</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>6</channel>
+                            <name>Vgrid_b</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>1</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>7</channel>
+                            <name>Vgrid_c</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>1</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            </analog_signals>
+                            <digital_signals>
+                            </digital_signals>
+                            <trigger>
+                                <device>0</device>
+                                <is_force>False</is_force>
+                                <type>Analog</type>
+                                <source>Vgrid_a</source>
+                                <edge>Rising edge</edge>
+                                <treshold>0.0</treshold>
+                                <offset>50.0</offset>
+                                <useFirstTrigger>False</useFirstTrigger>
+                            </trigger>
+                            <plotting_options in_use="False">
+                                <subplots>
+                                    </subplots>
+                            </plotting_options>
+                        </capture>
+                        <scope name="Default">
+                            <background_color>white</background_color>
+                            <layout>Vertical</layout>
+                            <legend>True</legend>
+                            <show_viewports>4</show_viewports>
+                            <decimation>6</decimation>
+                            <time_base>0.005</time_base>
+                            <analog_signals>
+                            <analog>
+                            <channel>0</channel>
+                            <name>Iload</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0.0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>4</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>1</channel>
+                            <name>Cload</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0.0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>3</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>2</channel>
+                            <name>Ia1</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0.0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>2</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>3</channel>
+                            <name>Ia2</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0.0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>2</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>4</channel>
+                            <name>Ia3</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0.0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>2</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>5</channel>
+                            <name>Vgrid_a</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0.0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>1</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>6</channel>
+                            <name>Vgrid_b</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0.0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>1</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>7</channel>
+                            <name>Vgrid_c</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0.0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>1</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            </analog_signals>
+                            <digital_signals>
+                            </digital_signals>
+                            <trigger>
+                                <device>0</device>
+                                <is_force>False</is_force>
+                                <type>Analog</type>
+                                <source>Vgrid_a</source>
+                                <edge>Rising edge</edge>
+                                <treshold>0.0</treshold>
+                                <offset>50.0</offset>
+                                <useFirstTrigger>False</useFirstTrigger>
+                            </trigger>
+                        </scope>
+                        </presets>
+                    <capture>
+                        <time_interval>0.1</time_interval>
+                        <sample_rate>2000000.0</sample_rate>
+                        <background_color>white</background_color>
+                        <layout>Vertical</layout>
+                        <legend>True</legend>
+                        <trigger>
+                            <type>Analog</type>
+                            <source>Vgrid_a</source>
+                            <edge>Rising edge</edge>
+                            <treshold>0.0</treshold>
+                            <offset>50.0</offset>
+                            <useFirstTrigger>False</useFirstTrigger>
+                        </trigger>
+
+                        <analog_signals>
+                            <analog>
+                            <channel>0</channel>
+                            <name>Iload</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>4</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>1</channel>
+                            <name>Cload</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>3</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>2</channel>
+                            <name>Ia1</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>2</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>3</channel>
+                            <name>Ia2</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>2</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>4</channel>
+                            <name>Ia3</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>2</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>5</channel>
+                            <name>Vgrid_a</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>1</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>6</channel>
+                            <name>Vgrid_b</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>1</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>7</channel>
+                            <name>Vgrid_c</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>1</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            </analog_signals>
+
+                         <digital_signals>
+                            </digital_signals>
+
+                    </capture>
+
+                    <scope>
+                        <time_base>0.005 </time_base>
+                        <background_color>white</background_color>
+                        <layout>Vertical</layout>
+                        <legend>True</legend>
+                        <trigger>
+                            <mode>Auto</mode>
+                            <type>Analog</type>
+                            <source>Vgrid_a</source>
+                            <edge>Rising edge</edge>
+                            <treshold>0.0</treshold>
+                            <offset>50.0</offset>
+                        </trigger>
+
+                         <analog_signals>
+                            <analog>
+                            <channel>0</channel>
+                            <name>Iload</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0.0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>4</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>1</channel>
+                            <name>Cload</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0.0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>3</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>2</channel>
+                            <name>Ia1</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0.0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>2</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>3</channel>
+                            <name>Ia2</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0.0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>2</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>4</channel>
+                            <name>Ia3</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0.0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>2</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>5</channel>
+                            <name>Vgrid_a</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0.0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>1</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>6</channel>
+                            <name>Vgrid_b</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0.0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>1</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            <analog>
+                            <channel>7</channel>
+                            <name>Vgrid_c</name>
+                            <vertical_scale>Auto</vertical_scale>
+                            <vertical_offset>0.0</vertical_offset>
+                            <coupling>False</coupling>
+                            <viewports>
+                                
+                                <num_viewport>1</num_viewport>
+                                
+                           </viewports>
+                        </analog>
+                            </analog_signals>
+
+                        <digital_signals>
+                            </digital_signals>
+
+                    </scope>
+                    <plotting_options in_use="False">
+                    
+                        <subplots>
+                            </subplots>
+                    </plotting_options>
+                </widget_settings>
+
+            </component_data>
+        <component_data>
+                <id>67b08b21e49611e794f07085c23c3b8d</id>
+                <name><![CDATA[Grid mode]]></name>
+                <type>ComboBoxMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+
+# NOTE: entered value is available through variable 'inputValue'
+
+harmonics = [];
+
+if inputValue == 'Nominal':
+    harmonic1 = (3, 0.0, 0.0)
+    harmonic2 = (5, 0.0, 0.0)
+    harmonic3 = (7, 0.0, 0.0)
+elif inputValue == 'Unbalanced':
+    harmonic1 = (3, 0.1, 0)
+    harmonic2 = (5, 0.05, 90)
+    harmonic3 = (7, 0.03, 270)
+   
+
+harmonics.append(harmonic1)
+harmonics.append(harmonic2)
+harmonics.append(harmonic3)
+
+hil.set_source_sine_waveform('Vgrid', harmonics_pu = harmonics)]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = 'Nominal'
+
+hil.set_source_sine_waveform('Va_grid', rms = 230.0, frequency = 50.0, phase = 0.0,harmonics_pu = ())
+hil.set_source_sine_waveform('Vc_grid', rms = 230.0, frequency = 50.0, phase = -120.0,harmonics_pu = ())
+hil.set_source_sine_waveform('Vb_grid', rms = 230.0, frequency = 50.0, phase = 120.0,harmonics_pu = ())]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Macro code]]></on_start_code_source>
+                <inputValue><![CDATA[Unbalanced]]></inputValue>
+                <availableValues><![CDATA[['Nominal', 'Unbalanced']]]></availableValues>
+                <unit><![CDATA[]]></unit>
+                <hierarchy_position>1</hierarchy_position>
+                <widget_settings>
+                    <x>56.0</x>
+                    <y>464.0</y>
+                    <width>192</width>
+                    <height>32</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                </widget_settings>
+            </component_data>
+        </components>
+</ui_settings>

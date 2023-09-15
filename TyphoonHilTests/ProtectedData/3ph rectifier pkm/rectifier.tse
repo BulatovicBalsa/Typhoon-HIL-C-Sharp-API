@@ -1,0 +1,333 @@
+version = 4.2
+
+//
+// Saved by sw version: 2023.3 SP1
+//
+
+model "3ph rectifier" {
+    configuration {
+        hil_device = "HIL402"
+        hil_configuration_id = 1
+        simulation_method = exact
+        simulation_time_step = auto
+        simulation_discret_scaling = 1.0
+        dsp_timer_periods = 100e-6, 50e-3
+        ss_calc_method = "systematic elimination"
+        enb_pole_shift = True
+        enb_gds_oversampling = True
+        show_modes = False
+        device_ao_limit_enable = False
+        reset_analog_outputs_on_sim_stop = True
+        reset_digital_outputs_on_sim_stop = True
+        vhil_adio_loopback = False
+        cpl_stb = False
+        enb_dep_sw_detect = False
+        code_section = "internal memory"
+        data_section = "internal memory"
+        sys_sp_rate_1 = 0.0001
+        sys_sp_rate_2 = 0.05
+        sys_real_type_precision = "default"
+        user_real_type_precision = "default"
+        sys_cpu_optimization = "high"
+        user_cpu_optimization = "high"
+        user_cpu_part_option = "default"
+        matrix_based_reduction = True
+        cpl_dynamics_analysis = False
+        export_ss_to_pickle = False
+        ground_scope_core = False
+        dss_num_tol = 1e-15
+        cce_platform = "generic"
+        cce_use_relative_names = False
+        cce_type_mapping_real = "double"
+        cce_type_mapping_uint = "unsigned int"
+        cce_type_mapping_int = "int"
+        cce_directory = ""
+        cce_custom_type_int = ""
+        cce_custom_type_uint = ""
+        cce_custom_type_real = ""
+        tunable_params = "component defined"
+        sp_compiler_type = "C compiler"
+        sig_stim = "off"
+        export_resource_list = ""
+        export_dependency_list = ""
+        excluded_resource_list = ""
+        export_out_file = ""
+        export_lock_top_level = True
+        export_encrypt_library = True
+        export_encrypt_resources = True
+    }
+
+    component Subsystem "My model" {
+        component "core/Inductor" Lb {
+            inductance = "Lgrid"
+        }
+        [
+            position = 1888, 2032
+        ]
+
+        component "core/Inductor" Lc {
+            inductance = "Lgrid"
+        }
+        [
+            position = 1888, 2128
+        ]
+
+        component "core/Inductor" La {
+            inductance = "Lgrid"
+        }
+        [
+            position = 1888, 1936
+        ]
+
+        component "core/Three Phase Diode Rectifier" "3ph_rectifier 1" {
+        }
+        [
+            position = 2048, 2032
+        ]
+
+        component "core/Resistor" Rload {
+            resistance = "200.0"
+        }
+        [
+            position = 2288, 2032
+            rotation = right
+        ]
+
+        component "core/Capacitor" Cload {
+            capacitance = "0.005"
+        }
+        [
+            position = 2384, 2032
+            rotation = right
+        ]
+
+        component "core/Ground" gnd {
+        }
+        [
+            position = 1576, 2208
+        ]
+
+        component "core/Current Measurement" Iload {
+            execution_rate = "inherit"
+        }
+        [
+            position = 2192, 1936
+        ]
+
+        component "core/Three Phase Voltage Source" Vgrid {
+        }
+        [
+            position = 1672, 2032
+        ]
+
+        component "core/Voltage Measurement" Va1 {
+            bw_limit = "True"
+            frequency = "2"
+        }
+        [
+            position = 2464, 2032
+            rotation = right
+        ]
+
+        component "core/Current Measurement" Ia1 {
+        }
+        [
+            position = 1784, 1936
+        ]
+
+        component "core/Current Measurement" Ia2 {
+        }
+        [
+            position = 1784, 2032
+        ]
+
+        component "core/Current Measurement" Ia3 {
+        }
+        [
+            position = 1784, 2128
+        ]
+
+        junction Junction1 pe
+        [
+            position = 2288, 1936
+        ]
+
+        junction Junction2 pe
+        [
+            position = 2288, 2128
+        ]
+
+        junction Junction3 pe
+        [
+            position = 2384, 1936
+        ]
+
+        junction Junction4 pe
+        [
+            position = 2384, 2128
+        ]
+
+        comment Comment1 START <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd"><html><head><meta name="qrichtext" content="1" /><style type="text/css">p, li { white-space: pre-wrap; }</style></head><body style=" font-family:'Times'; font-size:8pt; font-weight:400; font-style:normal;"><p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"><span style=" font-family:'Arial'; font-size:12pt;">3 phase rectifier</span></p></body></html> ENDCOMMENT 
+        [
+            position = 1728, 1832
+        ]
+
+        connect "3ph_rectifier 1.pos_out" Iload.p_node as Connection1
+        [
+            breakpoints = 2128, 1936; 2128, 1936
+        ]
+        connect "3ph_rectifier 1.b_in" Lb.n_node as Connection2
+        [
+            breakpoints = 1952, 2032; 1952, 2032
+        ]
+        connect Cload.p_node Junction3 as Connection15
+        connect Cload.n_node Junction4 as Connection18
+        connect Ia1.n_node La.p_node as Connection22
+        connect Ia2.n_node Lb.p_node as Connection24
+        connect Ia3.n_node Lc.p_node as Connection26
+        connect Iload.n_node Junction1 as Connection5
+        [
+            breakpoints = 2256, 1936; 2256, 1936
+        ]
+        connect Junction1 Rload.p_node as Connection6
+        [
+            breakpoints = 2288, 1968; 2288, 1968
+        ]
+        connect Junction2 "3ph_rectifier 1.neg_out" as Connection7
+        [
+            breakpoints = 2192, 2128; 2192, 2128
+        ]
+        connect Junction3 Junction1 as Connection16
+        [
+            breakpoints = 2384, 1936
+        ]
+        connect Junction4 Junction2 as Connection19
+        [
+            breakpoints = 2384, 2128
+        ]
+        connect La.n_node "3ph_rectifier 1.a_in" as Connection8
+        [
+            breakpoints = 1952, 1936; 1952, 1936
+        ]
+        connect Lc.n_node "3ph_rectifier 1.c_in" as Connection9
+        [
+            breakpoints = 1952, 2128; 1952, 2128
+        ]
+        connect Rload.n_node Junction2 as Connection10
+        [
+            breakpoints = 2288, 2096; 2288, 2096
+        ]
+        connect Va1.p_node Junction3 as Connection17
+        connect Va1.n_node Junction4 as Connection20
+        connect Vgrid.a_node Ia1.p_node as Connection21
+        connect Vgrid.b_node Ia2.p_node as Connection23
+        connect Vgrid.c_node Ia3.p_node as Connection25
+        connect Vgrid.n_node gnd.node as Connection14
+        [
+            breakpoints = 1576, 2032
+        ]
+    }
+
+    default {
+        "core/Capacitor" {
+            capacitance = "1e-6"
+            initial_voltage = "0"
+            pole_shift_ignore = "False"
+            visible = "True"
+        }
+
+        "core/Inductor" {
+            inductance = "1e-3"
+            initial_current = "0.0"
+            pole_shift_ignore = "False"
+            visible = "True"
+        }
+
+        "core/Resistor" {
+            resistance = "1"
+            param_set = ""
+        }
+
+        "core/Current Measurement" {
+            signal_access = "inherit"
+            bw_limit = "False"
+            frequency = "10e3"
+            comparator_enable = "False"
+            operator = "greater"
+            threshold = "0"
+            cmp_abs_value = "False"
+            feed_forward = "false"
+            sig_output = "False"
+            sig_output_filt_and_full_bw = "False"
+            execution_rate = "100e-6"
+            addr = "0"
+            nd_msr_estimation = "false"
+            dev_cpl_msr = "false"
+            host_device = "0"
+            output_to_device = "0"
+            dev_cpl_index = "0"
+            dev_cpl_var_nb = "0"
+            visible = "True"
+            override_signal_name = "False"
+            signal_name = ""
+        }
+
+        "core/Three Phase Diode Rectifier" {
+            signal_access = "inherit"
+            show_monitoring = "False"
+            losses_estimation = "False"
+            Import_diode_xml = "not selected"
+            Vd = "1.2"
+            Rd = "0"
+            i_sw = "[0.0, 6.0, 12.0, 18.0, 24.0]"
+            v_sw = "[0.0, 600.0]"
+            temp_sw = "[25.0, 50.0, 75.0, 100.0, 125.0]"
+            vd_table_out = "[1.2, 1.2, 1.2, 1.2, 1.2]"
+            ed_off_table_out = "[[0.0, 0.0275e-3, 0.15e-3, 0.275e-3, 0.3e-3], [0.35*2.2e-3, 0.4*2.2e-3, 0.8*2.2e-3, 0.68*2.2e-3, 0.9*2.2e-3], [0.65*2.2e-3, 0.9*2.2e-3, 1.2*2.2e-3, 1.5*2.2e-3, 1.7*2.2e-3], [0.9*2.2e-3, 1.3*2.2e-3, 1.7*2.2e-3, 1.9*2.2e-3, 2.25*2.2e-3], [1.1*2.2e-3, 1.7*2.2e-3, 2.1*2.2e-3, 2.3*2.2e-3, 2.5*2.2e-3]]"
+            temp_estimation = "False"
+            thermal_networks_type = "Foster"
+            diode_Rth = "[0.159, 0.133, 0.120, 0.038]"
+            diode_Tth = "[1.1e-1, 1.56e-2, 1.35e-3, 1.51e-4]"
+            diode_Cth = "[0.0029, 0.0097, 0.1068, 0.8500]"
+            loss_exec_rate = "100e-6"
+            visualize_luts = "Visualize Lookup Tables"
+            PESB_Optimization = "True"
+        }
+
+        "core/Three Phase Voltage Source" {
+            init_rms_value = "0.0"
+            init_frequency = "50.0"
+            init_phase = "0.0"
+        }
+
+        "core/Voltage Measurement" {
+            signal_access = "inherit"
+            bw_limit = "False"
+            frequency = "10e3"
+            comparator_enable = "False"
+            operator = "greater"
+            threshold = "0"
+            cmp_abs_value = "False"
+            feed_forward = "false"
+            sig_output = "False"
+            sig_output_filt_and_full_bw = "False"
+            execution_rate = "100e-6"
+            addr = "0"
+            nd_msr_estimation = "false"
+            dev_cpl_msr = "false"
+            host_device = "0"
+            output_to_device = "0"
+            dev_cpl_index = "0"
+            dev_cpl_var_nb = "0"
+            visible = "True"
+            override_signal_name = "False"
+            signal_name = ""
+        }
+    }
+
+    CODE model_init
+        # Numpy module is imported as 'np'
+        # Scipy module is imported as 'sp'
+        Lgrid = 1e-3
+    ENDCODE
+}
