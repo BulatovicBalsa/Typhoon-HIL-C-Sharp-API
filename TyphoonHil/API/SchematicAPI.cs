@@ -235,9 +235,9 @@ public class SchematicAPI : AbstractAPI
         return Request("load", new JObject { { "filename", filename } });
     }
 
-    public JObject Save()
+    public void Save()
     {
-        return Request("save", new JObject());
+        HandleRequest("save", new JObject());
     }
 
     public void SaveAs(string filename)
@@ -250,14 +250,14 @@ public class SchematicAPI : AbstractAPI
         return Request("compile", new JObject()).ContainsKey("result");
     }
 
-    public JObject CreateNewModel(string? name = null)
+    public void CreateNewModel(string? name = null)
     {
-        return Request("create_new_model", new JObject { { "name", name } });
+        Request("create_new_model", new JObject { { "name", name } });
     }
 
-    public JObject CloseModel()
+    public void CloseModel()
     {
-        return Request("close_model", new JObject());
+        Request("close_model", new JObject());
     }
 
     public JObject CreateComponent(string typeName,
@@ -380,9 +380,9 @@ public class SchematicAPI : AbstractAPI
         return (JObject)HandleRequest("prop", parameters)["result"]!;
     }
 
-    public JObject ReloadLibraries()
+    public void ReloadLibraries()
     {
-        return Request("reload_libraries", new JObject());
+        Request("reload_libraries", new JObject());
     }
 
     public List<string> GetLibraryPaths()
@@ -391,7 +391,7 @@ public class SchematicAPI : AbstractAPI
             .ToList();
     }
 
-    public JObject AddLibraryPath(string libraryPath, bool addSubdirs = false, bool persist = false)
+    public void AddLibraryPath(string libraryPath, bool addSubdirs = false, bool persist = false)
     {
         var parameters = new JObject
         {
@@ -400,10 +400,10 @@ public class SchematicAPI : AbstractAPI
             { "persist", persist }
         };
 
-        return Request("add_library_path", parameters);
+        Request("add_library_path", parameters);
     }
 
-    public JObject RemoveLibraryPath(string libraryPath, bool persist = false)
+    public void RemoveLibraryPath(string libraryPath, bool persist = false)
     {
         var parameters = new JObject
         {
@@ -411,7 +411,7 @@ public class SchematicAPI : AbstractAPI
             { "persist", persist }
         };
 
-        return Request("remove_library_path", parameters);
+        Request("remove_library_path", parameters);
     }
 
     public JObject CreateComment(string text, JObject? parent = null, string? name = null, Position? position = null)
