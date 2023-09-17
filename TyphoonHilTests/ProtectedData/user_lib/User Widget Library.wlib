@@ -1,0 +1,2592 @@
+<widget_library>
+    <version>1.1</version>
+    <library_settings>
+        <name><![CDATA[User Widget Library]]></name>
+        <description><![CDATA[This user widget library is related to the example model.]]></description>
+    </library_settings>
+    <panel_settings>
+         <model_locked>False</model_locked>
+         <canvas_bg_color>#ffffff</canvas_bg_color>
+    </panel_settings>
+    <components>
+        <component_data>
+                <id>81f67677dd5b11eb923d1c1bb5b93d80</id>
+                <name><![CDATA[PV panel]]></name>
+                <type>Group</type>
+                <description><![CDATA[]]></description>
+                <components_ids><![CDATA[['81f6767cdd5b11ebbb681c1bb5b93d80', '81f6767ddd5b11eb9e991c1bb5b93d80', '2cac685edd6411ebb94a1c1bb5b93d80']]]></components_ids>
+                <canvas_bg_color>#ffffff</canvas_bg_color>
+                <initialization_code><![CDATA[# NOTE: Variables and functions defined here will be available for use in 
+# all Macro, Expression and handlers codes of components owned by this widget.
+# This code is always executed prior simulation start. In case this is a 
+# Library widget, this code is also executed on drag and drop, Panel load 
+# and widget paste.
+#
+# HIL API is imported as 'hil'
+# SCADA API is imported as 'panel'
+# SCADA API constants are imported as 'api_const'
+# 'WIDGET_HANDLE' constant holds the WidgetHandle object of this widget.
+# This object can be used as an argument in SCADA API functions.
+
+SETTINGS_DIR = get_settings_dir_path()
+import os
+pv_panel = COMPONENT_FQN
+
+panel_path = os.path.join(SETTINGS_DIR, 'solarpanel.ipvx')
+hil.set_pv_input_file(pv_panel, file = panel_path, illumination = 1000.0, temperature = 25.0)
+
+    
+widget_handle = panel.get_widget_by_fqn("PV monitor",parent = WIDGET_HANDLE)
+
+panel.set_property_value(widget_handle,
+                             api_const.PROP_PV_PANEL,
+                             prop_value = COMPONENT_FQN)]]></initialization_code>
+                <widget_settings>
+                    <x>328</x>
+                    <y>0</y>
+                    <width>512</width>
+                    <height>344</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <collapsed>False</collapsed>
+                    <hierarchy_position>1</hierarchy_position>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                
+                <linked_model_components_settings>
+                    <model_component>
+                        <allowed_types><![CDATA[['Photovoltaic Panel']]]></allowed_types>
+                    </model_component>
+                    </linked_model_components_settings>
+            </component_data>
+        <component_data>
+                <id>81f6767cdd5b11ebbb681c1bb5b93d80</id>
+                <name><![CDATA[Irradiance [W_m²]]]></name>
+                <type>SliderMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[# HIL API is imported as 'hil'
+# NOTE: entered value is available through variable 'inputValue'
+hil.set_pv_amb_params(COMPONENT_FQN, illumination = inputValue)
+]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# NOTE: Variables specified here will be available in other handlers.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = 1000.0
+hil.set_pv_amb_params(COMPONENT_FQN, illumination = widgetValue)
+]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# HIL API is imported as 'hil'
+# NOTE: Only read functions are available from the HIL API
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Custom code]]></on_start_code_source>
+                <inputValue><![CDATA[1000.0]]></inputValue>
+                <min>0.0</min>
+                <max>1500.0</max>
+                <step>1.0</step>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>0.0</y>
+                    <width>240</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[2]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>81f6767ddd5b11eb9e991c1bb5b93d80</id>
+                <name><![CDATA[Temperature [°C]]]></name>
+                <type>SliderMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[# HIL API is imported as 'hil'
+# NOTE: entered value is available through variable 'inputValue'
+hil.set_pv_amb_params(COMPONENT_FQN, temperature = inputValue)
+]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# NOTE: Variables specified here will be available in other handlers.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = 20.0
+hil.set_pv_amb_params(COMPONENT_FQN, temperature = widgetValue)
+]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# HIL API is imported as 'hil'
+# NOTE: Only read functions are available from the HIL API
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Custom code]]></on_start_code_source>
+                <inputValue><![CDATA[20.0]]></inputValue>
+                <min>-20.0</min>
+                <max>40.0</max>
+                <step>1.0</step>
+                <widget_settings>
+                    <x>256.0</x>
+                    <y>0.0</y>
+                    <width>240</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[2]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>bb106219dd5b11eba0da1c1bb5b93d80</id>
+                <name><![CDATA[Grid]]></name>
+                <type>Group</type>
+                <description><![CDATA[]]></description>
+                <components_ids><![CDATA[['bb10621add5b11ebbe741c1bb5b93d80']]]></components_ids>
+                <canvas_bg_color>#ffffff</canvas_bg_color>
+                <initialization_code><![CDATA[# NOTE: Variables and functions defined here will be available for use in 
+# all Macro, Expression and handlers codes of components owned by this widget.
+# This code is always executed prior simulation start. In case this is a 
+# Library widget, this code is also executed on drag and drop, Panel load 
+# and widget paste.
+#
+# HIL API is imported as 'hil'
+# SCADA API is imported as 'panel'
+# SCADA API constants are imported as 'api_const'
+# 'WIDGET_HANDLE' constant holds the WidgetHandle object of this widget.
+# This object can be used as an argument in SCADA API functions.
+
+Vb = COMPONENT_PROP['Vb']['value']
+fb = COMPONENT_PROP['f']['value']]]></initialization_code>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>0.0</y>
+                    <width>328</width>
+                    <height>760</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <collapsed>True</collapsed>
+                    <hierarchy_position>1</hierarchy_position>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                
+                <linked_model_components_settings>
+                    <model_component>
+                        <allowed_types><![CDATA[['Grid Simulator']]]></allowed_types>
+                    </model_component>
+                    </linked_model_components_settings>
+            </component_data>
+        <component_data>
+                <id>bb10621add5b11ebbe741c1bb5b93d80</id>
+                <name><![CDATA[Grid control]]></name>
+                <type>Group</type>
+                <description><![CDATA[None]]></description>
+                <components_ids><![CDATA[['bb108a80dd5b11ebb3591c1bb5b93d80', 'bb108a81dd5b11ebaed41c1bb5b93d80', 'bb108a82dd5b11ebb0091c1bb5b93d80', 'bb108a83dd5b11eba4671c1bb5b93d80', 'bb108a84dd5b11ebb9031c1bb5b93d80', 'bb108a85dd5b11ebbfad1c1bb5b93d80', 'bb108a86dd5b11eba40d1c1bb5b93d80', 'bb108a87dd5b11eb814e1c1bb5b93d80', 'bb108a88dd5b11eb816f1c1bb5b93d80', 'bb108a89dd5b11ebb31d1c1bb5b93d80', 'bb108a8add5b11eb85f91c1bb5b93d80', 'bb108a8bdd5b11eb8ab01c1bb5b93d80', 'bb10b405dd5b11ebb9f61c1bb5b93d80', 'bb10b406dd5b11eb81b61c1bb5b93d80', 'bb10bdb3dd5b11eb9dbe1c1bb5b93d80', 'bb10bdb4dd5b11ebb00b1c1bb5b93d80']]]></components_ids>
+                <canvas_bg_color>#ffffff</canvas_bg_color>
+                <initialization_code><![CDATA[# NOTE: Variables and functions defined here will be available for use in 
+# all Macro, Expression and handlers codes of components owned by this widget.
+# This code is always executed prior simulation start. In case this is a 
+# Library widget, this code is also executed on drag and drop, Panel load 
+# and widget paste.
+#
+# HIL API is imported as 'hil'
+# SCADA API is imported as 'panel'
+# SCADA API constants are imported as 'api_const'
+# 'WIDGET_HANDLE' constant holds the WidgetHandle object of this widget.
+# This object can be used as an argument in SCADA API functions.
+
+V_ref = None
+Va_scale = None
+Vb_scale = None
+Vc_scale = None
+
+f_ref = None
+f_scale = None
+
+lvrt_pu = None
+hvrt_pu = None
+lfrt_pu = None
+hfrt_pu = None
+fault_type = None
+fault_duration = None
+
+t_start = 0
+t_end = 0]]></initialization_code>
+                <widget_settings>
+                    <x>8.0</x>
+                    <y>0.0</y>
+                    <width>296</width>
+                    <height>712</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <collapsed>False</collapsed>
+                    <hierarchy_position>2</hierarchy_position>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                
+                <linked_model_components_settings>
+                    </linked_model_components_settings>
+            </component_data>
+        <component_data>
+                <id>bb108a80dd5b11ebb3591c1bb5b93d80</id>
+                <name><![CDATA[Grid Waveform]]></name>
+                <type>ComboBoxMacro</type>
+                <description><![CDATA[None]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL Control Panel API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+
+# NOTE: entered value is available through variable 'inputValue'
+
+if inputValue == 'Pure sine':
+    # do something when 'Case 1' is selected
+    harmonics_pu = ()
+    hil.set_source_sine_waveform(COMPONENT_FQN + '.V_source_phase_A', harmonics_pu = harmonics_pu)
+    hil.set_source_sine_waveform(COMPONENT_FQN + '.V_source_phase_B', harmonics_pu = harmonics_pu)
+    hil.set_source_sine_waveform(COMPONENT_FQN + '.V_source_phase_C', harmonics_pu = harmonics_pu)
+    pass
+elif inputValue == 'Harmonics':
+    # do something when 'Case 2' is selected
+    harmonics_pu = [
+             (5,0.0361,0.0),
+             (7,0.0361,0.0),
+             (11,0.0361,0.0),
+             ]
+    hil.set_source_sine_waveform(COMPONENT_FQN + '.V_source_phase_A', harmonics_pu = harmonics_pu)
+    hil.set_source_sine_waveform(COMPONENT_FQN + '.V_source_phase_B', harmonics_pu = harmonics_pu)
+    hil.set_source_sine_waveform(COMPONENT_FQN + '.V_source_phase_C', harmonics_pu = harmonics_pu)
+    pass
+
+]]></on_use_code>
+                <on_start_code active="False"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL Control Panel API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+
+# NOTE: entered value is available through variable 'inputValue'
+]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Custom code]]></on_start_code_source>
+                <inputValue><![CDATA[Pure sine]]></inputValue>
+                <availableValues><![CDATA[['Pure sine', 'Harmonics']]]></availableValues>
+                <unit><![CDATA[]]></unit>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>0.0</y>
+                    <width>280</width>
+                    <height>32</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>bb108a81dd5b11ebaed41c1bb5b93d80</id>
+                <name><![CDATA[Nominal Voltage [Vrms]]]></name>
+                <type>TextBoxMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+# NOTE: entered value is available through variable 'inputValue'
+
+V_ref = inputValue
+hil.set_source_sine_waveform(COMPONENT_FQN+'.V_source_phase_A', rms=V_ref)
+hil.set_source_sine_waveform(COMPONENT_FQN+'.V_source_phase_B', rms=V_ref)
+hil.set_source_sine_waveform(COMPONENT_FQN+'.V_source_phase_C', rms=V_ref)
+]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+V_ref = Vb/np.sqrt(3)
+widgetValue = V_ref
+
+hil.set_source_sine_waveform(COMPONENT_FQN+'.V_source_phase_A', rms=V_ref)
+hil.set_source_sine_waveform(COMPONENT_FQN+'.V_source_phase_B', rms=V_ref)
+hil.set_source_sine_waveform(COMPONENT_FQN+'.V_source_phase_C', rms=V_ref)
+]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Custom code]]></on_start_code_source>
+                <inputValue><![CDATA[277.0]]></inputValue>
+                <inputValueType>float</inputValueType>
+                <unit><![CDATA[]]></unit>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>32.0</y>
+                    <width>280</width>
+                    <height>32</height>
+                    <inputWidgetWidth>80</inputWidgetWidth>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position>3</hierarchy_position>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>bb108a82dd5b11ebb0091c1bb5b93d80</id>
+                <name><![CDATA[Nominal frequency [Hz]]]></name>
+                <type>TextBoxMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+# NOTE: entered value is available through variable 'inputValue'
+global f_ref
+f_ref = inputValue
+
+hil.set_source_sine_waveform(COMPONENT_FQN + '.V_source_phase_A', frequency = f_ref)
+hil.set_source_sine_waveform(COMPONENT_FQN + '.V_source_phase_C', frequency = f_ref)
+hil.set_source_sine_waveform(COMPONENT_FQN + '.V_source_phase_B', frequency = f_ref)]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+
+widgetValue = fb
+
+
+hil.set_source_sine_waveform(COMPONENT_FQN+'.V_source_phase_A', frequency = fb)
+hil.set_source_sine_waveform(COMPONENT_FQN+'.V_source_phase_B', frequency = fb)
+hil.set_source_sine_waveform(COMPONENT_FQN+'.V_source_phase_C', frequency = fb)]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Custom code]]></on_start_code_source>
+                <inputValue><![CDATA[60.0]]></inputValue>
+                <inputValueType>float</inputValueType>
+                <unit><![CDATA[]]></unit>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>64.0</y>
+                    <width>280</width>
+                    <height>32</height>
+                    <inputWidgetWidth>80</inputWidgetWidth>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position>3</hierarchy_position>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>bb108a83dd5b11eba4671c1bb5b93d80</id>
+                <name><![CDATA[Frequency Change [pu]]]></name>
+                <type>SliderMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+
+# NOTE: entered value is available through variable 'inputValue'
+t0 = hil.get_sim_time() #simulation time
+t1 = 0.5 #delay
+t = t0+t1 #time of execution
+f_ref = inputValue*60
+hil.set_source_sine_waveform(COMPONENT_FQN + '.V_source_phase_A', frequency = f_ref, executeAt = t)
+hil.set_source_sine_waveform(COMPONENT_FQN + '.V_source_phase_B', frequency = f_ref, executeAt = t)
+hil.set_source_sine_waveform(COMPONENT_FQN + '.V_source_phase_C', frequency = f_ref, executeAt = t)
+
+
+]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = 1.0]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = 1.0
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Custom code]]></on_start_code_source>
+                <inputValue><![CDATA[1.0]]></inputValue>
+                <min>0.7</min>
+                <max>1.3</max>
+                <step>0.02</step>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>144.0</y>
+                    <width>280</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>bb108a84dd5b11ebb9031c1bb5b93d80</id>
+                <name><![CDATA[Grid Voltage Change [pu] - 3ph_]]></name>
+                <type>SliderMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+
+# NOTE: entered value is available through variable 'inputValue'
+t0 = hil.get_sim_time() #simulation time
+t1 = 0.5 #delay
+t = t0+t1 #time of execution
+Va_scale = inputValue
+Vb_scale = inputValue
+Vc_scale = inputValue
+hil.set_source_scaling(COMPONENT_FQN + '.V_source_phase_A', Va_scale, executeAt=t)
+hil.set_source_scaling(COMPONENT_FQN + '.V_source_phase_B', Vb_scale, executeAt=t)
+hil.set_source_scaling(COMPONENT_FQN + '.V_source_phase_C', Vc_scale, executeAt=t)
+
+
+]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+
+
+global Va_scale
+global Vb_scale
+global Vc_scale
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = 1.0
+Va_scale = widgetValue
+Vb_scale = widgetValue
+Vc_scale = widgetValue
+]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Macro code]]></on_start_code_source>
+                <inputValue><![CDATA[1.0]]></inputValue>
+                <min>0.4</min>
+                <max>1.5</max>
+                <step>0.1</step>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>96.0</y>
+                    <width>280</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>bb108a85dd5b11ebbfad1c1bb5b93d80</id>
+                <name><![CDATA[Grid Va Change [pu]]]></name>
+                <type>SliderMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+# NOTE: entered value is available through variable 'inputValue'
+t0 = hil.get_sim_time() #simulation time
+t1 = 0.5 #delay
+t = t0+t1 #time of execution
+hil.set_source_scaling(COMPONENT_FQN + '.V_source_phase_A', inputValue, executeAt=t)
+]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = 1.0
+]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Custom code]]></on_start_code_source>
+                <inputValue><![CDATA[1.0]]></inputValue>
+                <min>0.5</min>
+                <max>1.5</max>
+                <step>0.01</step>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>208.0</y>
+                    <width>280</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>bb108a86dd5b11eba40d1c1bb5b93d80</id>
+                <name><![CDATA[Grid Vb Change [pu]]]></name>
+                <type>SliderMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+# NOTE: entered value is available through variable 'inputValue'
+t0 = hil.get_sim_time() #simulation time
+t1 = 0.5 #delay
+t = t0+t1 #time of execution
+hil.set_source_scaling(COMPONENT_FQN + '.V_source_phase_B', inputValue, executeAt=t)
+]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = 1.0]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Custom code]]></on_start_code_source>
+                <inputValue><![CDATA[1.0]]></inputValue>
+                <min>0.5</min>
+                <max>1.5</max>
+                <step>0.01</step>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>256.0</y>
+                    <width>280</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>bb108a87dd5b11eb814e1c1bb5b93d80</id>
+                <name><![CDATA[Grid Vc Change [pu]]]></name>
+                <type>SliderMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+# NOTE: entered value is available through variable 'inputValue'
+t0 = hil.get_sim_time() #simulation time
+t1 = 0.5 #delay
+t = t0+t1 #time of execution
+hil.set_source_scaling(COMPONENT_FQN + '.V_source_phase_C', inputValue, executeAt=t)
+]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = 1.0]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Custom code]]></on_start_code_source>
+                <inputValue><![CDATA[1.0]]></inputValue>
+                <min>0.5</min>
+                <max>1.5</max>
+                <step>0.01</step>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>320.0</y>
+                    <width>280</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>bb108a88dd5b11eb816f1c1bb5b93d80</id>
+                <name><![CDATA[Fault in execution]]></name>
+                <type>LedDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <signal_name><![CDATA[HIL0 digital input 20]]></signal_name>
+                <hil_device>0</hil_device>
+                <led_color>Red</led_color>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing LED indicator state
+# True -> On, False -> Off
+if t_start < hil.get_sim_time() < t_end:
+    displayValue = True
+else:
+    displayValue = False
+]]></code>
+                <updateRate>1000</updateRate>
+                <widget_settings>
+                    <x>136.0</x>
+                    <y>632.0</y>
+                    <width>136</width>
+                    <height>32</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>bb108a89dd5b11ebb31d1c1bb5b93d80</id>
+                <name><![CDATA[Low Frequency fault level]]></name>
+                <type>TextBoxMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+# NOTE: entered value is available through variable 'inputValue'
+global lfrt_pu
+
+lfrt_pu = inputValue]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+global lfrt_pu
+
+widgetValue = 0.9
+lfrt_pu = widgetValue
+]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Custom code]]></on_start_code_source>
+                <inputValue><![CDATA[0.9]]></inputValue>
+                <inputValueType>float</inputValueType>
+                <unit><![CDATA[pu]]></unit>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>464.0</y>
+                    <width>288</width>
+                    <height>32</height>
+                    <inputWidgetWidth>80</inputWidgetWidth>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position>3</hierarchy_position>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>bb108a8add5b11eb85f91c1bb5b93d80</id>
+                <name><![CDATA[High Frequency fault level]]></name>
+                <type>TextBoxMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+# NOTE: entered value is available through variable 'inputValue'
+global hfrt_pu
+hfrt_pu = inputValue]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+global hfrt_pu
+widgetValue = 1.1
+hfrt_pu = widgetValue
+]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Custom code]]></on_start_code_source>
+                <inputValue><![CDATA[1.1]]></inputValue>
+                <inputValueType>float</inputValueType>
+                <unit><![CDATA[pu]]></unit>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>496.0</y>
+                    <width>288</width>
+                    <height>32</height>
+                    <inputWidgetWidth>80</inputWidgetWidth>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position>3</hierarchy_position>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>bb108a8bdd5b11eb8ab01c1bb5b93d80</id>
+                <name><![CDATA[Fault duration]]></name>
+                <type>TextBoxMacro</type>
+                <description><![CDATA[None]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL Control Panel API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+
+# NOTE: entered value is available through variable 'inputValue'
+global fault_duration
+fault_duration = inputValue]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+global fault_duration
+widgetValue = 5
+fault_duration = widgetValue]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Custom code]]></on_start_code_source>
+                <inputValue><![CDATA[5.0]]></inputValue>
+                <inputValueType>float</inputValueType>
+                <unit><![CDATA[s]]></unit>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>584.0</y>
+                    <width>280</width>
+                    <height>32</height>
+                    <inputWidgetWidth>80</inputWidgetWidth>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position>3</hierarchy_position>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>bb10b405dd5b11ebb9f61c1bb5b93d80</id>
+                <name><![CDATA[Low Voltage fault level]]></name>
+                <type>TextBoxMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+# NOTE: entered value is available through variable 'inputValue'
+global lvrt_pu
+lvrt_pu1 = inputValue]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+global lvrt_pu
+widgetValue = 0.5
+lvrt_pu = widgetValue
+]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Custom code]]></on_start_code_source>
+                <inputValue><![CDATA[0.5]]></inputValue>
+                <inputValueType>float</inputValueType>
+                <unit><![CDATA[pu]]></unit>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>400.0</y>
+                    <width>288</width>
+                    <height>32</height>
+                    <inputWidgetWidth>80</inputWidgetWidth>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position>3</hierarchy_position>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>bb10b406dd5b11eb81b61c1bb5b93d80</id>
+                <name><![CDATA[Fault type]]></name>
+                <type>ComboBoxMacro</type>
+                <description><![CDATA[None]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL Control Panel API
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+
+# NOTE: entered value is available through variable 'inputValue'
+global fault_type
+fault_type = inputValue
+]]></on_use_code>
+                <on_start_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL Control Panel API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+
+# NOTE: entered value is available through variable 'inputValue']]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Macro code]]></on_start_code_source>
+                <inputValue><![CDATA[Low Frequency]]></inputValue>
+                <availableValues><![CDATA[['Low Voltage', 'High Voltage', 'Low Frequency', 'High Frequency']]]></availableValues>
+                <unit><![CDATA[]]></unit>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>560.0</y>
+                    <width>280</width>
+                    <height>32</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>bb10bdb3dd5b11eb9dbe1c1bb5b93d80</id>
+                <name><![CDATA[High Voltage fault level]]></name>
+                <type>TextBoxMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+# NOTE: entered value is available through variable 'inputValue'
+global hvrt_pu
+hvrt_pu1 = inputValue]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+global hvrt_pu
+widgetValue = 1.2
+hvrt_pu = widgetValue
+]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Custom code]]></on_start_code_source>
+                <inputValue><![CDATA[1.2]]></inputValue>
+                <inputValueType>float</inputValueType>
+                <unit><![CDATA[pu]]></unit>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>432.0</y>
+                    <width>288</width>
+                    <height>32</height>
+                    <inputWidgetWidth>80</inputWidgetWidth>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position>3</hierarchy_position>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>bb10bdb4dd5b11ebb00b1c1bb5b93d80</id>
+                <name><![CDATA[Start]]></name>
+                <type>MacroButton</type>
+                <description><![CDATA[None]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL Control Panel API
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+import time
+global t_start, t_end
+
+delta_t = 1
+t_start = hil.get_sim_time() + delta_t
+t_end = t_start + fault_duration
+sources = [COMPONENT_FQN + '.V_source_phase_A', 
+           COMPONENT_FQN + '.V_source_phase_B', 
+           COMPONENT_FQN + '.V_source_phase_C']
+
+if fault_type == 'Low Voltage':
+    for source in sources:
+        hil.set_source_scaling(source, lvrt_pu, executeAt= t_start)
+    for source in sources:
+        hil.set_source_scaling(source, 1.0, executeAt= t_end)
+
+elif fault_type == 'High Voltage':
+    for source in sources:
+        hil.set_source_scaling(source, hvrt_pu, executeAt= t_start)
+    for source in sources:
+        hil.set_source_scaling(source, 1.0, executeAt= t_end)    
+
+elif fault_type == 'Low Frequency':
+    for source in sources:
+        hil.set_source_sine_waveform(source, frequency = f_ref*lfrt_pu, executeAt= t_start)        
+    for source in sources:
+        hil.set_source_sine_waveform(source, frequency = f_ref, executeAt= t_end)  
+
+elif fault_type == 'High Frequency':
+    for source in sources:
+        hil.set_source_sine_waveform(source, frequency = f_ref*hfrt_pu, executeAt= t_start)        
+    for source in sources:
+        hil.set_source_sine_waveform(source, frequency = f_ref, executeAt= t_end)]]></on_use_code>
+                <on_start_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+]]></on_stop_code>
+                <on_start_code_source><![CDATA[Custom code]]></on_start_code_source>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>624.0</y>
+                    <width>80</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b49dad6dd5c11eb81d41c1bb5b93d80</id>
+                <name><![CDATA[NPC PV Inverter]]></name>
+                <type>Group</type>
+                <description><![CDATA[]]></description>
+                <components_ids><![CDATA[['2b49dad7dd5c11eb8a181c1bb5b93d80', '2b4a01f1dd5c11eb9bb21c1bb5b93d80', '2b4a28e7dd5c11eb88e11c1bb5b93d80', '3d5d92d3dd6011eb88a81c1bb5b93d80', '7fd39ce4dd6011ebbe4d1c1bb5b93d80', '9ae2054cdd6011ebb8ab1c1bb5b93d80']]]></components_ids>
+                <canvas_bg_color>#ffffff</canvas_bg_color>
+                <initialization_code><![CDATA[# NOTE: Variables and functions defined here will be available for use in 
+# all Macro, Expression and handlers codes of components owned by this widget.
+# This code is always executed prior simulation start. In case this is a 
+# Library widget, this code is also executed on drag and drop, Panel load 
+# and widget paste.
+#
+# HIL API is imported as 'hil'
+# SCADA API is imported as 'panel'
+# SCADA API constants are imported as 'api_const'
+# 'WIDGET_HANDLE' constant holds the WidgetHandle object of this widget.
+# This object can be used as an argument in SCADA API functions.
+
+
+
+]]></initialization_code>
+                <widget_settings>
+                    <x>848.0</x>
+                    <y>0.0</y>
+                    <width>800</width>
+                    <height>808</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <collapsed>False</collapsed>
+                    <hierarchy_position>1</hierarchy_position>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                
+                <linked_model_components_settings>
+                    <model_component>
+                        <allowed_types><![CDATA[['User Component Library/NPC PV Inverter']]]></allowed_types>
+                    </model_component>
+                    </linked_model_components_settings>
+            </component_data>
+        <component_data>
+                <id>2b49dad7dd5c11eb8a181c1bb5b93d80</id>
+                <name><![CDATA[PCC measurements]]></name>
+                <type>Group</type>
+                <description><![CDATA[]]></description>
+                <components_ids><![CDATA[['2b4a01e4dd5c11ebb8351c1bb5b93d80', '2b4a01e5dd5c11eb8d661c1bb5b93d80', '2b4a01e6dd5c11eba9ee1c1bb5b93d80', '2b4a01e7dd5c11ebb0ce1c1bb5b93d80', '2b4a01e8dd5c11ebadb41c1bb5b93d80', '2b4a01e9dd5c11eb9fc61c1bb5b93d80', '2b4a01eadd5c11eba8b71c1bb5b93d80', '2b4a01ecdd5c11eb9c9b1c1bb5b93d80', '2b4a01eddd5c11eb968c1c1bb5b93d80', '2b4a01eedd5c11ebbff71c1bb5b93d80', '2b4a01f0dd5c11eba2fb1c1bb5b93d80', '9672f0e8dd8411eb913d1c1bb5b93d80', 'b90a08badd8411eba6111c1bb5b93d80']]]></components_ids>
+                <canvas_bg_color>#ffffff</canvas_bg_color>
+                <initialization_code><![CDATA[# NOTE: Variables and functions defined here will be available for use in 
+# all Macro, Expression and handlers codes of components owned by this widget.
+# This code is always executed prior simulation start. In case this is a 
+# Library widget, this code is also executed on drag and drop, Panel load 
+# and widget paste.
+#
+# HIL API is imported as 'hil'
+# SCADA API is imported as 'panel'
+# SCADA API constants are imported as 'api_const'
+# 'WIDGET_HANDLE' constant holds the WidgetHandle object of this widget.
+# This object can be used as an argument in SCADA API functions.
+
+pcc_f_handle = panel.get_widget_by_fqn("Frequency",parent = WIDGET_HANDLE)
+pcc_v_handle = panel.get_widget_by_fqn("Voltage L-N",parent = WIDGET_HANDLE)
+
+#Nominal parameters of the component
+fnom = COMPONENT_PROP['fnom']['value']
+Vnom = COMPONENT_PROP['vnom']['value']
+
+
+#Configuration of the frequency gauge
+panel.set_property_value(pcc_f_handle,
+                             api_const.PROP_RANGE,
+                             prop_value = [fnom*0.9, fnom*1.1])
+
+panel.set_property_value(pcc_f_handle,
+                             api_const.PROP_USE_COLOR_RANGE,
+                             prop_value = True)
+
+panel.set_property_value(pcc_f_handle,
+                             api_const.PROP_WARNING_RANGE,
+                             prop_value = [fnom*0.95, fnom*0.975, fnom*1.025, fnom*1.05])
+panel.set_property_value(pcc_f_handle,
+                             api_const.PROP_CRITICAL_RANGE,
+                             prop_value = [fnom*0.9, fnom*0.95, fnom*1.05, fnom*1.1])
+
+#Configuration of the voltage gauge
+panel.set_property_value(pcc_v_handle,
+                             api_const.PROP_RANGE,
+                             prop_value = [Vnom*0.7,Vnom*1.3])
+
+panel.set_property_value(pcc_v_handle,
+                             api_const.PROP_USE_COLOR_RANGE,
+                             prop_value = True)
+
+panel.set_property_value(pcc_v_handle,
+                             api_const.PROP_WARNING_RANGE,
+                             prop_value = [Vnom*0.8, Vnom*0.9, Vnom*1.1, Vnom*1.2])
+
+panel.set_property_value(pcc_v_handle,
+                             api_const.PROP_CRITICAL_RANGE,
+                             prop_value = [Vnom*0.7, Vnom*0.8, Vnom*1.2, Vnom*1.3])]]></initialization_code>
+                <widget_settings>
+                    <x>352.0</x>
+                    <y>64.0</y>
+                    <width>424</width>
+                    <height>712</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <collapsed>False</collapsed>
+                    <hierarchy_position>2</hierarchy_position>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                
+                <linked_model_components_settings>
+                    </linked_model_components_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a01e4dd5c11ebb8351c1bb5b93d80</id>
+                <name><![CDATA[PCC Va]]></name>
+                <type>DigitalDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing value
+# that will be displayed
+displayValue = hil.read_analog_signal(COMPONENT_FQN + '.Va_rms')
+
+]]></code>
+                <signal_name><![CDATA[Va_rms1]]></signal_name>
+                <unit><![CDATA[V]]></unit>
+                <automatic_unit>False</automatic_unit>
+                <decimals><![CDATA[2]]></decimals>
+                <updateRate>1000</updateRate>
+                <widget_settings>
+                    <x>152.0</x>
+                    <y>464.0</y>
+                    <width>96</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                <advance_widget_settings>
+                    <color_range>False</color_range>
+                    <green_range>(0, 0, 0, 0)</green_range>
+                    <orange_range>(0, 0, 0, 0)</orange_range>
+                    <red_range>(0, 0, 0, 0)</red_range>
+                </advance_widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a01e5dd5c11eb8d661c1bb5b93d80</id>
+                <name><![CDATA[PCC Vb]]></name>
+                <type>DigitalDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing value
+# that will be displayed
+displayValue = hil.read_analog_signal(COMPONENT_FQN + '.Vb_rms')
+]]></code>
+                <signal_name><![CDATA[Vb_rms1]]></signal_name>
+                <unit><![CDATA[V]]></unit>
+                <automatic_unit>False</automatic_unit>
+                <decimals><![CDATA[2]]></decimals>
+                <updateRate>1000</updateRate>
+                <widget_settings>
+                    <x>152.0</x>
+                    <y>512.0</y>
+                    <width>96</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                <advance_widget_settings>
+                    <color_range>False</color_range>
+                    <green_range>(0, 0, 0, 0)</green_range>
+                    <orange_range>(0, 0, 0, 0)</orange_range>
+                    <red_range>(0, 0, 0, 0)</red_range>
+                </advance_widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a01e6dd5c11eba9ee1c1bb5b93d80</id>
+                <name><![CDATA[PCC Vc]]></name>
+                <type>DigitalDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing value
+# that will be displayed
+displayValue = hil.read_analog_signal(COMPONENT_FQN + '.Vc_rms')
+
+]]></code>
+                <signal_name><![CDATA[Vc_rms1]]></signal_name>
+                <unit><![CDATA[V]]></unit>
+                <automatic_unit>False</automatic_unit>
+                <decimals><![CDATA[2]]></decimals>
+                <updateRate>1000</updateRate>
+                <widget_settings>
+                    <x>152.0</x>
+                    <y>560.0</y>
+                    <width>96</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                <advance_widget_settings>
+                    <color_range>False</color_range>
+                    <green_range>(0, 0, 0, 0)</green_range>
+                    <orange_range>(0, 0, 0, 0)</orange_range>
+                    <red_range>(0, 0, 0, 0)</red_range>
+                </advance_widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a01e7dd5c11ebb0ce1c1bb5b93d80</id>
+                <name><![CDATA[PCC Ib]]></name>
+                <type>DigitalDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing value
+# that will be displayed
+displayValue = hil.read_analog_signal(COMPONENT_FQN + '.Ib_rms')
+
+]]></code>
+                <signal_name><![CDATA[Ib_rms1]]></signal_name>
+                <unit><![CDATA[A]]></unit>
+                <automatic_unit>False</automatic_unit>
+                <decimals><![CDATA[2]]></decimals>
+                <updateRate>1000</updateRate>
+                <widget_settings>
+                    <x>272.0</x>
+                    <y>512.0</y>
+                    <width>96</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                <advance_widget_settings>
+                    <color_range>False</color_range>
+                    <green_range>(0, 0, 0, 0)</green_range>
+                    <orange_range>(0, 0, 0, 0)</orange_range>
+                    <red_range>(0, 0, 0, 0)</red_range>
+                </advance_widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a01e8dd5c11ebadb41c1bb5b93d80</id>
+                <name><![CDATA[PCC Ia]]></name>
+                <type>DigitalDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+# mandatory variable used for storing value
+# that will be displayed
+displayValue = hil.read_analog_signal(COMPONENT_FQN + '.Ia_rms')
+
+]]></code>
+                <signal_name><![CDATA[Ia_rms1]]></signal_name>
+                <unit><![CDATA[A]]></unit>
+                <automatic_unit>False</automatic_unit>
+                <decimals><![CDATA[2]]></decimals>
+                <updateRate>1000</updateRate>
+                <widget_settings>
+                    <x>272.0</x>
+                    <y>464.0</y>
+                    <width>96</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                <advance_widget_settings>
+                    <color_range>False</color_range>
+                    <green_range>(0, 0, 0, 0)</green_range>
+                    <orange_range>(0, 0, 0, 0)</orange_range>
+                    <red_range>(0, 0, 0, 0)</red_range>
+                </advance_widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a01e9dd5c11eb9fc61c1bb5b93d80</id>
+                <name><![CDATA[PCC Ic]]></name>
+                <type>DigitalDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+# mandatory variable used for storing value
+# that will be displayed
+displayValue = hil.read_analog_signal(COMPONENT_FQN + '.Ic_rms')
+
+]]></code>
+                <signal_name><![CDATA[Ic_rms1]]></signal_name>
+                <unit><![CDATA[A]]></unit>
+                <automatic_unit>False</automatic_unit>
+                <decimals><![CDATA[2]]></decimals>
+                <updateRate>1000</updateRate>
+                <widget_settings>
+                    <x>272.0</x>
+                    <y>560.0</y>
+                    <width>96</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                <advance_widget_settings>
+                    <color_range>False</color_range>
+                    <green_range>(0, 0, 0, 0)</green_range>
+                    <orange_range>(0, 0, 0, 0)</orange_range>
+                    <red_range>(0, 0, 0, 0)</red_range>
+                </advance_widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a01eadd5c11eba8b71c1bb5b93d80</id>
+                <name><![CDATA[PCC frequency]]></name>
+                <type>DigitalDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing value
+# that will be displayed
+displayValue = hil.read_analog_signal(COMPONENT_FQN + '.f')
+
+]]></code>
+                <signal_name><![CDATA[f1]]></signal_name>
+                <unit><![CDATA[Hz]]></unit>
+                <automatic_unit>False</automatic_unit>
+                <decimals><![CDATA[2]]></decimals>
+                <updateRate>1000</updateRate>
+                <widget_settings>
+                    <x>152.0</x>
+                    <y>416.0</y>
+                    <width>96</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                <advance_widget_settings>
+                    <color_range>False</color_range>
+                    <green_range>(0, 0, 0, 0)</green_range>
+                    <orange_range>(0, 0, 0, 0)</orange_range>
+                    <red_range>(0, 0, 0, 0)</red_range>
+                </advance_widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a01ecdd5c11eb9c9b1c1bb5b93d80</id>
+                <name><![CDATA[PCC P]]></name>
+                <type>DigitalDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing value
+# that will be displayed
+P = hil.read_analog_signal(COMPONENT_FQN + ".P")
+displayValue = P/1e3
+
+]]></code>
+                <signal_name><![CDATA[PCC_Measurements.P]]></signal_name>
+                <unit><![CDATA[kW]]></unit>
+                <automatic_unit>False</automatic_unit>
+                <decimals><![CDATA[2]]></decimals>
+                <updateRate>1000</updateRate>
+                <widget_settings>
+                    <x>40.0</x>
+                    <y>464.0</y>
+                    <width>96</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                <advance_widget_settings>
+                    <color_range>False</color_range>
+                    <green_range>(0, 0, 0, 0)</green_range>
+                    <orange_range>(0, 0, 0, 0)</orange_range>
+                    <red_range>(0, 0, 0, 0)</red_range>
+                </advance_widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a01eddd5c11eb968c1c1bb5b93d80</id>
+                <name><![CDATA[PCC Q]]></name>
+                <type>DigitalDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing value
+# that will be displayed
+Q = hil.read_analog_signal(COMPONENT_FQN + ".Q")
+displayValue = Q/1e3
+
+]]></code>
+                <signal_name><![CDATA[PCC_Measurements.P]]></signal_name>
+                <unit><![CDATA[kW]]></unit>
+                <automatic_unit>False</automatic_unit>
+                <decimals><![CDATA[2]]></decimals>
+                <updateRate>1000</updateRate>
+                <widget_settings>
+                    <x>40.0</x>
+                    <y>512.0</y>
+                    <width>96</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                <advance_widget_settings>
+                    <color_range>False</color_range>
+                    <green_range>(0, 0, 0, 0)</green_range>
+                    <orange_range>(0, 0, 0, 0)</orange_range>
+                    <red_range>(0, 0, 0, 0)</red_range>
+                </advance_widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a01eedd5c11ebbff71c1bb5b93d80</id>
+                <name><![CDATA[PCC S]]></name>
+                <type>DigitalDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing value
+# that will be displayed
+S = hil.read_analog_signal(COMPONENT_FQN + ".S")
+displayValue = S/1e3
+
+]]></code>
+                <signal_name><![CDATA[PCC_Measurements.P]]></signal_name>
+                <unit><![CDATA[kW]]></unit>
+                <automatic_unit>False</automatic_unit>
+                <decimals><![CDATA[2]]></decimals>
+                <updateRate>1000</updateRate>
+                <widget_settings>
+                    <x>40.0</x>
+                    <y>560.0</y>
+                    <width>96</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                <advance_widget_settings>
+                    <color_range>False</color_range>
+                    <green_range>(0, 0, 0, 0)</green_range>
+                    <orange_range>(0, 0, 0, 0)</orange_range>
+                    <red_range>(0, 0, 0, 0)</red_range>
+                </advance_widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a01f0dd5c11eba2fb1c1bb5b93d80</id>
+                <name><![CDATA[PCC pf]]></name>
+                <type>DigitalDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing value
+# that will be displayed
+displayValue = hil.read_analog_signal(COMPONENT_FQN + ".pf")
+
+]]></code>
+                <signal_name><![CDATA[PCC_Measurements.P]]></signal_name>
+                <unit><![CDATA[]]></unit>
+                <automatic_unit>False</automatic_unit>
+                <decimals><![CDATA[2]]></decimals>
+                <updateRate>1000</updateRate>
+                <widget_settings>
+                    <x>152.0</x>
+                    <y>632.0</y>
+                    <width>96</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                <advance_widget_settings>
+                    <color_range>False</color_range>
+                    <green_range>(0, 0, 0, 0)</green_range>
+                    <orange_range>(0, 0, 0, 0)</orange_range>
+                    <red_range>(0, 0, 0, 0)</red_range>
+                </advance_widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a01f1dd5c11eb9bb21c1bb5b93d80</id>
+                <name><![CDATA[Inverter Control]]></name>
+                <type>Group</type>
+                <description><![CDATA[]]></description>
+                <components_ids><![CDATA[['2b4a28dcdd5c11eb87151c1bb5b93d80', '2b4a28dddd5c11eba3ff1c1bb5b93d80', '2b4a28dedd5c11eba4aa1c1bb5b93d80', '2b4a28dfdd5c11ebbbe71c1bb5b93d80', '2b4a28e0dd5c11eba5ff1c1bb5b93d80', '2b4a28e1dd5c11eb8d6d1c1bb5b93d80', '2b4a28e2dd5c11ebbcfb1c1bb5b93d80', '2b4a28e3dd5c11eb84dd1c1bb5b93d80', '2b4a28e4dd5c11eb90d31c1bb5b93d80', '2b4a28e5dd5c11eba1781c1bb5b93d80', '2b4a28e6dd5c11eb99f81c1bb5b93d80']]]></components_ids>
+                <canvas_bg_color>#ffffff</canvas_bg_color>
+                <initialization_code><![CDATA[# NOTE: Variables and functions defined here will be available for use in 
+# all Macro, Expression and handlers codes of components owned by this widget.
+# This code is always executed prior simulation start. In case this is a 
+# Library widget, this code is also executed on drag and drop, Panel load 
+# and widget paste.
+#
+# HIL API is imported as 'hil'
+# SCADA API is imported as 'panel'
+# SCADA API constants are imported as 'api_const'
+# 'WIDGET_HANDLE' constant holds the WidgetHandle object of this widget.
+# This object can be used as an argument in SCADA API functions.
+global pf
+global priority]]></initialization_code>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>48.0</y>
+                    <width>288</width>
+                    <height>432</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <collapsed>False</collapsed>
+                    <hierarchy_position>2</hierarchy_position>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                
+                <linked_model_components_settings>
+                    </linked_model_components_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a28dcdd5c11eb87151c1bb5b93d80</id>
+                <name><![CDATA[Inverter]]></name>
+                <type>ComboBoxMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+
+# NOTE: entered value is available through variable 'inputValue'
+
+if inputValue == 'On':
+    # do something when 'Case 1' is selected
+    hil.set_scada_input_value(COMPONENT_FQN + '.NPC enable', 1.0)
+    pass
+elif inputValue == 'Off':
+    # do something when 'Case 2' is selected
+    hil.set_scada_input_value(COMPONENT_FQN + '.NPC enable', 0.0)
+    pass
+
+]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+
+if inputValue == 'On':
+    # do something when 'Case 1' is selected
+    hil.set_scada_input_value(COMPONENT_FQN + '.NPC enable', 1.0)
+    pass
+elif inputValue == 'Off':
+    # do something when 'Case 2' is selected
+    hil.set_scada_input_value(COMPONENT_FQN + '.NPC enable', 0.0)
+    pass]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Macro code]]></on_start_code_source>
+                <inputValue><![CDATA[Off]]></inputValue>
+                <availableValues><![CDATA[['On', 'Off']]]></availableValues>
+                <unit><![CDATA[]]></unit>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>16.0</y>
+                    <width>264</width>
+                    <height>32</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a28dddd5c11eba3ff1c1bb5b93d80</id>
+                <name><![CDATA[Contactor - Pre charge contactor]]></name>
+                <type>LedDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <signal_name><![CDATA[precharging_contactor1]]></signal_name>
+                <hil_device>0</hil_device>
+                <led_color>Red</led_color>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing LED indicator state
+# True -> On, False -> Off
+
+x = hil.read_digital_signal(COMPONENT_FQN + '.precharging_contactor')
+displayValue = bool(x)]]></code>
+                <updateRate>500</updateRate>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>48.0</y>
+                    <width>264</width>
+                    <height>32</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a28dedd5c11eba4aa1c1bb5b93d80</id>
+                <name><![CDATA[Operating]]></name>
+                <type>LedDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <signal_name><![CDATA[operating1]]></signal_name>
+                <hil_device>0</hil_device>
+                <led_color>Red</led_color>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing LED indicator state
+# True -> On, False -> Off
+x = hil.read_digital_signal(COMPONENT_FQN + '.operating')
+displayValue = bool(x)
+]]></code>
+                <updateRate>500</updateRate>
+                <widget_settings>
+                    <x>16.0</x>
+                    <y>112.0</y>
+                    <width>264</width>
+                    <height>32</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a28dfdd5c11ebbbe71c1bb5b93d80</id>
+                <name><![CDATA[Contactor - Main contactor]]></name>
+                <type>LedDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <signal_name><![CDATA[main_contactor1]]></signal_name>
+                <hil_device>0</hil_device>
+                <led_color>Red</led_color>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing LED indicator state
+# True -> On, False -> Off
+x = hil.read_digital_signal(COMPONENT_FQN + '.main_contactor')
+displayValue = bool(x)]]></code>
+                <updateRate>500</updateRate>
+                <widget_settings>
+                    <x>16.0</x>
+                    <y>80.0</y>
+                    <width>264</width>
+                    <height>32</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a28e0dd5c11eba5ff1c1bb5b93d80</id>
+                <name><![CDATA[FRT - References Enable]]></name>
+                <type>LedDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <signal_name><![CDATA[FRT_inv_enable1]]></signal_name>
+                <hil_device>0</hil_device>
+                <led_color>Red</led_color>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing LED indicator state
+# True -> On, False -> Off
+x = hil.read_digital_signal(COMPONENT_FQN + '.FRT_inv_enable')
+displayValue = bool(x)
+]]></code>
+                <updateRate>500</updateRate>
+                <widget_settings>
+                    <x>8.0</x>
+                    <y>272.0</y>
+                    <width>264</width>
+                    <height>32</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a28e1dd5c11eb8d6d1c1bb5b93d80</id>
+                <name><![CDATA[FRT - Inverter Enable]]></name>
+                <type>LedDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <signal_name><![CDATA[FRT_inv_enable1]]></signal_name>
+                <hil_device>0</hil_device>
+                <led_color>Red</led_color>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing LED indicator state
+# True -> On, False -> Off
+x = hil.read_digital_signal(COMPONENT_FQN + '.FRT_inv_enable')
+displayValue = bool(x)
+]]></code>
+                <updateRate>500</updateRate>
+                <widget_settings>
+                    <x>8.0</x>
+                    <y>304.0</y>
+                    <width>264</width>
+                    <height>32</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a28e2dd5c11ebbcfb1c1bb5b93d80</id>
+                <name><![CDATA[VRT - Inverter Enable]]></name>
+                <type>LedDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <signal_name><![CDATA[VRT_inv_enable1]]></signal_name>
+                <hil_device>0</hil_device>
+                <led_color>Red</led_color>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing LED indicator state
+# True -> On, False -> Off
+x = hil.read_digital_signal(COMPONENT_FQN + '.VRT_inv_enable')
+displayValue = bool(x)
+]]></code>
+                <updateRate>500</updateRate>
+                <widget_settings>
+                    <x>8.0</x>
+                    <y>368.0</y>
+                    <width>264</width>
+                    <height>32</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a28e3dd5c11eb84dd1c1bb5b93d80</id>
+                <name><![CDATA[VRT - References Enable]]></name>
+                <type>LedDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <signal_name><![CDATA[VRT_ref_enable1]]></signal_name>
+                <hil_device>0</hil_device>
+                <led_color>Red</led_color>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing LED indicator state
+# True -> On, False -> Off
+x = hil.read_digital_signal(COMPONENT_FQN + '.VRT_ref_enable')
+displayValue = bool(x)
+]]></code>
+                <updateRate>500</updateRate>
+                <widget_settings>
+                    <x>8.0</x>
+                    <y>336.0</y>
+                    <width>264</width>
+                    <height>32</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a28e4dd5c11eb90d31c1bb5b93d80</id>
+                <name><![CDATA[Power Factor (absolute)]]></name>
+                <type>SliderMacro</type>
+                <description><![CDATA[]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+
+# NOTE: entered value is available through variable 'inputValue'
+global pf
+hil.set_scada_input_value(COMPONENT_FQN + '.pf ref', inputValue)
+pf = inputValue]]></on_use_code>
+                <on_start_code active="True"><![CDATA[# NOTE: The code specified in this handler will be executed on simulation start.
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+
+]]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Macro code]]></on_start_code_source>
+                <inputValue><![CDATA[1.0]]></inputValue>
+                <min>0.5</min>
+                <max>1.0</max>
+                <step>0.05</step>
+                <widget_settings>
+                    <x>8.0</x>
+                    <y>144.0</y>
+                    <width>264</width>
+                    <height>48</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a28e5dd5c11eba1781c1bb5b93d80</id>
+                <name><![CDATA[Saturation Priority]]></name>
+                <type>ComboBoxMacro</type>
+                <description><![CDATA[None]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL Control Panel API
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+
+# NOTE: entered value is available through variable 'inputValue'
+global sign
+if inputValue == "Power Factor":
+    hil.set_scada_input_value(COMPONENT_FQN+'.Priority', 0)
+if inputValue == "Active Power":
+    hil.set_scada_input_value(COMPONENT_FQN+'.Priority', 1)
+if inputValue == "Reactive Power":
+    hil.set_scada_input_value(COMPONENT_FQN+'.Priority', 2)
+sign = inputValue]]></on_use_code>
+                <on_start_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL Control Panel API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+
+# NOTE: entered value is available through variable 'inputValue']]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Macro code]]></on_start_code_source>
+                <inputValue><![CDATA[Power Factor]]></inputValue>
+                <availableValues><![CDATA[['Active Power', 'Reactive Power', 'Power Factor']]]></availableValues>
+                <unit><![CDATA[]]></unit>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>232.0</y>
+                    <width>280</width>
+                    <height>32</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a28e6dd5c11eb99f81c1bb5b93d80</id>
+                <name><![CDATA[Q direction]]></name>
+                <type>ComboBoxMacro</type>
+                <description><![CDATA[None]]></description>
+                <on_use_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL Control Panel API
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+
+# NOTE: entered value is available through variable 'inputValue'
+global sign
+if inputValue == "Inductive":
+    hil.set_scada_input_value(COMPONENT_FQN + '.Qsign', -1)
+if inputValue == "Capacitive":
+    hil.set_scada_input_value(COMPONENT_FQN +'.Qsign', 1)
+sign = inputValue
+]]></on_use_code>
+                <on_start_code active="True"><![CDATA[#------------- MANDATORY IMPORTS ---------------
+# HIL Control Panel API
+
+
+# Function for printing text to console (e.g printf("Hello world"))
+
+#------------------------------------------------
+
+# NOTE: entered value is available through variable 'inputValue']]></on_start_code>
+                <on_stop_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed after simulation is stopped.
+# HIL API is imported as 'hil'
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_stop_code>
+                <on_timer_code active="False"><![CDATA[# NOTE: The code specified in this handler will be executed periodically each 1000ms.
+# NOTE: Only read functions are available from the HIL API
+# HIL API
+
+
+
+# Change widget value by setting this variable.
+# NOTE: If you not specify 'widgetValue' variable or assign 'None' to it, widget value won't be changed.
+widgetValue = None
+]]></on_timer_code>
+                <on_start_code_source><![CDATA[Macro code]]></on_start_code_source>
+                <inputValue><![CDATA[Inductive]]></inputValue>
+                <availableValues><![CDATA[['Inductive', 'Capacitive']]]></availableValues>
+                <unit><![CDATA[]]></unit>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>208.0</y>
+                    <width>280</width>
+                    <height>32</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>2b4a28e7dd5c11eb88e11c1bb5b93d80</id>
+                <name><![CDATA[Phasor graph]]></name>
+                <type>PhasorGraphDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <code><![CDATA[#----------------------- MANDATORY IMPORT --------------------------
+# HIL API
+
+import numpy as np
+# NOTE: Only read functions are available from the HIL API
+#-------------------------------------------------------------------
+
+# mandatory variable used for storing values
+# that will be displayed
+# e.g displayValue = [ ['Phasor 1 name', Phasor 1 phase, Phasor 1 magnitude],
+#                      ['Phasor X name', Phasor X phase, Phasor X magnitude] ]
+P = hil.read_analog_signal(COMPONENT_FQN + '.P')
+Q = hil.read_analog_signal(COMPONENT_FQN + '.Q')
+S = hil.read_analog_signal(COMPONENT_FQN + '.S')
+displayValue = [ ["S", np.arctan2(Q,P)*180.0/np.pi,S/750000.0] ]
+]]></code>
+                <signals><![CDATA[]]></signals>
+                <updateRate>500</updateRate>
+                <background_color>#ffffff</background_color>
+                <phasors_data>
+                    <phasor>
+                        <display_name><![CDATA[Phasor [Double click to edit]]]></display_name>
+                        <magnitude_signal><![CDATA[const_0V]]></magnitude_signal>
+                        <phase_signal><![CDATA[const_0V]]></phase_signal>
+                    </phasor>
+                    </phasors_data>
+                <widget_settings>
+                    <x>0.0</x>
+                    <y>488.0</y>
+                    <width>360</width>
+                    <height>280</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[2]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                <advance_widget_settings>
+                    <range_max>20.0</range_max>
+                    <auto_scale_enabled>True</auto_scale_enabled>
+                    <legend_enabled>True</legend_enabled>
+                </advance_widget_settings>
+            </component_data>
+        <component_data>
+                <id>3d5d92d3dd6011eb88a81c1bb5b93d80</id>
+                <name><![CDATA[Name ]]></name>
+                <type>TextDisplay</type>
+                <description><![CDATA[]]></description>
+                <code><![CDATA[# HIL API is imported as 'hil'
+# NOTE: Only read functions are available from the HIL API
+
+# SCADA API is imported as 'panel'
+# SCADA API constants are imported as 'api_const'
+# 'WIDGET_HANDLE' constant holds the WidgetHandle object of this widget.
+# This object can be used as an argument in SCADA API functions.
+
+# specify Text Display options ('text' part is mandatory)
+
+textDisplayData = {
+
+    # label text
+    "text": COMPONENT_NAME,
+
+    # text color: 'red', 'green', 'blue', 'orange', 'black'
+    "text_color": 'black',
+}
+
+# mandatory variable used for storing value that will be displayed
+displayValue = textDisplayData
+]]></code>
+                <updateRate>500</updateRate>
+                <widget_settings>
+                    <x>72.0</x>
+                    <y>0.0</y>
+                    <width>416</width>
+                    <height>56</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[2]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>7fd39ce4dd6011ebbe4d1c1bb5b93d80</id>
+                <name><![CDATA[Nominal Voltage]]></name>
+                <type>DigitalDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <code><![CDATA[# HIL API is imported as 'hil'
+# NOTE: Only read functions are available from the HIL API
+
+# SCADA API is imported as 'panel'
+# SCADA API constants are imported as 'api_const'
+# 'WIDGET_HANDLE' constant holds the WidgetHandle object of this widget.
+# This object can be used as an argument in SCADA API functions.
+
+# mandatory variable used for storing value that will be displayed
+
+displayValue = COMPONENT_PROP['vnom']['value']
+
+]]></code>
+                <signal_name><![CDATA[]]></signal_name>
+                <unit><![CDATA[]]></unit>
+                <automatic_unit>True</automatic_unit>
+                <decimals><![CDATA[2]]></decimals>
+                <updateRate>500</updateRate>
+                <widget_settings>
+                    <x>488.0</x>
+                    <y>0.0</y>
+                    <width>144</width>
+                    <height>56</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[2]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                <advance_widget_settings>
+                    <color_range>False</color_range>
+                    <green_range>(0, 0, 0, 0)</green_range>
+                    <orange_range>(0, 0, 0, 0)</orange_range>
+                    <red_range>(0, 0, 0, 0)</red_range>
+                </advance_widget_settings>
+            </component_data>
+        <component_data>
+                <id>9ae2054cdd6011ebb8ab1c1bb5b93d80</id>
+                <name><![CDATA[Nominal Frequency]]></name>
+                <type>DigitalDisplay</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <code><![CDATA[# HIL API is imported as 'hil'
+# NOTE: Only read functions are available from the HIL API
+
+# SCADA API is imported as 'panel'
+# SCADA API constants are imported as 'api_const'
+# 'WIDGET_HANDLE' constant holds the WidgetHandle object of this widget.
+# This object can be used as an argument in SCADA API functions.
+
+# mandatory variable used for storing value that will be displayed
+
+displayValue = COMPONENT_PROP['fnom']['value']
+
+]]></code>
+                <signal_name><![CDATA[]]></signal_name>
+                <unit><![CDATA[]]></unit>
+                <automatic_unit>True</automatic_unit>
+                <decimals><![CDATA[2]]></decimals>
+                <updateRate>500</updateRate>
+                <widget_settings>
+                    <x>632.0</x>
+                    <y>0.0</y>
+                    <width>144</width>
+                    <height>56</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[2]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                <advance_widget_settings>
+                    <color_range>False</color_range>
+                    <green_range>(0, 0, 0, 0)</green_range>
+                    <orange_range>(0, 0, 0, 0)</orange_range>
+                    <red_range>(0, 0, 0, 0)</red_range>
+                </advance_widget_settings>
+            </component_data>
+        <component_data>
+                <id>2cac685edd6411ebb94a1c1bb5b93d80</id>
+                <name><![CDATA[PV monitor]]></name>
+                <type>PVDisplay</type>
+                <description><![CDATA[]]></description>
+                <pv_panel_name><![CDATA[]]></pv_panel_name>
+                <updateRate>250</updateRate>
+                <background_color>#ffffff</background_color>
+                <widget_settings>
+                    <x>40.0</x>
+                    <y>64.0</y>
+                    <width>400</width>
+                    <height>240</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[2]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+            </component_data>
+        <component_data>
+                <id>9672f0e8dd8411eb913d1c1bb5b93d80</id>
+                <name><![CDATA[Frequency]]></name>
+                <type>Gauge</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <code><![CDATA[# HIL API is imported as 'hil'
+# NOTE: Only read functions are available from the HIL API
+
+# SCADA API is imported as 'panel'
+# SCADA API constants are imported as 'api_const'
+# 'WIDGET_HANDLE' constant holds the WidgetHandle object of this widget.
+# This object can be used as an argument in SCADA API functions.
+
+# mandatory variable used for storing value that will be displayed
+displayValue = hil.read_analog_signal(name=COMPONENT_FQN + '.f')
+
+
+]]></code>
+                <signal_name><![CDATA[]]></signal_name>
+                <unit><![CDATA[]]></unit>
+                <automatic_unit>True</automatic_unit>
+                <updateRate>500</updateRate>
+                <decimals>2</decimals>
+                <widget_settings>
+                    <x>24.0</x>
+                    <y>8.0</y>
+                    <width>352</width>
+                    <height>200</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                <advance_widget_settings>
+                    <color_range>False</color_range>
+                    <min>0.0</min>
+                    <max>100.0</max>
+                    <warning_range>(0, 0, 0, 0)</warning_range>
+                    <critical_range>(0, 0, 0, 0)</critical_range>
+                </advance_widget_settings>
+            </component_data>
+        <component_data>
+                <id>b90a08badd8411eba6111c1bb5b93d80</id>
+                <name><![CDATA[Voltage L-N]]></name>
+                <type>Gauge</type>
+                <description><![CDATA[]]></description>
+                <data_type>Expression</data_type>
+                <code><![CDATA[# HIL API is imported as 'hil'
+# NOTE: Only read functions are available from the HIL API
+
+# SCADA API is imported as 'panel'
+# SCADA API constants are imported as 'api_const'
+# 'WIDGET_HANDLE' constant holds the WidgetHandle object of this widget.
+# This object can be used as an argument in SCADA API functions.
+
+# mandatory variable used for storing value that will be displayed
+displayValue = hil.read_analog_signal(name=COMPONENT_FQN + '.Va_rms')
+]]></code>
+                <signal_name><![CDATA[]]></signal_name>
+                <unit><![CDATA[]]></unit>
+                <automatic_unit>True</automatic_unit>
+                <updateRate>500</updateRate>
+                <decimals>2</decimals>
+                <widget_settings>
+                    <x>24.0</x>
+                    <y>200.0</y>
+                    <width>352</width>
+                    <height>200</height>
+                    <appearance><![CDATA[Flat]]></appearance>
+                    <hierarchy_position><![CDATA[3]]></hierarchy_position>
+                    <is_background><![CDATA[False]]></is_background>
+                    <label><![CDATA[]]></label>
+                    <use_label>False</use_label>
+                </widget_settings>
+                <advance_widget_settings>
+                    <color_range>False</color_range>
+                    <min>0.0</min>
+                    <max>100.0</max>
+                    <warning_range>(0, 0, 0, 0)</warning_range>
+                    <critical_range>(0, 0, 0, 0)</critical_range>
+                </advance_widget_settings>
+            </component_data>
+        </components>
+</widget_library>

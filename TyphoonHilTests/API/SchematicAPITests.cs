@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json.Linq;
 using TyphoonHil.API;
+using TyphoonHil.Exceptions;
 
 namespace TyphoonHilTests.API;
 
@@ -169,5 +171,367 @@ public class SchematicAPITests
         Model.Save();
 
         Assert.IsTrue(CompareFiles(filePath, libraryPath));
+    }
+
+    [TestMethod]
+    public void AddLibraryPathTest()
+    {
+        Model.CreateNewModel();
+
+        var libPath = Path.Combine(ProtectedDataPath, "user_lib");
+
+        // Get all current library paths and remove them
+        var oldPaths = Model.GetLibraryPaths();
+        oldPaths.ForEach(x => Model.RemoveLibraryPath(x));
+
+        Assert.IsTrue(Model.GetLibraryPaths().Count == 0);
+
+        // Add library path and reload library to be able to use the added library.
+        Model.AddLibraryPath(libPath);
+        Model.ReloadLibraries();
+
+        // Create components from loaded libraries.
+        var comp = Model.CreateComponent("User Component Library/NPC PV Inverter");
+        Assert.ThrowsException<SchematicAPIException>(() => Model.CreateComponent("Non existing comp"));
+
+        // Remove library from the path.
+        Model.RemoveLibraryPath(libPath);
+
+        // Add again the previous library paths
+        foreach (var path in oldPaths) Model.AddLibraryPath(path);
+
+        Model.CloseModel();
+    }
+
+    [TestMethod]
+    public void CreateMaskTest()
+    {
+        Model.CreateNewModel();
+        var sub = Model.CreateComponent("core/Subsystem", name: "Sb1");
+        var mask = Model.CreateMask(sub);
+
+        Assert.AreEqual(mask["fqn"]!, "Sb1.Mask@top");
+
+        Model.CloseModel();
+    }
+
+    [TestMethod]
+    public void CreatePropertyTest()
+    {
+        Model.CreateNewModel();
+
+        var sub = Model.CreateComponent("core/Subsystem", name: "Sub1");
+
+        var mask = Model.CreateMask(sub);
+
+        var prop1 = Model.CreateProperty(
+            mask, "prop_1", "Property 1",
+            Widget.Combo,
+            new JArray { "Choice 1", "Choice 2", "Choice 3" },
+            tabName: "First tab"
+        );
+
+        var prop2 = Model.CreateProperty(
+            mask, "prop_2", "Property 2",
+            Widget.Button, tabName: "Second tab"
+        );
+
+        Model.RemoveProperty(mask, "prop_2");
+
+        Model.CloseModel();
+
+        Assert.IsTrue((bool)prop1["item_handle"]!);
+        Assert.IsTrue((bool)prop2["item_handle"]!);
+    }
+
+    [TestMethod]
+    public void CreateTagTest()
+    {
+        Model.CreateNewModel();
+
+        var tag = Model.CreateTag(name: "Tag 1", value: "Tag value", position: new Position(160, 240));
+        Assert.AreEqual(Model.GetPosition(tag), new Position(160, 240));
+
+        Model.SetPosition(tag, new Position(800, 1600));
+        Assert.AreEqual(Model.GetPosition(tag), new Position(800, 1600));
+
+        Model.CloseModel();
+    }
+
+    [TestMethod]
+    public void DeleteItemTest()
+    {
+        Model.CreateNewModel();
+
+        // Create some items and then delete them.
+        var r = Model.CreateComponent("core/Resistor");
+        var j = Model.CreateJunction();
+        // var tag = mdl.CreateTag(value: "Val 1");
+        var sub1 = Model.CreateComponent("core/Subsystem");
+        var innerPort = Model.CreatePort(parent: sub1, name: "Inner port1");
+
+        //
+        // Delete items
+        //
+        Model.DeleteItem(r);
+        Model.DeleteItem(j);
+        //mdl.DeleteItem(tag);
+
+        // Delete subsystem
+        Model.DeleteItem(sub1);
+
+        Model.CloseModel();
+    }
+
+    [TestMethod]
+    public void DetectHwTest()
+    {
+        Model.CreateNewModel();
+
+        var hwSett = Model.DetectHwSettings();
+
+        if (hwSett != null)
+            Console.WriteLine("HIL device was detected and model configuration was changed to {0}.", hwSett);
+        else
+            Console.WriteLine("HIL device autodetection failed, maybe HIL device is not connected.");
+
+        Model.CloseModel();
+    }
+
+    [TestMethod]
+    public void DisableItemsTest()
+    {
+        var modelPath = Path.Combine(ProtectedDataPath, "RLC_example.tse");
+        File.Copy(modelPath, modelPath.Replace("ProtectedData", "TestData"));
+
+        Model.Load(Path.Combine(TestDataPath, "RLC_example.tse"));
+
+        //
+        // Names of items that can be disabled
+        //
+        List<string> itemDisableNames = new()
+        {
+            "L",
+            "AI_1",
+            "AI_2",
+            "SM_1",
+            "Probe1"
+        };
+
+        //
+        // Names of subsystem [0] and item [1] inside subsystem
+        //
+        var subsystemName = "SS_1";
+        var itemNameInsideSubsystem = "SM_6";
+
+        //
+        // Names of items that cannot be disabled
+        //
+        List<string> itemDontDisableNames = new()
+        {
+            "Subsystem1",
+            "SM_5",
+            "Min Max 1",
+            "GA_2"
+        };
+
+        //
+        // Fetch all items that can be disabled and that cannot be disabled
+        //
+        var itemsDisable = itemDisableNames.Select(itemName => Model.GetItem(itemName)).ToList();
+        var itemsDontDisable = itemDontDisableNames.Select(itemName => Model.GetItem(itemName)).ToList();
+
+        //
+        // Disable, compile, enable - items that can be disabled
+        //
+        var disabledItems = Model.DisableItems(itemsDisable);
+        Model.Compile();
+        var affectedItems = Model.EnableItems(disabledItems);
+        Model.Compile();
+
+        //
+        // Disable, compile, enable - items that cannot be disabled
+        //
+        disabledItems = Model.DisableItems(itemsDontDisable);
+        try
+        {
+            Model.Compile();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+
+        affectedItems = Model.EnableItems(disabledItems!);
+        Model.Compile();
+
+        //
+        // Disable, compile, enable - items inside subsystem
+        //
+        var parentItem = Model.GetItem(subsystemName);
+        var concreteItem = Model.GetItem(itemNameInsideSubsystem, parentItem);
+        disabledItems = Model.DisableItems(new List<JObject?> { concreteItem });
+        try
+        {
+            Model.Compile();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+
+        affectedItems = Model.EnableItems(new List<JObject?> { concreteItem });
+        Model.Compile();
+
+        Model.CloseModel();
+    }
+
+    [TestMethod]
+    public void DisablePropertyTest()
+    {
+        Model.CreateNewModel();
+
+        // Create component
+        var r = Model.CreateComponent("core/Resistor");
+
+        // Disable property
+        Model.DisableProperty(Model.Prop(r, "resistance"));
+
+        // Check to see if property is enabled.
+        Console.WriteLine(Model.IsPropertyEnabled(Model.Prop(r, "resistance")));
+
+        // Enable property
+        Model.EnableProperty(Model.Prop(r, "resistance"));
+
+        Console.WriteLine(Model.IsPropertyEnabled(Model.Prop(r, "resistance")));
+
+        Model.CloseModel();
+    }
+
+    [TestMethod]
+    public void DisablePropertySerializationTest()
+    {
+        Model.CreateNewModel();
+
+        var constComponent = Model.CreateComponent("core/Constant");
+
+        Assert.IsTrue(Model.IsPropertySerializable(Model.Prop(constComponent, "value")));
+
+        Model.DisablePropertySerialization(Model.Prop(constComponent, "value"));
+        Assert.IsFalse(Model.IsPropertySerializable(Model.Prop(constComponent, "value")));
+
+        Model.EnablePropertySerialization(Model.Prop(constComponent, "value"));
+        Assert.IsTrue(Model.IsPropertySerializable(Model.Prop(constComponent, "value")));
+
+        Model.CloseModel();
+    }
+
+    [TestMethod]
+    public void DisplayComponentIconTextTest()
+    {
+        Model.CreateNewModel();
+        var tr1 = Model.CreateComponent("core/Three Phase Two Winding Transformer");
+        Model.SetComponentIconImage(tr1, Path.Combine(ProtectedDataPath, "transformer.png"));
+
+        Model.SetColor(tr1, "red");
+        Model.DisplayComponentIconText(tr1, "Sample text");
+
+        Model.RefreshIcon(tr1);
+
+        Model.CloseModel();
+    }
+
+    [TestMethod]
+    public void ErrorTest()
+    {
+        Model.CreateNewModel();
+
+        var ct = Model.CreateComponent("core/Constant", name: "Constant 1");
+        Model.Error("Some error", context: ct);
+
+        Model.CloseModel();
+    }
+
+    [TestMethod]
+    public void ExistsTest()
+    {
+        Model.CreateNewModel();
+
+        var r = Model.CreateComponent("core/Resistor", name: "R 1");
+        Assert.IsTrue(Model.Exists("R 1"));
+
+        var sub1 = Model.CreateComponent("core/Subsystem");
+        var innerC = Model.CreateComponent("core/Capacitor", sub1, "Capacitor 1");
+
+        Assert.IsFalse(Model.Exists("Capacitor  1", sub1));
+
+        var sub2 = Model.CreateComponent("core/Subsystem", name: "Sub 2");
+        Model.CreatePort("Port 2", sub2);
+
+        Model.SaveAs(Path.Combine(TestDataPath, "tmp.tse"));
+        Assert.IsTrue(Model.Exists("Port 2", sub2, ItemType.Terminal));
+
+        Model.CloseModel();
+    }
+
+    [TestMethod]
+    public void ExportCTest()
+    {
+        Model.CreateNewModel();
+        var constant = Model.CreateComponent("core/Constant");
+        var probe1 = Model.CreateComponent("core/Probe");
+        var probe2 = Model.CreateComponent("core/Probe");
+        var subsystem = Model.CreateComponent("core/Empty Subsystem");
+
+        var subIn = Model.CreatePort(parent: subsystem,
+            direction: Direction.In,
+        kind: Kind.Sp,
+        name: "in");
+
+        var subOut = Model.CreatePort(parent: subsystem,
+            kind: Kind.Sp,
+        direction: Direction.Out,
+        name: "out");
+
+        var subOut1 = Model.CreatePort(parent: subsystem,
+            kind: Kind.Sp,
+            direction: Direction.Out,
+            name: "out1");
+        var subSum = Model.CreateComponent("core/Sum", parent:  subsystem);
+        var subConst = Model.CreateComponent("core/Constant", parent:  subsystem);
+        var subGain = Model.CreateComponent("core/Gain", parent:  subsystem);
+        var subJ = Model.CreateJunction(kind: Kind.Sp, parent:  subsystem);
+
+        Model.CreateConnection(Model.Term(constant, "out"),
+            Model.Term(subsystem, "in"));
+
+        Model.CreateConnection(subIn,
+            Model.Term(subSum, "in"));
+
+        Model.CreateConnection(Model.Term(subConst, "out"),
+            Model.Term(subSum, "in1"));
+
+        Model.CreateConnection(Model.Term(subSum, "out"),
+            subJ);
+
+        Model.CreateConnection(subJ,
+            Model.Term(subGain, "in"));
+
+        Model.CreateConnection(Model.Term(subGain, "out"),
+            subOut);
+
+        Model.CreateConnection(subJ, subOut1);
+
+        Model.CreateConnection(Model.Term(subsystem, "out"), 
+            Model.Term(probe1, "in"));
+
+        Model.CreateConnection(Model.Term(subsystem, "out1"),
+            Model.Term(probe2, "in"));
+
+        var outputDir = Path.Combine(TestDataPath, "exportC");
+
+        Model.ExportCFromSubsystem(subsystem, outputDir);
+
+        Model.CloseModel();
     }
 }

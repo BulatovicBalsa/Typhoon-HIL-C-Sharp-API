@@ -20,6 +20,13 @@ public class Position
     {
         return $"({X}, {Y})";
     }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is not Position objAsPosition) return false;
+        return Math.Abs(objAsPosition.X - X) < 0.01 && Math.Abs(objAsPosition.Y - Y) < 0.01;
+
+    }
 }
 
 public class Size
@@ -74,7 +81,7 @@ public class Dimension
 
     public double Width { get; set; }
     public double? Height { get; set; }
-    public JArray JArray => new() { Width, Height }; //check if they should swap order
+    public JArray JArray => Height is null ? new JArray { Width } : new JArray {Width, Height }; //check if they should swap order
 
     public override string ToString()
     {
@@ -92,10 +99,10 @@ public static class Rotation
 
 public static class Flip
 {
-    public const string None = "none";
-    public const string Horizontal = "horizontal";
-    public const string Vertical = "vertical";
-    public const string Both = "both";
+    public const string None = "flip_none";
+    public const string Horizontal = "flip_horizontal";
+    public const string Vertical = "flip_vertical";
+    public const string Both = "flip_both";
 }
 
 public class Kind
@@ -245,9 +252,14 @@ public class SchematicAPI : AbstractAPI
         HandleRequest("save_as", new JObject { { "filename", filename } });
     }
 
-    public bool Compile()
+    public bool Compile(bool conditionalCompile = false)
     {
-        return Request("compile", new JObject()).ContainsKey("result");
+        var parameters = new JObject
+        {
+            { "conditional_compile", conditionalCompile }
+        };
+
+        return HandleRequest("compile", parameters).ContainsKey("result");
     }
 
     public void CreateNewModel(string? name = null)
@@ -257,7 +269,7 @@ public class SchematicAPI : AbstractAPI
 
     public void CloseModel()
     {
-        Request("close_model", new JObject());
+        HandleRequest("close_model", new JObject());
     }
 
     public JObject CreateComponent(string typeName,
@@ -314,6 +326,7 @@ public class SchematicAPI : AbstractAPI
         Position? position = null)
     {
         dimension ??= new Dimension(1);
+        terminalPosition ??= new TerminalPosition("left", "auto");
         var parameters = new JObject
         {
             { "name", name },
@@ -345,7 +358,7 @@ public class SchematicAPI : AbstractAPI
 
     public JObject
         CreateConnection(JObject start, JObject end, string? name = null,
-            List<Position>? breakpoints = null) //check what breakpoints are
+            List<Position>? breakpoints = null) 
     {
         var parameters = new JObject
         {
@@ -782,8 +795,8 @@ public class SchematicAPI : AbstractAPI
         bool serializable = true, string tabName = "", string unit = "", string buttonLabel = "",
         JArray? previousNames = null, string description = "", string require = "", string type = "",
         string? defaultValue = null, string? minValue = null, string? maxValue = null,
-        bool keepline = false, string? skip = null, string? skipStep = null,
-        bool vector = false, bool tunable = false, string? index = null)
+        bool keepline = false, bool? skip = null, int? skipStep = null,
+        bool vector = false, bool tunable = false, int? index = null)
     {
         var parameters = new JObject
         {
