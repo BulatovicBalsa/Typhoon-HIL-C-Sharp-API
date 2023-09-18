@@ -4,7 +4,7 @@ using TyphoonHil.API;
 
 namespace TyphoonHilTests.API
 {
-    [TestClass()]
+    [TestClass]
     public class PvGeneratorAPITests
     {
         public PvGeneratorAPI Model { get; set; } = new();
@@ -44,11 +44,11 @@ namespace TyphoonHilTests.API
             ClearDirectory(TestDataPath);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GeneratePvSettingsFileTest()
         {
-            var PvGenerator = new PvGeneratorAPI();
-            var PvParamsDetailed = new JObject
+            var pvGenerator = new PvGeneratorAPI();
+            var pvParamsDetailed = new JObject
             {
                 { "Voc_ref", 45.60 },
                 { "Isc_ref", 5.8 },
@@ -60,11 +60,11 @@ namespace TyphoonHilTests.API
                 { "neg_current", false }
             };
 
-            var res = PvGenerator.GeneratePvSettingsFile(PvModelType.Detailed, Path.Combine(TestDataPath, "setDet.ipvx"), PvParamsDetailed);
+            var res = pvGenerator.GeneratePvSettingsFile(PvModelType.Detailed, Path.Combine(TestDataPath, "setDet.ipvx"), pvParamsDetailed);
 
             Assert.IsTrue(res.Status);
 
-            var PvParamsEN50530 = new JObject
+            var pvParamsEn50530 = new JObject
             {
                 { "Voc_ref", 45.60 },
                 { "Isc_ref", 5.8 },
@@ -72,10 +72,10 @@ namespace TyphoonHilTests.API
                 { "neg_current", false }
             };
 
-            res = PvGenerator.GeneratePvSettingsFile(PvModelType.En50530, Path.Combine(TestDataPath, "setEN.ipvx"), PvParamsEN50530);
+            res = pvGenerator.GeneratePvSettingsFile(PvModelType.En50530, Path.Combine(TestDataPath, "setEN.ipvx"), pvParamsEn50530);
             Assert.IsFalse(res.Status);
 
-            var PvParamsUserDefined = new JObject
+            var pvParamsUserDefined = new JObject
             {
                 { "Voc_ref", 45.60 },
                 { "Isc_ref", 5.8 },
@@ -96,15 +96,15 @@ namespace TyphoonHilTests.API
                 }
             };
 
-            res = PvGenerator.GeneratePvSettingsFile(PvModelType.NormalizedIv, Path.Combine(TestDataPath, "setIV.ipvx"), PvParamsUserDefined);
+            res = pvGenerator.GeneratePvSettingsFile(PvModelType.NormalizedIv, Path.Combine(TestDataPath, "setIV.ipvx"), pvParamsUserDefined);
             Assert.IsFalse(res.Status);
 
-            var PvParamsCSV = new JObject
+            var pvParamsCsv = new JObject
             {
                 { "csv_TestDataPath", "csv_file.csv" }
             };
 
-            res = PvGenerator.GeneratePvSettingsFile(PvModelType.En50530, Path.Combine(TestDataPath, "setEN.csv.ipvx"), PvParamsCSV);
+            res = pvGenerator.GeneratePvSettingsFile(PvModelType.En50530, Path.Combine(TestDataPath, "setEN.csv.ipvx"), pvParamsCsv);
             Assert.IsFalse(res.Status);
         }
     }
