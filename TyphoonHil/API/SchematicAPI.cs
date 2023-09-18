@@ -972,9 +972,9 @@ public class SchematicAPI : AbstractAPI
         return (string)HandleRequest("get_ns_var", parameters)["result"]!;
     }
 
-    public JObject GetNamespaceVariables()
+    public JArray GetNamespaceVariables()
     {
-        return (JObject)HandleRequest("get_ns_vars", new JObject())["result"]!;
+        return (JArray)HandleRequest("get_ns_vars", new JObject())["result"]!;
     }
 
     public void SetNamespaceVariable(string varName, object value)
@@ -1060,12 +1060,12 @@ public class SchematicAPI : AbstractAPI
         return (string)HandleRequest("get_property_disp_value", parameters)["result"]!;
     }
 
-    public void SetPropertyDisplayValue(JObject propHandle, string value)
+    public void SetPropertyDisplayValue(JObject propHandle, object value)
     {
         var parameters = new JObject
         {
             { "prop_handle", propHandle },
-            { "value", value }
+            { "value", JToken.FromObject(value) }
         };
 
         HandleRequest("set_property_disp_value", parameters);
@@ -1288,7 +1288,7 @@ public class SchematicAPI : AbstractAPI
         {
             { "fmu_file_path", fmuFilePath },
             { "precompiled_file_path", precompiledFilePath },
-            { "additional_definitions", new JArray { additionalDefinitions } }
+            { "additional_definitions", additionalDefinitions is not null ?  new JArray { additionalDefinitions } : null }
         };
         HandleRequest("precompile_fmu", parameters);
     }
@@ -1503,6 +1503,8 @@ public class SchematicAPI : AbstractAPI
         HandleRequest("set_simulation_method", parameters);
     }
 
+    [Obsolete(
+        "Deprecated since version 2.0: Use set_model_property_value instead (simulation_method field in configuration object).")]
     public void SetSimulationTimeStep(double timeStep)
     {
         var parameters = new JObject

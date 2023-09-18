@@ -122,6 +122,9 @@ public class SchematicAPITests
         Model.SetPropertyValue(Model.Prop(r, "resistance"), rValue);
         Model.SetPropertyValue(Model.Prop(c, "capacitance"), cValue);
 
+        Assert.IsTrue(Math.Abs(Convert.ToDouble(Model.GetPropertyValue(Model.Prop(r, "resistance"))) - rValue) < 0.001);
+        Assert.IsTrue(Model.GetPropertyDefaultValue(Model.Prop(r, "resistance")) == "1");
+
         var filePath = Path.Combine(TestDataPath, "RLC_example.tse");
         Model.SaveAs(filePath);
 
@@ -632,6 +635,8 @@ public class SchematicAPITests
     {
         Model.CreateNewModel();
         var r = Model.CreateComponent("core/Resistor");
+        var resistor = Model.Prop(r, "resistance");
+        Console.WriteLine(Model.GetLibraryResourceDirPath(resistor));
         Assert.AreEqual((Model.GetName(r), Model.GetComponentTypeName(r)), ("R1", "pas_resistor"));
         Assert.AreEqual(Model.GetConnectableKind(Model.Term(r, "p_node")), "pe");
         Console.WriteLine(Model.GetConvProp(Model.Prop(r, "resistance"),"234.1"));
@@ -641,8 +646,25 @@ public class SchematicAPITests
         Assert.AreEqual((Model.GetName(cc), Model.GetComponentTypeName(cc)), ("Core Coupling 1", "Single Phase Core Coupling"));
 
         var sub = Model.CreateComponent("core/Subsystem");
+        var port = Model.CreatePort(name: "Port", parent: sub);
+        Assert.AreEqual(Model.GetParent(port)["item_fqid"]!, sub["item_fqid"]!);
+        Model.SetLabel(port, "p label");
+        Assert.AreEqual(Model.GetLabel(port), "p label");
         var mask = Model.CreateMask(sub);
         Model.SetDescription(mask, "Mask desc");
+        const string handlerCode = @"
+                import time
+                # Just display time.
+                print(""Current time is '{0}'."".format(time.asctime()))
+                ";
+        const string iconDrawingCommands = "image('my_image.png')";
+
+        Model.SetIconDrawingCommands(mask, iconDrawingCommands);
+
+        var maskIconDrawingCommands = Model.GetIconDrawingCommands(mask);
+        Assert.AreEqual(maskIconDrawingCommands, iconDrawingCommands);
+        Model.SetHandlerCode(mask, HandlerName.MaskInit, handlerCode);
+        Assert.AreEqual(Model.GetHandlerCode(mask, HandlerName.PropertyValueChanged), "");
         Assert.AreEqual((Model.GetName(sub), Model.GetComponentTypeName(sub)), ("Subsystem1", ""));
         Assert.AreEqual(Model.GetDescription(mask), "Mask desc");
 
@@ -676,6 +698,53 @@ public class SchematicAPITests
         Assert.IsTrue(Model.GetConnectedItems(junction).Select(Model.GetName).All(new List<string>{"Probe2", "Sum1", "Constant1"}.Contains));
         Assert.IsTrue(Model.GetConnectedItems(Model.Term(sum1, "out")).Select(Model.GetName).All(new List<string>{"Probe1"}.Contains));
 
+        Assert.IsTrue(Model.GetItems().Count == 16);
+        Assert.IsTrue(Model.GetItems(itemType: ItemType.Junction).Count == 1);
+        Assert.IsTrue(Model.GetItems(sub, ItemType.Port).Count == 3);
+
+        Assert.AreEqual((string)Model.GetMask(sub)["fqn"]!, "Subsystem1.Mask@top");
+        Assert.IsTrue(Model.GetNamespaceVariables().Count == 0);
+
+        Model.SetPropertyDisplayValue(Model.Prop(const1, "value"), 70);
+        Assert.IsTrue(Model.GetPropertyDisplayValue(Model.Prop(const1, "value")) == "70");
+
+        Model.SetSize(probe1, 100, 200);
+        Assert.AreEqual(Model.GetSize(probe1), new Size (100, 200));
+        
+        Model.HideName(const1);
+        Assert.IsFalse(Model.IsNameVisible(const1));
+        Model.ShowName(const1);
+        Assert.IsTrue(Model.IsNameVisible(const1));
+
+        Assert.IsTrue(Model.IsEnabled(sub));
+
+        Model.CloseModel();
+
+
+        Model.CreateNewModel("new");
+        Assert.AreEqual(Model.GetHwProperty("io.analog_inputs"), "16");
+        Assert.AreEqual((string)Model.GetModelInformation()["model_name"]!, "new");
+
+        Assert.IsFalse(Convert.ToBoolean(Model.GetModelPropertyValue("show_modes")));
+        Model.SetModelPropertyValue("show_modes", true);
+        Assert.IsTrue(Convert.ToBoolean(Model.GetModelPropertyValue("show_modes")));
+
+
+        Model.SetNamespaceVariable("var1", 20);
+        Model.SetNamespaceVariable("var2", 100);
+        Model.SetNamespaceVariable("var3", "hello");
+        Assert.AreEqual(Model.GetNamespaceVariable("var1"), "20");
+        Assert.IsTrue(Model.GetNamespaceVariables().Count == 3);
+        Model.CloseModel();
+
+    }
+
+    [TestMethod]
+    public void UnlinkComponentTest()
+    {
+        Model.CreateNewModel();
+        var gf = Model.CreateComponent("core/Grid Fault");
+        Model.UnlinkComponent(gf);
         Model.CloseModel();
     }
 }
