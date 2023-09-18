@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json.Linq;
+using System.Security.Cryptography;
 using TyphoonHil.API;
 using TyphoonHil.Exceptions;
 
@@ -474,7 +475,7 @@ public class SchematicAPITests
         Model.CloseModel();
     }
 
-    [TestMethod]
+    // Takes too much time for run
     public void ExportCTest()
     {
         Model.CreateNewModel();
@@ -531,6 +532,149 @@ public class SchematicAPITests
         var outputDir = Path.Combine(TestDataPath, "exportC");
 
         Model.ExportCFromSubsystem(subsystem, outputDir);
+
+        Model.CloseModel();
+    }
+
+    [TestMethod]
+    public void ExportToJsonTest()
+    {
+        if (File.Exists(Path.Combine(TestDataPath, "RLC_example.json"))) File.Delete(Path.Combine(TestDataPath, "RLC_example.json"));
+        var path = Path.Combine(ProtectedDataPath, "RLC_example.tse");
+        Model.Load(path);
+        Model.ExportModelToJson(TestDataPath);
+        Model.CloseModel();
+
+        Assert.IsTrue(File.Exists(Path.Combine(TestDataPath, "RLC_example.json")));
+    }
+
+    [TestMethod]
+    public void FindConnectionsTest()
+    {
+        Model.CreateNewModel();
+
+        var const1 = Model.CreateComponent("core/Constant", name: "Constant 1");
+        var junction = Model.CreateJunction(kind: Kind.Sp, name: "Junction 1");
+        var probe1 = Model.CreateComponent("core/Probe", name: "Probe 1");
+        var probe2 = Model.CreateComponent("core/Probe", name: "Probe 2");
+        var con1 = Model.CreateConnection(Model.Term(const1, "out"), junction);
+        var con2 = Model.CreateConnection(junction, Model.Term(probe1, "in"));
+        var con3 = Model.CreateConnection(junction, Model.Term(probe2, "in"));
+
+        Model.FindConnections(junction).ForEach(Console.WriteLine);
+        Console.WriteLine("Another one");
+        Model.FindConnections(junction, Model.Term(probe2, "in")).ForEach(Console.WriteLine);
+
+        Model.CloseModel();
+    }
+
+    [TestMethod]
+    public void FqnTest()
+    {
+        Model.CreateNewModel();
+
+        const string parentName = "Subsystem 1";
+        const string componentName = "Resistor 1";
+
+        var compFqn = SchematicAPI.Fqn(parentName, componentName);
+        Assert.AreEqual(compFqn, componentName);
+
+        Model.GetAvailableLibraryComponents().ForEach(Console.WriteLine);
+
+
+        Model.CloseModel();
+    }
+
+    [TestMethod]
+    public void GetBreakpointsTest()
+    {
+        Model.CreateNewModel();
+
+        var constComponent = Model.CreateComponent("core/Constant");
+        var probeComponent = Model.CreateComponent("core/Probe");
+        var connection = Model.CreateConnection(
+            Model.Term(constComponent, "out"),
+            Model.Term(probeComponent, "in"),
+            breakpoints: new List<Position>
+            {
+                new(100, 200),
+                new(100, 0)
+            }
+        );
+
+        var breakpoints = Model.GetBreakpoints(connection);
+
+        Model.CloseModel();
+
+        Assert.IsTrue(breakpoints.Contains(new Position(100, 200)));
+        Assert.IsTrue(breakpoints.Contains(new Position(100, 0)));
+    }
+
+    [TestMethod]
+    public void CommentsTest()
+    {
+        Model.CreateNewModel();
+        var comment = Model.CreateComment("Comm1");
+        Assert.AreEqual("Comm1", Model.GetCommentText(comment));
+
+        Model.CloseModel();
+    }
+
+    [TestMethod]
+    public void GetCommentsTest()
+    {
+        var cpd = Model.GetCompiledModelFile(Path.Combine(ProtectedDataPath, "RLC_example.tse"));
+        Console.WriteLine(cpd);
+    }
+
+    [TestMethod]
+    public void ComponentTest()
+    {
+        Model.CreateNewModel();
+        var r = Model.CreateComponent("core/Resistor");
+        Assert.AreEqual((Model.GetName(r), Model.GetComponentTypeName(r)), ("R1", "pas_resistor"));
+        Assert.AreEqual(Model.GetConnectableKind(Model.Term(r, "p_node")), "pe");
+        Console.WriteLine(Model.GetConvProp(Model.Prop(r, "resistance"),"234.1"));
+        Assert.AreEqual("R1", Model.GetFqn(r));
+
+        var cc = Model.CreateComponent("Single Phase Core Coupling");
+        Assert.AreEqual((Model.GetName(cc), Model.GetComponentTypeName(cc)), ("Core Coupling 1", "Single Phase Core Coupling"));
+
+        var sub = Model.CreateComponent("core/Subsystem");
+        var mask = Model.CreateMask(sub);
+        Model.SetDescription(mask, "Mask desc");
+        Assert.AreEqual((Model.GetName(sub), Model.GetComponentTypeName(sub)), ("Subsystem1", ""));
+        Assert.AreEqual(Model.GetDescription(mask), "Mask desc");
+
+        var ind = Model.CreateComponent("core/Inductor", parent: sub, name: "L1");
+        Assert.AreEqual(Model.GetFqn(ind), "Subsystem1.L1");
+        Model.SetName(ind, "New name");
+        Assert.AreEqual(Model.GetFqn(ind), "Subsystem1.New name");
+
+        var ct = Model.CreateComponent("core/Constant", name: "Constant 1");
+        Assert.AreEqual(Model.GetConnectableDirection(Model.Term(ct, "out")), "out");
+        Assert.AreEqual(Model.GetConnectableKind(Model.Term(ct, "out")), "sp");
+
+        var probe = Model.CreateComponent("core/Probe", name: "Probe 1");
+        Assert.AreEqual(Model.GetConnectableDirection(Model.Term(probe, "in")), "in");
+
+
+        var const1 = Model.CreateComponent("core/Constant", name: "Constant1");
+        var const2 = Model.CreateComponent("core/Constant", name: "Constant2");
+        var junction = Model.CreateJunction(kind: Kind.Sp);
+        var sum1 = Model.CreateComponent("core/Sum", name: "Sum1");
+        var probe1 = Model.CreateComponent("core/Probe", name: "Probe1");
+        var probe2 = Model.CreateComponent("core/Probe", name: "Probe2");
+
+        var con1 = Model.CreateConnection(Model.Term(const1, "out"), junction);
+        var con2 = Model.CreateConnection(junction, Model.Term(probe2, "in"));
+        var con3 = Model.CreateConnection(junction, Model.Term(sum1, "in"));
+        var con4 = Model.CreateConnection(Model.Term(const2, "out"), Model.Term(sum1, "in1"));
+        var con5 = Model.CreateConnection(Model.Term(sum1, "out"), Model.Term(probe1, "in"));
+
+        Assert.IsTrue(Model.GetConnectedItems(const1).Select(Model.GetName).All(new List<string>{"Probe2", "Sum1"}.Contains));
+        Assert.IsTrue(Model.GetConnectedItems(junction).Select(Model.GetName).All(new List<string>{"Probe2", "Sum1", "Constant1"}.Contains));
+        Assert.IsTrue(Model.GetConnectedItems(Model.Term(sum1, "out")).Select(Model.GetName).All(new List<string>{"Probe1"}.Contains));
 
         Model.CloseModel();
     }

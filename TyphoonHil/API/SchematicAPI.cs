@@ -686,14 +686,14 @@ public class SchematicAPI : AbstractAPI
         return (string)HandleRequest("get_compiled_model_file", parameters)["result"]!;
     }
 
-    public JObject GetComponentTypeName(JObject compHandle)
+    public string GetComponentTypeName(JObject compHandle)
     {
         var parameters = new JObject
         {
             { "comp_handle", compHandle }
         };
 
-        return (JObject)HandleRequest("get_component_type_name", parameters)["result"]!;
+        return (string)HandleRequest("get_component_type_name", parameters)["result"]!;
     }
 
     public string GetConnectableDirection(JObject connectableHandle)
