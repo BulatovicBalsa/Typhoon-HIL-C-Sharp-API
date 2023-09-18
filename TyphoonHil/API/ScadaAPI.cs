@@ -5,114 +5,114 @@ namespace TyphoonHil.API;
 
 public class ScadaConstants
 {
-    public const string PropName = "name";
-    public const string PropHtmlName = "html_name";
-    public const string PropNamePosition = "name_position";
-    public const string PropLabel = "label";
-    public const string PropUseLabel = "use_label";
-    public const string PropFqn = "fully_qualified_name";
-    public const string PropDescription = "description";
-    public const string PropPanelInit = "panel_init_code";
-    public const string PropPanelLock = "panel_locked";
-    public const string PropPosition = "position";
-    public const string PropSize = "size";
-    public const string PropAppearance = "appearance";
-    public const string PropSignals = "signals";
-    public const string PropStreamingSignals = "streaming_signals";
-    public const string PropDataType = "data_type";
-    public const string PropExpression = "expression_code";
-    public const string PropUpdateRate = "update_rate";
-    public const string PropTimeWindow = "time_window";
-    public const string PropUnit = "unit";
-    public const string PropAutoUnit = "auto_unit_assign";
-    public const string PropBgColor = "bg_color";
-    public const string PropPanelBgColor = "panel_bg_color";
-    public const string PropBgType = "bg_type";
-    public const string PropUseAsBg = "use_as_bg";
-    public const string PropRange = "range";
-    public const string PropUseColorRange = "use_color_range";
-    public const string PropWarningRange = "warning_range";
-    public const string PropCriticalRange = "critical_range";
-    public const string PropGreenRange = "green_range";
-    public const string PropOrangeRange = "orange_range";
-    public const string PropDecimals = "decimals";
-    public const string PropScalingFactor = "scaling_factor";
-    public const string PropStreamingAnSigScaling = "streaming_analog_signals_scaling";
-    public const string PropAnSigScaling = "analog_signals_scaling";
-    public const string PropRedRange = "red_range";
-    public const string PropLedColor = "led_color";
-    public const string PropXTitle = "x_title";
-    public const string PropYTitle = "y_title";
-    public const string PropXTitleEnabled = "x_title_enabled";
-    public const string PropYTitleEnabled = "y_title_enabled";
-    public const string PropCustomXTitle = "custom_x_title";
-    public const string PropCustomYTitle = "custom_y_title";
-    public const string PropCustomXTitleEnabled = "custom_x_title_enabled";
-    public const string PropCustomYTitleEnabled = "custom_y_title_enabled";
-    public const string PropXRange = "x_range";
-    public const string PropYRange = "y_range";
-    public const string PropAutoScaleEnabled = "autoscale_enabled";
-    public const string PropXAutoScaleEnabled = "x_axis_autoscale_enabled";
-    public const string PropYAutoScaleEnabled = "Y_axis_autoscale_enabled";
-    public const string PropLegendEnabled = "legend_enabled";
-    public const string PropRefCurveEnabled = "ref_curves_enabled";
-    public const string PropRefCurve = "ref_curves_code";
-    public const string PropPvPanel = "pv_panel";
-    public const string PropLineStyle = "line_style";
-    public const string PropPlotRange = "plot_range";
-    public const string PropPhasorsSettings = "phasors_settings";
-    public const string PropBarsSettings = "bars_settings";
-    public const string PropOnUseEnabled = "on_use_enabled";
-    public const string PropOnUse = "on_use_code";
-    public const string PropOnStartEnabled = "on_start_enabled";
-    public const string PropOnStart = "on_start_code";
-    public const string PropOnStartSource = "on_start_code_source";
-    public const string PropOnTimerEnabled = "on_timer_enabled";
-    public const string PropOnTimer = "on_timer_code";
-    public const string PropOnTimerRate = "on_timer_rate";
-    public const string PropOnStopEnabled = "on_stop_enabled";
-    public const string PropOnStop = "on_stop_code";
-    public const string PropComboValues = "values";
-    public const string PropValueType = "value_type";
-    public const string PropInputWidth = "input_width";
-    public const string PropStep = "step";
-    public const string PropUsePanelDir = "use_panel_dir";
-    public const string PropLogFileDir = "log_file_dir";
-    public const string PropLogFile = "log_file";
-    public const string PropLogFileFormat = "log_file_format";
-    public const string PropUseSuffix = "use_suffix";
-    public const string PropLoggingOnStart = "start_logging_on_start";
-    public const string PropUseSlowerUpdateRate = "use_slower_update_rate";
-    public const string PropSlowerUpdateRate = "slower_update_rate";
-    public const string PropConnectionIdentifier = "connection_identifier";
-    public const string PropSerialPortSettings = "serial_port_settings";
-    public const string PropSerialPortName = "serial_port_name";
-    public const string PropGroupNamespace = "group_namespace";
-    public const string PropCollapsed = "collapsed";
-    public const string PropUseImage = "use_image";
-    public const string PropImage = "image";
-    public const string PropImageScaling = "image_scaling";
-    public const string PropText = "text";
-    public const string PropSubPanelMode = "sub_panel_mode";
-    public const string PropModelCompTypes = "model_components_types";
-    public const string PropModelComp = "model_component";
-    public const string PropWidgetValue = "widget_value";
-    public const string PropCsState = "state";
-    public const string PropCsCaptureTimeInterval = "time_interval";
-    public const string PropCsCaptureSampleRate = "sample_rate";
-    public const string PropCsScopeTimeBase = "time_base";
-    public const string PropCsCaptureBg = "capture_background";
-    public const string PropCsScopeBg = "scope_background";
-    public const string PropCsCaptureLegend = "capture_legend";
-    public const string PropCsScopeLegend = "scope_legend";
-    public const string PropCsCaptureLayout = "capture_layout";
-    public const string PropCsScopeLayout = "scope_layout";
-    public const string PropCsCaptureSignals = "capture_signals";
-    public const string PropCsScopeSignals = "scope_signals";
-    public const string PropCsScopeTrigger = "scope_trigger";
-    public const string PropCsCaptureTrigger = "capture_trigger";
-    public const string PropCsActiveCapturePreset = "active_capture_preset";
-    public const string PropCsActiveScopePreset = "active_scope_preset";
+    public const string Name = "name";
+    public const string HtmlName = "html_name";
+    public const string NamePosition = "name_position";
+    public const string Label = "label";
+    public const string UseLabel = "use_label";
+    public const string Fqn = "fully_qualified_name";
+    public const string Description = "description";
+    public const string PanelInit = "panel_init_code";
+    public const string PanelLock = "panel_locked";
+    public const string Position = "position";
+    public const string Size = "size";
+    public const string Appearance = "appearance";
+    public const string Signals = "signals";
+    public const string StreamingSignals = "streaming_signals";
+    public const string DataType = "data_type";
+    public const string Expression = "expression_code";
+    public const string UpdateRate = "update_rate";
+    public const string TimeWindow = "time_window";
+    public const string Unit = "unit";
+    public const string AutoUnit = "auto_unit_assign";
+    public const string BgColor = "bg_color";
+    public const string PanelBgColor = "panel_bg_color";
+    public const string BgType = "bg_type";
+    public const string UseAsBg = "use_as_bg";
+    public const string Range = "range";
+    public const string UseColorRange = "use_color_range";
+    public const string WarningRange = "warning_range";
+    public const string CriticalRange = "critical_range";
+    public const string GreenRange = "green_range";
+    public const string OrangeRange = "orange_range";
+    public const string Decimals = "decimals";
+    public const string ScalingFactor = "scaling_factor";
+    public const string StreamingAnSigScaling = "streaming_analog_signals_scaling";
+    public const string AnSigScaling = "analog_signals_scaling";
+    public const string RedRange = "red_range";
+    public const string LedColor = "led_color";
+    public const string XTitle = "x_title";
+    public const string YTitle = "y_title";
+    public const string XTitleEnabled = "x_title_enabled";
+    public const string YTitleEnabled = "y_title_enabled";
+    public const string CustomXTitle = "custom_x_title";
+    public const string CustomYTitle = "custom_y_title";
+    public const string CustomXTitleEnabled = "custom_x_title_enabled";
+    public const string CustomYTitleEnabled = "custom_y_title_enabled";
+    public const string XRange = "x_range";
+    public const string YRange = "y_range";
+    public const string AutoScaleEnabled = "autoscale_enabled";
+    public const string XAutoScaleEnabled = "x_axis_autoscale_enabled";
+    public const string YAutoScaleEnabled = "Y_axis_autoscale_enabled";
+    public const string LegendEnabled = "legend_enabled";
+    public const string RefCurveEnabled = "ref_curves_enabled";
+    public const string RefCurve = "ref_curves_code";
+    public const string PvPanel = "pv_panel";
+    public const string LineStyle = "line_style";
+    public const string PlotRange = "plot_range";
+    public const string PhasorsSettings = "phasors_settings";
+    public const string BarsSettings = "bars_settings";
+    public const string OnUseEnabled = "on_use_enabled";
+    public const string OnUse = "on_use_code";
+    public const string OnStartEnabled = "on_start_enabled";
+    public const string OnStart = "on_start_code";
+    public const string OnStartSource = "on_start_code_source";
+    public const string OnTimerEnabled = "on_timer_enabled";
+    public const string OnTimer = "on_timer_code";
+    public const string OnTimerRate = "on_timer_rate";
+    public const string OnStopEnabled = "on_stop_enabled";
+    public const string OnStop = "on_stop_code";
+    public const string ComboValues = "values";
+    public const string ValueType = "value_type";
+    public const string InputWidth = "input_width";
+    public const string Step = "step";
+    public const string UsePanelDir = "use_panel_dir";
+    public const string LogFileDir = "log_file_dir";
+    public const string LogFile = "log_file";
+    public const string LogFileFormat = "log_file_format";
+    public const string UseSuffix = "use_suffix";
+    public const string LoggingOnStart = "start_logging_on_start";
+    public const string UseSlowerUpdateRate = "use_slower_update_rate";
+    public const string SlowerUpdateRate = "slower_update_rate";
+    public const string ConnectionIdentifier = "connection_identifier";
+    public const string SerialPortSettings = "serial_port_settings";
+    public const string SerialPortName = "serial_port_name";
+    public const string GroupNamespace = "group_namespace";
+    public const string Collapsed = "collapsed";
+    public const string UseImage = "use_image";
+    public const string Image = "image";
+    public const string ImageScaling = "image_scaling";
+    public const string Text = "text";
+    public const string SubPanelMode = "sub_panel_mode";
+    public const string ModelCompTypes = "model_components_types";
+    public const string ModelComp = "model_component";
+    public const string WidgetValue = "widget_value";
+    public const string CsState = "state";
+    public const string CsCaptureTimeInterval = "time_interval";
+    public const string CsCaptureSampleRate = "sample_rate";
+    public const string CsScopeTimeBase = "time_base";
+    public const string CsCaptureBg = "capture_background";
+    public const string CsScopeBg = "scope_background";
+    public const string CsCaptureLegend = "capture_legend";
+    public const string CsScopeLegend = "scope_legend";
+    public const string CsCaptureLayout = "capture_layout";
+    public const string CsScopeLayout = "scope_layout";
+    public const string CsCaptureSignals = "capture_signals";
+    public const string CsScopeSignals = "scope_signals";
+    public const string CsScopeTrigger = "scope_trigger";
+    public const string CsCaptureTrigger = "capture_trigger";
+    public const string CsActiveCapturePreset = "active_capture_preset";
+    public const string CsActiveScopePreset = "active_scope_preset";
 
 
     public const string ActCsForceTrigger = "force_trigger";
@@ -148,9 +148,9 @@ public class ScadaConstants
     public const string WtStreamingDataLogger = "StreamingSignalDataLogger";
     public const string WtFrequencyResponse = "FrequencyResponse";
 
-    public const string CsSigTA = "Analog";
-    public const string CsSigTD = "Digital";
-    public const string CsSigTV = "Virtual";
+    public const string CsSigTa = "Analog";
+    public const string CsSigTd = "Digital";
+    public const string CsSigTv = "Virtual";
 }
 
 public class ScadaAPI : AbstractAPI
@@ -178,7 +178,7 @@ public class ScadaAPI : AbstractAPI
     }
 
 
-    public void CreateWidget(string widgetType, string? parent = null, string? name = null, string? position = null,
+    public JObject CreateWidget(string widgetType, JObject? parent = null, string? name = null, Tuple<int,int>? position = null,
         string? linkToModelComp = null)
     {
         var parameters = new JObject
@@ -186,11 +186,11 @@ public class ScadaAPI : AbstractAPI
             { "widget_type", widgetType },
             { "parent", parent },
             { "name", name },
-            { "position", position },
+            { "position", position is null ? null : new JArray{position.Item1, position.Item2}},
             { "link_to_model_comp", linkToModelComp }
         };
 
-        HandleRequest("create_widget", parameters);
+        return (JObject)HandleRequest("create_widget", parameters)["result"]!;
     }
 
 
@@ -212,21 +212,21 @@ public class ScadaAPI : AbstractAPI
     }
 
 
-    public void Copy(string srcHandle, string? dstHandle = null, string? name = null, string? position = null)
+    public JArray Copy(JObject srcHandle, JObject? dstHandle = null, string? name = null, Tuple<int, int>? position = null)
     {
         var parameters = new JObject
         {
             { "src_handle", srcHandle },
             { "dst_handle", dstHandle },
             { "name", name },
-            { "position", position }
+            { "position", position is null ? null : new JArray{ position.Item1, position.Item2 } }
         };
 
-        HandleRequest("copy", parameters);
+        return (JArray)HandleRequest("copy", parameters)["result"]!;
     }
 
 
-    public void DeleteWidget(string widgetHandle)
+    public void DeleteWidget(JObject widgetHandle)
     {
         var parameters = new JObject
         {
@@ -319,7 +319,7 @@ public class ScadaAPI : AbstractAPI
     }
 
 
-    public string GetPropertyValue(string widgetHandle, string propName)
+    public string GetPropertyValue(JObject widgetHandle, string propName)
     {
         var parameters = new JObject
         {
@@ -348,7 +348,7 @@ public class ScadaAPI : AbstractAPI
     }
 
 
-    public string GetWidgetByFqn(string widgetFqn, string? parent = null)
+    public JObject GetWidgetByFqn(string widgetFqn, JObject? parent = null)
     {
         var parameters = new JObject
         {
@@ -359,7 +359,7 @@ public class ScadaAPI : AbstractAPI
         var result = HandleRequest("get_widget_by_fqn", parameters);
 
 
-        return (string)result["result"]!;
+        return (JObject)result["result"]!;
     }
 
 
