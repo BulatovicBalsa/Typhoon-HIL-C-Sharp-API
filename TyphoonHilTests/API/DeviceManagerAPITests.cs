@@ -26,4 +26,17 @@ public class DeviceManagerAPITests
         Assert.IsTrue(model.AddDiscoveryIpAddresses());
         //Assert.IsTrue(model.RemoveDiscoveryIpAddresses());
     }
+
+    [TestMethod]
+    public void GeneralTest()
+    {
+        var model = new DeviceManagerAPI();
+        model.AddDevicesToSetup();
+        //model.ConnectSetup();
+        //model.DisconnectSetup();
+        model.RemoveDevicesFromSetup();
+        Console.WriteLine(model.GetAvailableDevices());
+        Console.WriteLine(model.GetDetectedDevices());
+
+    }
 }

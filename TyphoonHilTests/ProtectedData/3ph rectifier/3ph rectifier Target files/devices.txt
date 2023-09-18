@@ -1,7 +1,7 @@
 fN9R1WPgfJmRAIk+Njd5DkBkKxf6YQzMrZ08PxuexweBhskaqCheChJgK6S8khR4IO7opgLTaW7FufuU75kSeA==
 {
-  "compilation_timestamp": "2023-09-01 23:36:39",
-  "sw_version": "2023.3",
+  "compilation_timestamp": "2023-09-19 01:22:17",
+  "sw_version": "2023.3 SP1",
   "devices": [
     {
       "device_type": "HIL402",
@@ -18,5 +18,5 @@ fN9R1WPgfJmRAIk+Njd5DkBkKxf6YQzMrZ08PxuexweBhskaqCheChJgK6S8khR4IO7opgLTaW7FufuU
   ]
 }
 -----BEGIN SIGNATURE-----
-JS4TcrqHg6b2A38LViMss4NMBTm3XiyfkjdE9aOXledT1a23bsTVX02IUWTteaR6ruuCPkh4lEPJsbp09+qB2EgJocB23UgVO5KNjszZkSamPJ9LFRq9cQgPaoFl61NozSasPDXPmx95m9M1CmoEGr6ALSDTff66kYMBTw2okHCiTYq22eMqSOKXk82mHMxtZs29vn1SwS0JoV8SsMn82goUhEvT4fcNzthOgmJeZY7pDCC8VKcHpG18WfYgf3SHIV9/ve8AVan7mVUIHkvZecs7knfRoTyfqemgsjebeqAGqrf5PERceOR4jJwostuZGj1iOv62vANCbfpSIUq+jg==
+ovFrcM7VWjbyho57vn3+i+LIzllPKt/kqf+Az60a9lGdtAWMc2ibl/mh8cAYPXaV1aJ2imzQhIbaiDaNqj3deq0n+A8mBF9XjYnffbZUwBOZoi3AGBy7O1MRv9m2zutePeIUVkqTDn4Feos6mrMEh5TGGHFCLxs2/lcgbJtVOdMT27bLQGISYyK4OzrY0Equt5S1F7ckLKF4vsociba0DlYwR2w6RgL60WcR5HNZWCnhbD4o9FoVJGqH677pPhEIs0PkJXxihCF2PH82tpNqZ890q89kAjyO0QpPvG0dkxqs4TGfv4lzwuXPDxn7z5/VzkBmvM1nv1skoM66fECbzQ==
 -----END SIGNATURE-----
