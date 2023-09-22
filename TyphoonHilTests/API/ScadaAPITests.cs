@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics;
+using System.Drawing.Drawing2D;
+using System.Runtime.CompilerServices;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TyphoonHil.API;
 using TyphoonHil.Exceptions;
@@ -104,6 +106,7 @@ public class ScadaAPITests
     [TestMethod]
     public void CopyTest()
     {
+        Model.CreateNewPanel();
         var groupHandle = Model.CreateWidget(widgetType: ScadaConstants.WtGroup, name: "Group for other widgets",
             position: new(0, 200));
 
