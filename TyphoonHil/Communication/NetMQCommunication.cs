@@ -1,7 +1,7 @@
-﻿using NetMQ;
+﻿using System.Diagnostics;
+using NetMQ;
 using NetMQ.Sockets;
 using Newtonsoft.Json.Linq;
-using System.Diagnostics;
 
 namespace TyphoonHil.Communication;
 
@@ -47,7 +47,8 @@ internal class NetMQCommunication : ICommunication
                         ScadaApiPort = apiPorts["scada_api"]!["server_rep_port"]!.Value<int>(),
                         PvGenApiPort = apiPorts["pv_gen_api"]!["server_rep_port"]!.Value<int>(),
                         FwApiPort = apiPorts["fw_api"]!["server_rep_port"]!.Value<int>(),
-                        ConfigurationManagerApiPort = apiPorts["configuration_manager_api"]!["server_rep_port"]!.Value<int>(),
+                        ConfigurationManagerApiPort =
+                            apiPorts["configuration_manager_api"]!["server_rep_port"]!.Value<int>(),
                         DeviceManagerApiPort = apiPorts["device_manager_api"]!["server_rep_port"]!.Value<int>(),
                         PackageManagerApiPort = apiPorts["package_manager_api"]!["server_rep_port"]!.Value<int>()
                     };
@@ -57,6 +58,7 @@ internal class NetMQCommunication : ICommunication
                 {
                     requestRetries--;
                 }
+
             if (j == 0)
                 RunThcc();
         }
@@ -98,7 +100,7 @@ internal class NetMQCommunication : ICommunication
         return message;
     }
 
-    private void RunThcc()
+    private static void RunThcc()
     {
         const string varName = "TYPHOONPATH";
         var varValue = Environment.GetEnvironmentVariable(varName) ?? throw new Exception("THCC does not exist");
@@ -110,6 +112,6 @@ internal class NetMQCommunication : ICommunication
             WorkingDirectory = typhoonHilRoot
         };
 
-        var p = Process.Start(startInfo);
+        Process.Start(startInfo);
     }
 }
