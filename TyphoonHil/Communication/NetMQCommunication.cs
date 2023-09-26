@@ -9,8 +9,10 @@ internal class NetMQCommunication : ICommunication
 {
     public PortsDto Discover(int startPort = 50000, int endPort = 50100, int requestRetries = 30, int timeout = 1000)
     {
+        var requestRetriesInit = requestRetries;
         for (var j = 0; j < 2; j++)
         {
+            requestRetries = requestRetriesInit;
             var offset = endPort - startPort + 1;
             using var socket = new SubscriberSocket();
             for (var i = 0; i < offset; i++)
@@ -55,8 +57,8 @@ internal class NetMQCommunication : ICommunication
                 {
                     requestRetries--;
                 }
-
-            RunThcc();
+            if (j == 0)
+                RunThcc();
         }
 
         throw new Exception();
